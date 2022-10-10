@@ -1,0 +1,67 @@
+version: '3.0'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_ROOT_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  php-app:
+    container_name: php-app
+    build:
+      context: ./
+      dockerfile: ./.docker/php-app/Dockerfile
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./:/var/www/app:cached
+      - app-data:/var/www/storage/app
+      - php-vendor:/var/www/app/vendor/
+      - js-vendor:/var/www/app/node_modules/
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./
+      dockerfile: ./.docker/nginx/Dockerfile
+    ports:
+      - '80:80'
+    volumes:
+      - ./:/var/www/app:cached
+      - app-data:/var/www/storage/app
+      - php-vendor:/var/www/app/vendor/
+      - js-vendor:/var/www/app/node_modules/
+    networks:
+      - app-network
+    depends_on:
+      - php-app
+      - mysql
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
+  app-data:
+    driver: local
+  php-vendor:
+    driver: local
+  js-vendor:
+    driver: local
