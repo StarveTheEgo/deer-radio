@@ -113,3 +113,12 @@ Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.exampl
 Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
+
+// Deer Radio
+
+
+Route::screen('author/{author?}', \App\Orchid\Screens\AuthorEditScreen::class)
+    ->name('platform.author.edit');
+
+Route::screen('authors', \App\Orchid\Screens\AuthorListScreen::class)
+    ->name('platform.author.list');

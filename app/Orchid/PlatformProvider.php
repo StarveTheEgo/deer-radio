@@ -12,9 +12,6 @@ use Orchid\Support\Color;
 
 class PlatformProvider extends OrchidServiceProvider
 {
-    /**
-     * @param Dashboard $dashboard
-     */
     public function boot(Dashboard $dashboard): void
     {
         parent::boot($dashboard);
@@ -93,6 +90,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('lock')
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
+
+            Menu::make('Authors')
+                ->icon('user')
+                ->route('platform.author.list')
+                ->title('Authors'),
         ];
     }
 
