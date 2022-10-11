@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Orchid\Screens;
+namespace App\Orchid\Screens\Author;
 
 use App\Models\Author;
 use Illuminate\Http\Request;

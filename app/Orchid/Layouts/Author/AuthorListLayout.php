@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Orchid\Layouts;
+namespace App\Orchid\Layouts\Author;
 
 use App\Models\Author;
 use Orchid\Screen\Actions\Link;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Orchid\Screens;
+namespace App\Orchid\Screens\Author;
 
 use App\Models\Author;
-use App\Orchid\Layouts\AuthorListLayout;
+use App\Orchid\Layouts\Author\AuthorListLayout;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Layout;
 use Orchid\Screen\Screen;

@@ -117,8 +117,8 @@ Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('pla
 // Deer Radio
 
 
-Route::screen('author/{author?}', \App\Orchid\Screens\AuthorEditScreen::class)
+Route::screen('author/{author?}', \App\Orchid\Screens\Author\AuthorEditScreen::class)
     ->name('platform.author.edit');
 
-Route::screen('authors', \App\Orchid\Screens\AuthorListScreen::class)
+Route::screen('authors', \App\Orchid\Screens\Author\AuthorListScreen::class)
     ->name('platform.author.list');
