@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
@@ -16,14 +17,14 @@ use Orchid\Screen\AsSource;
  * @property ?CarbonImmutable $finished_at
  * @property int              $played_count
  * @property string           $unsplash_search_query
+ * @property ?CarbonImmutable $created_at
+ * @property ?CarbonImmutable $updated_at
  */
 class Author extends Model
 {
     use AsSource;
     use Filterable;
     use Attachable;
-
-    public $timestamps = false;
 
     protected $casts = [
         'id' => 'integer',
@@ -33,6 +34,8 @@ class Author extends Model
         'finished_at' => 'immutable_datetime',
         'played_count' => 'integer',
         'unsplash_search_query' => 'string',
+        'created_at' => 'immutable_datetime',
+        'updated_at' => 'immutable_datetime',
     ];
 
     protected $attributes = [
@@ -43,6 +46,8 @@ class Author extends Model
         'finished_at' => null,
         'played_count' => 0,
         'unsplash_search_query' => '',
+        'created_at' => null,
+        'updated_at' => null,
     ];
 
     protected $fillable = [
@@ -66,4 +71,10 @@ class Author extends Model
         'name',
         'unsplash_search_query',
     ];
+
+    public function authorLinks(): HasMany
+    {
+        return $this->hasMany(AuthorLink::class, 'author_id');
+    }
+
 }
