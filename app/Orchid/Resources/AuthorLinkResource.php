@@ -7,13 +7,12 @@ use App\Models\AuthorLink;
 use App\Orchid\Filters\RelatedFieldStringFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
-use Orchid\Crud\Resource;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
-class AuthorLinkResource extends Resource
+class AuthorLinkResource extends AbstractResource
 {
     public static $model = AuthorLink::class;
 
@@ -25,11 +24,6 @@ class AuthorLinkResource extends Resource
     public static function description(): ?string
     {
         return 'Author links (social pages, music stores)';
-    }
-
-    public static function trafficCop(): bool
-    {
-        return true;
     }
 
     public function fields(): array
@@ -90,6 +84,10 @@ class AuthorLinkResource extends Resource
                 }),
 
             Sight::make('url', __('URL')),
+
+            Sight::make('created_at', __('Date of creation')),
+
+            Sight::make('updated_at', __('Update date')),
         ];
     }
 

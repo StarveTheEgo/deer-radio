@@ -5,13 +5,12 @@ namespace App\Orchid\Resources;
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
-use Orchid\Crud\Resource;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Switcher;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
-class AuthorResource extends Resource
+class AuthorResource extends AbstractResource
 {
     public static $model = Author::class;
 
@@ -23,11 +22,6 @@ class AuthorResource extends Resource
     public static function description(): ?string
     {
         return __('All music authors we know :-)');
-    }
-
-    public static function trafficCop(): bool
-    {
-        return true;
     }
 
     public function fields(): array
@@ -101,15 +95,9 @@ class AuthorResource extends Resource
 
             Sight::make('is_active', __('Is active')),
 
-            Sight::make('created_at', __('Date of creation'))
-                ->render(function (Author $author) {
-                    return $author->created_at?->toDateTimeString();
-                }),
+            Sight::make('created_at', __('Date of creation')),
 
-            Sight::make('updated_at', __('Update date'))
-                ->render(function (Author $author) {
-                    return $author->updated_at?->toDateTimeString();
-                }),
+            Sight::make('updated_at', __('Update date')),
 
             Sight::make('author_links', __('Links'))
                 ->render(function (Author $author) {
