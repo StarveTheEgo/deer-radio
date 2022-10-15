@@ -26,6 +26,12 @@ class AlbumResource extends AbstractResource
         return 'Music albums';
     }
 
+    public function with(): array
+    {
+        return ['author'];
+    }
+
+
     public function fields(): array
     {
         return [

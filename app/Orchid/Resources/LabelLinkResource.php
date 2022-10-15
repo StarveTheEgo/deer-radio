@@ -26,6 +26,11 @@ class LabelLinkResource extends AbstractResource
         return 'Label links (social pages, music stores)';
     }
 
+    public function with(): array
+    {
+        return ['label'];
+    }
+
     public function fields(): array
     {
         return [

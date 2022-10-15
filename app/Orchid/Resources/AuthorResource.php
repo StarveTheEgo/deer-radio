@@ -95,10 +95,6 @@ class AuthorResource extends AbstractResource
 
             Sight::make('is_active', __('Is active')),
 
-            Sight::make('created_at', __('Date of creation')),
-
-            Sight::make('updated_at', __('Update date')),
-
             Sight::make('author_links', __('Links'))
                 ->render(function (Author $author) {
                     return view('author/author-links', ['author_links' => $author->authorLinks()->get()]);
@@ -116,8 +112,7 @@ class AuthorResource extends AbstractResource
             'is_active' => [
                 'boolean',
             ],
-            'unsplash_search_query' => [
-            ],
+            'unsplash_search_query' => [],
         ];
     }
 

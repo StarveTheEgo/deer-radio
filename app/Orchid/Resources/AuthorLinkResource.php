@@ -26,6 +26,11 @@ class AuthorLinkResource extends AbstractResource
         return 'Author links (social pages, music stores)';
     }
 
+    public function with(): array
+    {
+        return ['author'];
+    }
+
     public function fields(): array
     {
         return [
