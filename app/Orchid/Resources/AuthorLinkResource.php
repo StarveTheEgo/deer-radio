@@ -31,13 +31,13 @@ class AuthorLinkResource extends AbstractResource
         return [
             Relation::make('author_id')
                 ->fromModel(Author::class, 'name')
-                ->title('Author')
+                ->title(__('Author'))
                 ->required(),
 
             Input::make('url')
                 ->type('url')
-                ->title('URL')
-                ->help('URL to the social page or store or deers :-)')
+                ->title(__('URL'))
+                ->help(__('URL to the social page or store or deers :-)'))
                 ->required(),
         ];
     }
@@ -50,23 +50,13 @@ class AuthorLinkResource extends AbstractResource
         return [
             TD::make('id'),
 
-            TD::make('author_id', 'Author')
+            TD::make('author_id', __('Author'))
                 ->render(function (AuthorLink $author_link) {
                     return $author_link->author->name;
                 }),
 
             TD::make('url', __('URL'))
                 ->sort(),
-
-            TD::make('created_at', __('Date of creation'))
-                ->render(function (AuthorLink $author_link) {
-                    return $author_link->created_at?->toDateTimeString();
-                }),
-
-            TD::make('updated_at', __('Update date'))
-                ->render(function (AuthorLink $author_link) {
-                    return $author_link->updated_at?->toDateTimeString();
-                }),
         ];
     }
 

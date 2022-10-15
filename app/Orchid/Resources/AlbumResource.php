@@ -67,15 +67,6 @@ class AlbumResource extends AbstractResource
                 ->sort()
                 ->filter(Input::make()),
 
-            TD::make('created_at', __('Date of creation'))
-                ->render(function (Album $album) {
-                    return $album->created_at?->toDateTimeString();
-                }),
-
-            TD::make('updated_at', __('Update date'))
-                ->render(function (Album $album) {
-                    return $album->updated_at?->toDateTimeString();
-                }),
         ];
     }
 
