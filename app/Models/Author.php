@@ -77,4 +77,9 @@ class Author extends Model
         return $this->hasMany(AuthorLink::class, 'author_id');
     }
 
+    public function albums(): HasMany
+    {
+        return $this->hasMany(Album::class, 'author_id');
+    }
+
 }
