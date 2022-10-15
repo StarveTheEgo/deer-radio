@@ -29,6 +29,11 @@ class PhotobanResource extends AbstractResource
             Input::make('image_url')
                 ->title(__('Image URL'))
                 ->required(),
+
+            Input::make('reason')
+                ->title(__('Reason'))
+                ->placeholder('Please specify a reason!')
+                ->required(),
         ];
     }
 
@@ -45,6 +50,9 @@ class PhotobanResource extends AbstractResource
             TD::make('image_url', __('Image URL'))
                 ->sort()
                 ->filter(Input::make()),
+
+            TD::make('reason', __('Reason'))
+                ->filter(Input::make()),
         ];
     }
 
@@ -57,6 +65,8 @@ class PhotobanResource extends AbstractResource
             Sight::make('id', __('ID')),
 
             Sight::make('image_url', __('Image URL')),
+
+            Sight::make('reason', __('Reason')),
 
             Sight::make('created_at', __('Date of creation')),
 
@@ -71,6 +81,10 @@ class PhotobanResource extends AbstractResource
                 'required',
                 'url',
                 Rule::unique(self::$model, 'image_url')->ignore($model),
+            ],
+
+            'reason' => [
+                'required',
             ],
         ];
     }
