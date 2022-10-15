@@ -11,7 +11,7 @@ use Orchid\Screen\AsSource;
 
 /**
  * @property int              $id
- * @property string           $title
+ * @property string           $name
  * @property ?CarbonImmutable $created_at
  * @property ?CarbonImmutable $updated_at
  */
@@ -23,28 +23,26 @@ class Label extends Model
 
     protected $casts = [
         'id' => 'integer',
-        'title' => 'string',
+        'name' => 'string',
     ];
 
     protected $attributes = [
         'id' => null,
-        'title' => '',
+        'name' => '',
     ];
 
     protected $fillable = [
         'name',
-        'is_active',
-        'unsplash_search_query',
     ];
 
     protected $allowedSorts = [
         'id',
-        'title',
+        'name',
     ];
 
     protected $allowedFilters = [
         'id',
-        'title',
+        'name',
     ];
 
     public function labelLinks(): HasMany
