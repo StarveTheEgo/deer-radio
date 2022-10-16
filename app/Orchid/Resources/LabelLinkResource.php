@@ -5,6 +5,7 @@ namespace App\Orchid\Resources;
 use App\Models\Label;
 use App\Models\LabelLink;
 use App\Orchid\Filters\RelatedFieldStringFilter;
+use App\Orchid\Filters\RelatedLabelFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Orchid\Screen\Fields\Input;
@@ -111,7 +112,7 @@ class LabelLinkResource extends AbstractResource
     public function filters(): array
     {
         return [
-            new RelatedFieldStringFilter(__('Label'), 'label', 'name'),
+            new RelatedLabelFilter(),
         ];
     }
 }

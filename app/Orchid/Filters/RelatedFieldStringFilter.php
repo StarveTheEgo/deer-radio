@@ -4,32 +4,37 @@ namespace App\Orchid\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Orchid\Filters\Filter;
+ use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
 
 class RelatedFieldStringFilter extends Filter
 {
-    public $parameters = ['needle'];
 
-    private string $name;
+    private string $title;
     private string $relationName;
     private string $searchField;
+    private ?Field $field;
+    private string $fieldName;
 
-    public function __construct(string $name, string $relation_name, string $search_field)
+    public function __construct(string $title, string $relation_name, string $search_field, ?Field $field = null)
     {
         parent::__construct();
-        $this->name = $name;
+        $this->title = $title;
         $this->relationName = $relation_name;
         $this->searchField = $search_field;
+        $this->field = $field;
+        $this->fieldName = 'filter_'.$relation_name.'_'.$search_field;
+        $this->parameters = [$this->fieldName];
     }
 
     public function name(): string
     {
-        return $this->name;
+        return $this->title;
     }
 
     public function run(Builder $builder): Builder
     {
-        $needle = $this->request->get('needle');
+        $needle = $this->request->get($this->fieldName);
 
         return $builder
             ->whereRelation($this->relationName, $this->searchField, 'like', '%'.$needle.'%');
@@ -37,12 +42,22 @@ class RelatedFieldStringFilter extends Filter
 
     public function display(): array
     {
+        $field = $this->field ?? $this->buildDefaultField();
+
         return [
-            Input::make('needle')
-                ->type('text')
-                ->value($this->request->get('needle'))
-                ->placeholder('Enter search value')
-                ->title($this->name),
+            $field
+                ->name($this->fieldName)
+                ->title($this->title)
+                ->value($this->request->get($this->fieldName)),
         ];
+    }
+
+    private function buildDefaultField(): Field
+    {
+        return
+            Input::make($this->fieldName)
+                ->type('text')
+                ->value($this->request->get($this->fieldName))
+                ->placeholder('Enter search value');
     }
 }

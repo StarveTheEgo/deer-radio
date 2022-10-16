@@ -6,6 +6,9 @@ use App\Models\Album;
 use App\Models\Author;
 use App\Models\Label;
 use App\Models\Song;
+use App\Orchid\Filters\RelatedAlbumFilter;
+use App\Orchid\Filters\RelatedAuthorFilter;
+use App\Orchid\Filters\RelatedLabelFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Orchid\Screen\Fields\Input;
@@ -242,7 +245,11 @@ class SongResource extends AbstractResource
 
     public function filters(): array
     {
-        return [];
+        return [
+            new RelatedAuthorFilter(),
+            new RelatedAlbumFilter(),
+            new RelatedLabelFilter(),
+        ];
     }
 
 }

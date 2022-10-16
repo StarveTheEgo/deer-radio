@@ -4,6 +4,7 @@ namespace App\Orchid\Resources;
 
 use App\Models\Author;
 use App\Models\AuthorLink;
+use App\Orchid\Filters\RelatedAuthorFilter;
 use App\Orchid\Filters\RelatedFieldStringFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -111,7 +112,7 @@ class AuthorLinkResource extends AbstractResource
     public function filters(): array
     {
         return [
-            new RelatedFieldStringFilter(__('Author'), 'author', 'name'),
+            new RelatedAuthorFilter(),
         ];
     }
 }
