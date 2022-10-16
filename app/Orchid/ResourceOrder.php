@@ -10,6 +10,7 @@ use App\Orchid\Resources\AuthorResource;
 use App\Orchid\Resources\LabelLinkResource;
 use App\Orchid\Resources\LabelResource;
 use App\Orchid\Resources\PhotobanResource;
+use App\Orchid\Resources\SongResource;
 use LogicException;
 
 abstract class ResourceOrder
@@ -20,7 +21,7 @@ abstract class ResourceOrder
         AuthorResource::class,
         AuthorLinkResource::class,
         AlbumResource::class,
-        // @todo songs here
+        SongResource::class,
         LabelResource::class,
         LabelLinkResource::class,
         PhotobanResource::class,
