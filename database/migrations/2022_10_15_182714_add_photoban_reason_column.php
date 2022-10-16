@@ -15,7 +15,7 @@ return new class() extends Migration {
     public function down()
     {
         Schema::table('photobans', function (Blueprint $table) {
-            $table->removeColumn('reason');
+            $table->dropColumn('reason');
         });
     }
 };

@@ -8,11 +8,11 @@ return new class() extends Migration {
     public function up()
     {
         Schema::table('authors', function (Blueprint $table) {
-            $table->removeColumn('website');
+            $table->dropColumn('website');
         });
 
         Schema::table('labels', function (Blueprint $table) {
-            $table->removeColumn('website');
+            $table->dropColumn('website');
         });
     }
 
