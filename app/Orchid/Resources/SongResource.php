@@ -9,11 +9,15 @@ use App\Models\Song;
 use App\Orchid\Filters\RelatedAlbumFilter;
 use App\Orchid\Filters\RelatedAuthorFilter;
 use App\Orchid\Filters\RelatedLabelFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
+use Orchid\Attachment\Models\Attachment;
+use Orchid\Crud\ResourceRequest;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\Switcher;
+use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
@@ -34,6 +38,11 @@ class SongResource extends AbstractResource
     public function with(): array
     {
         return ['author', 'album', 'label'];
+    }
+
+    public function modelQuery(ResourceRequest $request, Model $model): Builder
+    {
+        return $model->load('attachment')->query();
     }
 
     public function fields(): array
@@ -61,10 +70,11 @@ class SongResource extends AbstractResource
                 ->title(__('Album release year'))
                 ->required(),
 
-            // @todo
-            Input::make('source')
-                ->title(__('Source'))
-                ->required(),
+            Upload::make('song_attachment_data')
+                ->storage('public')
+                ->path('/songs/'.date('Y-m-d').'/')
+                ->title('Song file')
+                ->maxFiles(1),
 
             Input::make('tempo')
                 ->type('number')
@@ -121,13 +131,6 @@ class SongResource extends AbstractResource
                 ->sort()
                 ->filter(Input::make()),
 
-            // @todo
-            TD::make('source', __('Source'))
-                ->render(function () {
-                    return '-';
-                })
-                ->filter(Input::make()),
-
             TD::make('tempo', __('Tempo')),
 
             TD::make('is_active', __('Is active'))
@@ -165,7 +168,16 @@ class SongResource extends AbstractResource
 
             Sight::make('year', __('Year')),
 
-            Sight::make('source', __('Source')),
+            Sight::make('song_file', __('Song file'))
+                ->render(function (Song $song) {
+                    /** @var Attachment $attachment */
+                    $attachment = $song->songAttachment()->first();
+                    if (null === $attachment) {
+                        return '';
+                    }
+
+                    return $attachment->original_name;
+                }),
 
             Sight::make('tempo', __('Tempo')),
 
@@ -219,7 +231,7 @@ class SongResource extends AbstractResource
                 'max:'.date('Y'),
             ],
 
-            'source' => [
+            'song_attachment_data' => [
                 'required',
             ],
 
@@ -252,4 +264,10 @@ class SongResource extends AbstractResource
         ];
     }
 
+    public function onSave(ResourceRequest $request, Song $song)
+    {
+        $input = $request->all();
+        $song->forceFill($input);
+        $song->attachment()->syncWithoutDetaching($input['song_attachment_data'] ?? []);
+    }
 }

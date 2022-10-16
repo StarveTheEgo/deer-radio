@@ -4,12 +4,11 @@ namespace App\Orchid\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Orchid\Filters\Filter;
- use Orchid\Screen\Field;
+use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
 
 class RelatedFieldStringFilter extends Filter
 {
-
     private string $title;
     private string $relationName;
     private string $searchField;
@@ -35,6 +34,9 @@ class RelatedFieldStringFilter extends Filter
     public function run(Builder $builder): Builder
     {
         $needle = $this->request->get($this->fieldName);
+        if (null === $needle || '' === $needle) {
+            return $builder;
+        }
 
         return $builder
             ->whereRelation($this->relationName, $this->searchField, 'like', '%'.$needle.'%');
