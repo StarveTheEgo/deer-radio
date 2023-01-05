@@ -10,18 +10,16 @@ return new class() extends Migration {
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('group_id')->unsigned();
-            $table->foreign('group_id')->references('id')->on('setting_groups');
-            $table->string('name', 128);
+            $table->string('key', 128);
             $table->string('field_type');
             $table->json('field_options')->nullable();
             $table->text('description');
-            $table->text('value');
+            $table->text('value')->nullable();
             $table->boolean('is_encrypted')->default(0);
             $table->integer('ord')->default(1);
             $table->timestamps();
 
-            $table->unique(['group_id', 'name']);
+            $table->unique(['key'], '_idx_unique_key');
         });
     }
 

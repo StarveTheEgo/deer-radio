@@ -1,5 +1,6 @@
 <?php
 
+use App\Components\Setting\SettingServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -185,6 +186,7 @@ return [
         /*
          * Package Service Providers...
          */
+        LaravelDoctrine\ORM\DoctrineServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -195,6 +197,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        SettingServiceProvider::class,
     ],
 
     /*
