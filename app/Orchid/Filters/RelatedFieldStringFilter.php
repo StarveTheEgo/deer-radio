@@ -12,16 +12,16 @@ class RelatedFieldStringFilter extends Filter
     private string $title;
     private string $relationName;
     private string $searchField;
-    private ?Field $field;
+    private ?Field $inputField;
     private string $fieldName;
 
-    public function __construct(string $title, string $relation_name, string $search_field, ?Field $field = null)
+    public function __construct(string $title, string $relation_name, string $search_field, ?Field $inputField = null)
     {
         parent::__construct();
         $this->title = $title;
         $this->relationName = $relation_name;
         $this->searchField = $search_field;
-        $this->field = $field;
+        $this->inputField = $inputField;
         $this->fieldName = 'filter_'.$relation_name.'_'.$search_field;
         $this->parameters = [$this->fieldName];
     }
@@ -44,7 +44,7 @@ class RelatedFieldStringFilter extends Filter
 
     public function display(): array
     {
-        $field = $this->field ?? $this->buildDefaultField();
+        $field = $this->inputField ?? $this->buildDefaultField();
 
         return [
             $field
