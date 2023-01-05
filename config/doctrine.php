@@ -32,7 +32,7 @@ return [
             'meta' => env('DOCTRINE_METADATA', 'attributes'),
             'connection' => env('DB_CONNECTION', 'mysql'),
             'namespaces' => [
-
+                'App\Components\Setting\Entity',
             ],
             'paths' => [
 //                base_path('app/Entities'),

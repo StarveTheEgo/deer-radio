@@ -4,14 +4,25 @@ declare(strict_types=1);
 
 namespace App\Orchid;
 
+use App\Components\Setting\Orchid\Screen\SettingScreen;
+use App\Orchid\Screens\AbstractScreen;
+use InvalidArgumentException;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
 use Orchid\Platform\OrchidServiceProvider;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\Menu;
 use Orchid\Support\Color;
 
 class PlatformProvider extends OrchidServiceProvider
 {
+    /**
+     * @var AbstractScreen[]
+     */
+    private const PERMISSION_AWARE_SCREENS = [
+        SettingScreen::class,
+    ];
+
     public function boot(Dashboard $dashboard): void
     {
         parent::boot($dashboard);
@@ -90,7 +101,21 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('lock')
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
+
+            $this->makeRegisteredMenuFor(SettingScreen::class),
         ];
+    }
+
+    private function makeRegisteredMenuFor(string $screen): Link|Menu
+    {
+        if (!is_subclass_of($screen, AbstractScreen::class)) {
+            throw new InvalidArgumentException(sprintf('Screen class must be inherited from %s, got: %s', AbstractScreen::class, $screen));
+        }
+
+        return Menu::make($screen::getName())
+            ->icon($screen::getIcon())
+            ->route($screen::getRoute())
+            ->permission($screen::getPermissions());
     }
 
     /**
@@ -110,10 +135,27 @@ class PlatformProvider extends OrchidServiceProvider
      */
     public function registerPermissions(): array
     {
+        $project_group = ItemPermission::group(__('Project'));
+        foreach (self::PERMISSION_AWARE_SCREENS as $screen_class) {
+            $screen_name = $screen_class::getName();
+            $permissions = $screen_class::getPermissions();
+            $permissions_count = count($permissions);
+
+            foreach ($screen_class::getPermissions() as $permission) {
+                $permission_name = $screen_name;
+                if ($permissions_count > 1) {
+                    $permission_name .= sprintf('[%s]', $permission);
+                }
+                $project_group->addPermission($permission, $permission_name);
+            }
+        }
+
         return [
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users')),
+
+            $project_group,
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Components\Setting\Orchid\Screen\SettingScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
 use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
@@ -95,6 +96,10 @@ Route::screen('roles', RoleListScreen::class)
             ->parent('platform.index')
             ->push(__('Roles'), route('platform.systems.roles'));
     });
+
+// Platform -> Settings
+Route::screen('settings/{group?}', SettingScreen::class)
+    ->name(SettingScreen::getRoute());
 
 // Example...
 Route::screen('example', ExampleScreen::class)
