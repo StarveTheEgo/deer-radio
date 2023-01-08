@@ -1,5 +1,6 @@
 <?php
 
+use App\Components\ComponentData\ComponentDataServiceProvider;
 use App\Components\Setting\SettingServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
@@ -197,6 +198,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        ComponentDataServiceProvider::class,
         SettingServiceProvider::class,
     ],
 
