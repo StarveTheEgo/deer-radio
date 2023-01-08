@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DoctrineOrchid\Repository;
 
+use App\Components\DoctrineOrchid\AbstractDomainObject;
 use App\Components\DoctrineOrchid\Filter\AbstractDoctrineFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -11,6 +12,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use LaravelDoctrine\ORM\Pagination\PaginatesFromRequest;
+use LogicException;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -35,6 +37,27 @@ abstract class AbstractRepository implements RepositoryInterface
     protected function getEntityRepository(): ObjectRepository
     {
         return $this->entityRepository;
+    }
+
+    protected function createObject(AbstractDomainObject $object)
+    {
+        $em = $this->entityManager;
+        if ($em->contains($object)) {
+            $objectClass = get_class($object);
+            throw new LogicException("Object {$objectClass} '{$object->getId()}' is already persisted");
+        }
+        $em->persist($object);
+        $em->flush();
+    }
+
+    protected function updateObject(AbstractDomainObject $object)
+    {
+        $em = $this->entityManager;
+        if (!$em->contains($object)) {
+            $objectClass = get_class($object);
+            throw new LogicException("Object {$objectClass} '{$object->getId()}' is not persisted");
+        }
+        $em->flush();
     }
 
     public function wrapInTransaction(callable $callback)

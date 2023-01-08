@@ -24,19 +24,14 @@ class SettingRepository extends AbstractRepository implements SettingRepositoryI
     {
         $this->validateSettingValue($setting);
 
-        $em = $this->getEntityManager();
-        $em->persist($setting);
-        $em->flush();
+        parent::createObject($setting);
     }
 
     public function update(Setting $setting): void
     {
         $this->validateSettingValue($setting);
-        $em = $this->getEntityManager();
-        if (!$em->contains($setting)) {
-            throw new LogicException("Setting '{$setting->getKey()}' is not persisted");
-        }
-        $em->flush();
+
+        parent::updateObject($setting);
     }
 
     public function delete(Setting $setting): void

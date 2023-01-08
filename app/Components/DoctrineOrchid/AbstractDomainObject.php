@@ -11,6 +11,8 @@ abstract class AbstractDomainObject implements ArrayAccess
 {
     use DoctrineAsSource;
 
+    abstract public function getId();
+
     #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
