@@ -10,8 +10,6 @@ use App\Components\Setting\Repository\SettingRepository;
 use App\Components\Setting\Repository\SettingRepositoryInterface;
 use App\Components\Setting\Service\SettingReadService;
 use App\Components\Setting\Service\SettingUpdateService;
-use App\Models\Song;
-use App\Observers\SongObserver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Illuminate\Foundation\Application;
@@ -53,8 +51,6 @@ class SettingServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Song::observe(SongObserver::class);
-
         /** @var FieldFactoryRegistry $fieldFactoryRegistry */
         $fieldFactoryRegistry = $this->app->get(FieldFactoryRegistry::class);
         foreach ($this->getFieldFactoryClasses() as $factoryClass) {
