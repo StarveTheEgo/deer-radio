@@ -16,20 +16,21 @@ class SettingValueService
         $this->encrypter = $encrypter;
     }
 
-    public function setValue(Setting $setting, string $value): void
+    public function setValue(Setting $setting, ?string $value): void
     {
-        if ($setting->isEncrypted()) {
+        if (null !== $value && $setting->isEncrypted()) {
             $value = $this->encrypter->encryptString($value);
         }
         $setting->setValue($value);
     }
 
-    public function getValue(Setting $setting): string
+    public function getValue(Setting $setting): ?string
     {
         $value = $setting->getValue();
-        if ($setting->isEncrypted()) {
+        if (null !== $value && $setting->isEncrypted()) {
             $value = $this->encrypter->decryptString($value);
         }
+
         return $value;
     }
 }

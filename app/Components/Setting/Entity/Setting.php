@@ -29,8 +29,8 @@ class Setting extends AbstractDomainObject
     #[ORM\Column(type: Types::STRING)]
     protected string $description;
 
-    #[ORM\Column(type: Types::STRING)]
-    protected string $value;
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    protected ?string $value = null;
 
     #[ORM\Column(type: Types::BOOLEAN)]
     protected bool $isEncrypted = false;
@@ -91,12 +91,12 @@ class Setting extends AbstractDomainObject
         return $this;
     }
 
-    public function getValue(): string
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
-    public function setValue(string $value): Setting
+    public function setValue(?string $value): Setting
     {
         $this->value = $value;
 
