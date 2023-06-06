@@ -6,7 +6,6 @@ namespace App\Components\Setting\Service;
 
 use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Repository\SettingRepositoryInterface;
-use LogicException;
 
 class SettingReadService
 {
@@ -29,11 +28,11 @@ class SettingReadService
         return $this->repository->findByKey($key);
     }
 
-    public function getValueByKey(string $key): string
+    public function getValue(string $key, $defaultValue = null): string
     {
         $setting = $this->repository->findByKey($key);
         if ($setting === null) {
-            throw new LogicException(sprintf('Could not get setting "%s"', $key));
+            return $defaultValue;
         }
         return $this->valueService->getValue($setting);
     }
