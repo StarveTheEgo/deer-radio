@@ -1,8 +1,8 @@
 version: '3.0'
 
 services:
-  mysql:
-    container_name: mysql
+  deer-radio-mysql:
+    container_name: deer-radio-mysql
     image: mysql:8.0
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
@@ -11,14 +11,19 @@ services:
       MYSQL_USER: '${DB_USERNAME}'
       MYSQL_PASSWORD: '${DB_PASSWORD}'
     ports:
-      - '3306:3306'
+      - '3301:3306'
     volumes:
-      - mysql-data:/var/lib/mysql
+      - deer-radio-mysql-data:/var/lib/mysql
     networks:
-      - app-network
+      - deer-radio-network
+    healthcheck:
+        test: mysqladmin ping -h 127.0.0.1 -u $$DB_USERNAME --password=$$DB_PASSWORD
+        interval: 5s
+        timeout: 5s
+        retries: 55
 
-  php-app:
-    container_name: php-app
+  deer-radio-php-fpm:
+    container_name: deer-radio-php-fpm
     build:
       context: ./
       dockerfile: ./.docker/php-app/Dockerfile
@@ -26,42 +31,50 @@ services:
       - '9000:9000'
     volumes:
       - ./:/var/www/app:cached
-      - app-data:/var/www/storage/app
-      - php-vendor:/var/www/app/vendor/
-      - js-vendor:/var/www/app/node_modules/
+      - deer-radio-app-data:/var/www/storage/app
+      - deer-radio-php-vendor:/var/www/app/vendor/
+      - deer-radio-js-vendor:/var/www/app/node_modules/
     networks:
-      - app-network
+      - deer-radio-network
     depends_on:
-      - mysql
+      deer-radio-mysql:
+          condition: service_healthy
+    healthcheck:
+        test: php artisan db:show | grep -c "deer-radio-mysql" > /dev/null
+        interval: 5s
+        timeout: 5s
+        retries: 55
 
-  nginx:
-    container_name: nginx
+  deer-radio-nginx:
+    container_name: deer-radio-nginx
     build:
       context: ./
       dockerfile: ./.docker/nginx/Dockerfile
     ports:
-      - '80:80'
+      - '81:80'
     volumes:
       - ./:/var/www/app:cached
-      - app-data:/var/www/storage/app
-      - php-vendor:/var/www/app/vendor/
-      - js-vendor:/var/www/app/node_modules/
+      - deer-radio-app-data:/var/www/storage/app
+      - deer-radio-php-vendor:/var/www/app/vendor/
+      - deer-radio-js-vendor:/var/www/app/node_modules/
     networks:
-      - app-network
+      - deer-radio-network
     depends_on:
-      - php-app
-      - mysql
+      deer-radio-php-fpm:
+          condition: service_healthy
+      deer-radio-mysql:
+          condition: service_healthy
 
 networks:
-  app-network:
+  deer-radio-network:
     driver: bridge
 
 volumes:
-  mysql-data:
+  deer-radio-mysql-data:
     driver: local
-  app-data:
+  deer-radio-app-data:
     driver: local
-  php-vendor:
+  deer-radio-php-vendor:
     driver: local
-  js-vendor:
+  deer-radio-js-vendor:
     driver: local
