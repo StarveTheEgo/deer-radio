@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use App\Components\ComponentData\ComponentDataServiceProvider;
+use App\Components\ImageData\ImageDataServiceProvider;
 use App\Components\Setting\SettingAdminServiceProvider;
 use App\Components\Setting\SettingServiceProvider;
+use App\Components\UnsplashClient\UnsplashClientServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -204,6 +206,8 @@ return [
         ComponentDataServiceProvider::class,
         SettingServiceProvider::class,
         SettingAdminServiceProvider::class,
+        UnsplashClientServiceProvider::class,
+        ImageDataServiceProvider::class,
     ],
 
     /*

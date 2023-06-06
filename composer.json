@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.1",
         "doctrine/dbal": "^2.13",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-doctrine/orm": "~1.8",
@@ -13,7 +13,8 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "orchid/crud": "^3.8",
-        "orchid/platform": "^13.5"
+        "orchid/platform": "^13.5",
+        "unsplash/unsplash": "^3.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
