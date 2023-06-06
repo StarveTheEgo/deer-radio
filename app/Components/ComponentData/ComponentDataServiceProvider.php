@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Components\ComponentData;
 
 use App\Components\ComponentData\Entity\ComponentData;
@@ -25,14 +27,20 @@ class ComponentDataServiceProvider extends ServiceProvider
             $em = $app->get(EntityManager::class);
             $entityRepository = new EntityRepository($em, $em->getClassMetaData(ComponentData::class));
 
-            return new ComponentDataRepository(
-                $em,
-                $entityRepository
-            );
+            return new ComponentDataRepository($em, $entityRepository);
         });
     }
 
-     public function boot()
-     {
-     }
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array<int, string>
+     */
+    public function provides(): array
+    {
+        return [
+            ComponentDataAccessService::class,
+            ComponentDataRepositoryInterface::class,
+        ];
+    }
 }

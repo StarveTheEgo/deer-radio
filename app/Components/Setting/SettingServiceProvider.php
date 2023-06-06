@@ -1,29 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Components\Setting;
 
 use App\Components\Setting\Entity\Setting;
-use App\Components\Setting\Orchid\Field\Factory\Input\InputFieldFactory;
-use App\Components\Setting\Orchid\Field\FieldFactoryRegistry;
-use App\Components\Setting\Orchid\Screen\SettingScreen;
 use App\Components\Setting\Repository\SettingRepository;
 use App\Components\Setting\Repository\SettingRepositoryInterface;
+use App\Components\Setting\Service\SettingCreateService;
+use App\Components\Setting\Service\SettingDeleteService;
 use App\Components\Setting\Service\SettingReadService;
 use App\Components\Setting\Service\SettingUpdateService;
+use App\Components\Setting\Service\SettingValueService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
-class SettingServiceProvider extends ServiceProvider
+class SettingServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public const SERVICE_NS = 'radio-setting';
-
     public $singletons = [
-        FieldFactoryRegistry::class => FieldFactoryRegistry::class,
+        SettingCreateService::class => SettingCreateService::class,
         SettingReadService::class => SettingReadService::class,
         SettingUpdateService::class => SettingUpdateService::class,
-        SettingScreen::class => SettingScreen::class,
+        SettingDeleteService::class => SettingDeleteService::class,
+        SettingValueService::class => SettingValueService::class,
     ];
 
     /**
@@ -45,25 +47,16 @@ class SettingServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Get the services provided by the provider.
      *
-     * @return void
+     * @return array<int, string>
      */
-    public function boot()
-    {
-        /** @var FieldFactoryRegistry $fieldFactoryRegistry */
-        $fieldFactoryRegistry = $this->app->get(FieldFactoryRegistry::class);
-        foreach ($this->getFieldFactoryClasses() as $factoryClass) {
-            $fieldFactoryRegistry->registerFactory($this->app->get($factoryClass));
-        }
-
-        $this->loadViewsFrom(__DIR__.'/resources/views', self::SERVICE_NS);
-    }
-
-    private function getFieldFactoryClasses(): array
+    public function provides(): array
     {
         return [
-            InputFieldFactory::class,
+            SettingReadService::class => SettingReadService::class,
+            SettingUpdateService::class => SettingUpdateService::class,
+            SettingRepositoryInterface::class => SettingRepositoryInterface::class,
         ];
     }
 }

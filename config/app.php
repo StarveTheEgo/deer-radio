@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Components\ComponentData\ComponentDataServiceProvider;
+use App\Components\Setting\SettingAdminServiceProvider;
 use App\Components\Setting\SettingServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
@@ -200,6 +203,7 @@ return [
 
         ComponentDataServiceProvider::class,
         SettingServiceProvider::class,
+        SettingAdminServiceProvider::class,
     ],
 
     /*
