@@ -194,7 +194,7 @@ class DeerImageManager
             'http' => [
                 'timeout'  => '10',
             ],
-                ];
+        ];
         $context = stream_context_create($opts);
         $copyResult = copy($imageData->getImageUrl(), $downloadedFilePath, $context);
 
