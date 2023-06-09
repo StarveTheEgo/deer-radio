@@ -24,9 +24,10 @@ class ImageDataServiceProvider extends ServiceProvider
         $this->app->singleton(LocalDriver::class, function () {
             /** @var SettingReadService $settingReadService */
             $settingReadService = $this->app->get(SettingReadService::class);
+            $imagePathsJson = $settingReadService->getValue('deer-radio.local_image_paths', '[]');
 
             return $this->app->makeWith(LocalDriver::class, [
-                'imagePaths' => $settingReadService->getValue('deer-radio.local_image_paths', []),
+                'imagePaths' => json_decode($imagePathsJson, true, flags: JSON_THROW_ON_ERROR),
             ]);
         });
     }
