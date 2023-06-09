@@ -7,7 +7,6 @@ namespace App\Components\DeerRadio;
 use App\Components\ComponentData\Service\ComponentDataAccessService;
 use App\Components\ImageData\Driver\Unsplash\UnsplashDriver;
 use App\Components\ImageData\ImageDataListProviderDriverRegistry;
-use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\ServiceProvider;
@@ -35,10 +34,12 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
             ]);
         });
 
-        $this->app
-            ->when(UnsplashDriver::class)
-            ->needs(UnsplashSearchQueryBuilderInterface::class)
-            ->give(DeerRadioUnsplashSearchQueryBuilder::class);
+        $this->app->singleton(UnsplashDriver::class, function () {
+
+            return $this->app->makeWith(UnsplashDriver::class, [
+                'unsplashQueryBuilder' => $this->app->make(DeerRadioUnsplashSearchQueryBuilder::class)
+            ]);
+        });
     }
 
     /**
