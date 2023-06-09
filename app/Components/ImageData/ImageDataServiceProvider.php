@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Components\ImageData;
 
-use App\Components\DeerRadio\DeerRadioUnsplashSearchQueryBuilder;
-use App\Components\ImageData\Driver\StaticList\StaticListDriver;
+use App\Components\ImageData\Driver\Local\LocalDriver;
 use App\Components\ImageData\Driver\Unsplash\UnsplashDriver;
-use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
+use App\Components\Setting\Service\SettingReadService;
 use Illuminate\Support\ServiceProvider;
 
 class ImageDataServiceProvider extends ServiceProvider
@@ -22,10 +21,14 @@ class ImageDataServiceProvider extends ServiceProvider
             return $driverRegistry;
         });
 
-        $this->app
-            ->when(UnsplashDriver::class)
-            ->needs(UnsplashSearchQueryBuilderInterface::class)
-            ->give(DeerRadioUnsplashSearchQueryBuilder::class);
+        $this->app->singleton(LocalDriver::class, function () {
+            /** @var SettingReadService $settingReadService */
+            $settingReadService = $this->app->get(SettingReadService::class);
+
+            return $this->app->makeWith(LocalDriver::class, [
+                'imagePaths' => $settingReadService->getValue('deer-radio.local_image_paths', []),
+            ]);
+        });
     }
 
     /**
@@ -43,7 +46,7 @@ class ImageDataServiceProvider extends ServiceProvider
     private function getImageProviderDriverClasses(): array
     {
         return [
-            StaticListDriver::class,
+            LocalDriver::class,
             UnsplashDriver::class,
         ];
     }
