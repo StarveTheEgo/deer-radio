@@ -28,7 +28,7 @@ class SettingReadService
         return $this->repository->findByKey($key);
     }
 
-    public function getValue(string $key, $defaultValue = null): string
+    public function getValue(string $key, string $defaultValue = null): string
     {
         $setting = $this->repository->findByKey($key);
         if ($setting === null) {
