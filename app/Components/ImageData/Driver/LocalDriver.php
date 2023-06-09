@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Components\ImageData\Driver\Local;
+namespace App\Components\ImageData\Driver;
 
-use App\Components\ImageData\Driver\ImageDataListProviderInterface;
 use App\Components\ImageData\ImageData;
 
 class LocalDriver implements ImageDataListProviderInterface

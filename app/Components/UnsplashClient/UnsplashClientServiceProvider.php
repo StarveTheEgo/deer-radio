@@ -10,10 +10,6 @@ use Illuminate\Support\ServiceProvider;
 
 class UnsplashClientServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public $singletons = [
-        UnsplashClient::class => UnsplashClient::class,
-    ];
-
     public function register()
     {
         $this->app->singleton(UnsplashClient::class, function () {

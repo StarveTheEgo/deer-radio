@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Components\ImageData\Driver\Unsplash;
+namespace App\Components\ImageData\Driver;
 
-use App\Components\ImageData\Driver\ImageDataListProviderInterface;
 use App\Components\ImageData\ImageData;
 use App\Components\ImageData\UnsplashImageDataFactory;
 use App\Components\UnsplashClient\UnsplashClient;

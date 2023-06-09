@@ -29,7 +29,7 @@ class DeerRadioUnsplashSearchQueryBuilder implements UnsplashSearchQueryBuilderI
         if ($prompt !== null) {
             $parameters['query'] = $prompt;
         }
-        $parameters['count'] = $this->settingReadService->getValue('unsplash.image_list_count', 1);
+        $parameters['count'] = (int) $this->settingReadService->getValue('unsplash.image_list_count', '1');
 
         return new UnsplashSearchQuery($queryType, $parameters);
     }

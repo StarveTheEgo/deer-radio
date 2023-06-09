@@ -75,15 +75,14 @@ class SettingScreen extends AbstractScreen
         SettingUpdateService $settingUpdateService,
         SettingDeleteService $settingDeleteService,
         FieldFactoryRegistry $fieldFactoryRegistry,
-        SettingValueService $settingValueService,
+        SettingValueService $settingValueService
     ) {
         $this->settingCreateService = $settingCreateService;
         $this->settingReadService = $settingReadService;
         $this->settingUpdateService = $settingUpdateService;
         $this->settingDeleteService = $settingDeleteService;
-        $this->settingValueService = $settingValueService;
-
         $this->fieldFactoryRegistry = $fieldFactoryRegistry;
+        $this->settingValueService = $settingValueService;
     }
 
     public function description(): ?string
