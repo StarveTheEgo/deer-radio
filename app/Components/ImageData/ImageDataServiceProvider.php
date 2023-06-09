@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Components\ImageData;
 
+use App\Components\DeerRadio\DeerRadioUnsplashSearchQueryBuilder;
 use App\Components\ImageData\Driver\StaticList\StaticListDriver;
-use App\Components\ImageData\Driver\Unsplash\DeerRadioUnsplashSearchQueryBuilder;
 use App\Components\ImageData\Driver\Unsplash\UnsplashDriver;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use Illuminate\Support\ServiceProvider;

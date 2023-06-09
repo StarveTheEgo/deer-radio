@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Components\DeerRadio;
 
 use App\Components\ComponentData\Service\ComponentDataAccessService;
-use App\Components\ImageData\Driver\Unsplash\DeerRadioUnsplashSearchQueryBuilder;
 use App\Components\ImageData\Driver\Unsplash\UnsplashDriver;
 use App\Components\ImageData\ImageDataListProviderDriverRegistry;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
