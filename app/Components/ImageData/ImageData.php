@@ -15,6 +15,9 @@ class ImageData
     /** @var string|null Url for the image */
     private ?string $imageUrl = null;
 
+    /** @var string|null Url for the photoban check */
+    private ?string $photobanUrl = null;
+
     /** @var string|null Image description */
     private ?string $description = null;
 
@@ -51,6 +54,25 @@ class ImageData
     public function setImageUrl(?string $imageUrl): ImageData
     {
         $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhotobanUrl(): ?string
+    {
+        return $this->photobanUrl;
+    }
+
+    /**
+     * @param string|null $photobanUrl
+     * @return ImageData
+     */
+    public function setPhotobanUrl(?string $photobanUrl): ImageData
+    {
+        $this->photobanUrl = $photobanUrl;
 
         return $this;
     }
@@ -95,8 +117,9 @@ class ImageData
         return [
             'path' => $this->getPath(),
             'isRemote' => $this->getIsRemote(),
-            'imageLink' => $this->getImageUrl(),
-            'profileLink' => $this->getProfileUrl(),
+            'imageUrl' => $this->getImageUrl(),
+            'photobanUrl' => $this->getPhotobanUrl(),
+            'profileUrl' => $this->getProfileUrl(),
             'authorName' => $this->getAuthorName(),
             'description' => $this->getDescription(),
         ];

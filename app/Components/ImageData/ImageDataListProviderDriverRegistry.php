@@ -31,4 +31,12 @@ class ImageDataListProviderDriverRegistry
 
         return $this->drivers[$driverName];
     }
+
+    /**
+     * @return ImageDataListProviderInterface[]
+     */
+    public function getDrivers() : array
+    {
+        return $this->drivers;
+    }
 }
