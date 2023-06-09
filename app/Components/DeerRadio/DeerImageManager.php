@@ -81,6 +81,7 @@ class DeerImageManager
      * @return ImageData|null
      */
     private function pickImageDataFromList(array $imageDataList) : ?ImageData {
+        // let's filter images via amazing photoban feature
         array_filter($imageDataList, function (ImageData $imageData) {
             $photobanUrl = $imageData->getPhotobanUrl();
             if ($photobanUrl !== null) {
@@ -99,6 +100,7 @@ class DeerImageManager
         }
 
         $randomIndex = array_rand($imageDataList)[0];
+
         return $imageDataList[$randomIndex];
     }
 
