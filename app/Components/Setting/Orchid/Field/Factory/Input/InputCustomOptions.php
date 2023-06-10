@@ -24,6 +24,12 @@ final class InputCustomOptions
         return $options;
     }
 
+    public function toArray() : array {
+        return [
+            'type' => $this->getType(),
+        ];
+    }
+
     public function getType(): string
     {
         return $this->type;

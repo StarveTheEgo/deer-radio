@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Components\Setting\Orchid\Field;
 
 use LogicException;
@@ -34,6 +36,15 @@ final class FieldOptions
         }
 
         return $options;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'title' => $this->getTitle(),
+            'validation' => $this->getValidation(),
+            'custom' => $this->getCustom(),
+        ];
     }
 
     public function getTitle(): ?string
