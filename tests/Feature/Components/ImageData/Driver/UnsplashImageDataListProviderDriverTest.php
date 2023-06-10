@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Components\ImageData\Driver;
 
-use App\Components\ImageData\Driver\Unsplash\UnsplashDriver;
+use App\Components\ImageData\Driver\UnsplashDriver;
 use App\Components\ImageData\ImageData;
 use App\Components\ImageData\UnsplashImageDataFactory;
 use App\Components\UnsplashClient\UnsplashClient;
