@@ -14,14 +14,14 @@ class UnsplashClient
 {
     private bool $isInitiated = false;
     private string $appId;
-    private string $appSecret;
     private string $appName;
+    private string $appSecret;
 
-    public function __construct(string $appId, string $appSecret, string $appName)
+    public function __construct(string $appId, string $appName, string $appSecret)
     {
         $this->appId = $appId;
-        $this->appSecret = $appSecret;
         $this->appName = $appName;
+        $this->appSecret = $appSecret;
     }
 
     /**
@@ -34,8 +34,8 @@ class UnsplashClient
 
         HttpClient::init([
             'applicationId'	=> $this->appId,
-            'secret'		=> $this->appSecret,
             'utmSource'     => $this->appName,
+            'secret'		=> $this->appSecret,
         ]);
 
         $this->isInitiated = true;
@@ -54,9 +54,6 @@ class UnsplashClient
             return Photo::random($searchQuery->getParameters() ?? [])->toArray();
         }
 
-        throw new LogicException(sprintf(
-            'Unsupported search query type %s',
-            $queryType->value
-        ));
+        throw new LogicException(sprintf('Unsupported search query type %s', $queryType->value));
     }
 }
