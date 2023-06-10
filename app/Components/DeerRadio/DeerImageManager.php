@@ -99,9 +99,7 @@ class DeerImageManager
             return null;
         }
 
-        $randomIndex = array_rand($imageDataList)[0];
-
-        return $imageDataList[$randomIndex];
+        return $imageDataList[array_rand($imageDataList)];
     }
 
     public function removeOldImages(): void
@@ -187,10 +185,7 @@ class DeerImageManager
      */
     private function downloadRemoteImageTo(ImageData $imageData, string $downloadedFilePath): void
     {
-        $imageUrl = $imageData->getImageUrl();
-        if ($imageUrl === null) {
-            throw new LogicException(sprintf('Remote image data must have an URL: %s', json_encode($imageData->toArray())));
-        }
+        $imagePath = $imageData->getPath();
 
         $opts = [
             'http' => [
@@ -198,10 +193,10 @@ class DeerImageManager
             ],
         ];
         $context = stream_context_create($opts);
-        $copyResult = copy($imageData->getImageUrl(), $downloadedFilePath, $context);
+        $copyResult = copy($imagePath, $downloadedFilePath, $context);
 
         if (false === $copyResult) {
-            throw new Exception(sprintf('Could not download/copy Deer Image from URL "%s"', $imageUrl));
+            throw new Exception(sprintf('Could not download/copy Deer Image from "%s"', $imagePath));
         }
     }
 }
