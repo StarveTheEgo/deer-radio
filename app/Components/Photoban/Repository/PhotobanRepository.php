@@ -13,7 +13,7 @@ class PhotobanRepository extends AbstractRepository implements PhotobanRepositor
     public function findByUrl(string $imageUrl): ?Photoban
     {
         /** @var Photoban|null $photoban */
-        $photoban = $this->getEntityRepository()->findOneBy(['key' => $imageUrl]);
+        $photoban = $this->getEntityRepository()->findOneBy(['imageUrl' => $imageUrl]);
         return $photoban;
     }
 
