@@ -21,8 +21,8 @@ RUN apk update && apk add --no-cache \
     git \
     oniguruma-dev \
     curl && \
-    docker-php-ext-configure gd && \
-    docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install pdo_mysql mbstring zip exif pcntl -j$(nproc) gd && \
     apk add --update nodejs npm && \
     npm install npm@latest -g && \
     npm install n -g && \
