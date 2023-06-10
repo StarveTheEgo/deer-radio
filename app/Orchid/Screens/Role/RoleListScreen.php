@@ -8,6 +8,7 @@ use App\Orchid\Layouts\Role\RoleListLayout;
 use Orchid\Platform\Models\Role;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Layout;
 use Orchid\Screen\Screen;
 
 class RoleListScreen extends Screen
@@ -71,7 +72,7 @@ class RoleListScreen extends Screen
     /**
      * Views.
      *
-     * @return string[]|\Orchid\Screen\Layout[]
+     * @return string[]|Layout[]
      */
     public function layout(): iterable
     {

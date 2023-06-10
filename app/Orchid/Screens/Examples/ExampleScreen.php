@@ -6,6 +6,7 @@ use App\Orchid\Layouts\Examples\ChartBarExample;
 use App\Orchid\Layouts\Examples\ChartLineExample;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\ModalToggle;
@@ -15,6 +16,7 @@ use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ExampleScreen extends Screen
 {
@@ -96,7 +98,7 @@ class ExampleScreen extends Screen
     /**
      * Button commands.
      *
-     * @return \Orchid\Screen\Action[]
+     * @return Action[]
      */
     public function commandBar(): iterable
     {
@@ -207,7 +209,7 @@ class ExampleScreen extends Screen
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @return StreamedResponse
      */
     public function export()
     {

@@ -1,6 +1,10 @@
-@php use Orchid\Screen\Actions\Button; @endphp
-@php /** @var \App\Components\Setting\Entity\Setting $setting */ @endphp
-@php /** @var \Orchid\Screen\Field $valueEditField */ @endphp
+@php
+    use App\Components\Setting\Entity\Setting;
+    use Orchid\Screen\Actions\Button;
+    use Orchid\Screen\Field;
+@endphp
+@php /** @var Setting $setting */ @endphp
+@php /** @var Field $valueEditField */ @endphp
 <div class="rounded bg-white mb-3 p-3">
     <div class="row justify-content-around">
         <div class="col-sm-10">

@@ -6,6 +6,7 @@ use App\Models\Song;
 use Illuminate\Console\Command;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use LogicException;
 use Orchid\Attachment\File;
 
 class RegisterExistingSongs extends Command
@@ -43,7 +44,7 @@ class RegisterExistingSongs extends Command
             }
             $input_path = $path.$source->download_link;
             if (!is_file($input_path)) {
-                throw new \LogicException('No file for '.$song->title);
+                throw new LogicException('No file for '.$song->title);
             }
 
             $file = new UploadedFile($input_path, $source->original_name);

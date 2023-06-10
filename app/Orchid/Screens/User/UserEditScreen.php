@@ -8,7 +8,9 @@ use App\Orchid\Layouts\Role\RolePermissionLayout;
 use App\Orchid\Layouts\User\UserEditLayout;
 use App\Orchid\Layouts\User\UserPasswordLayout;
 use App\Orchid\Layouts\User\UserRoleLayout;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -159,7 +161,7 @@ class UserEditScreen extends Screen
      * @param User    $user
      * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function save(User $user, Request $request)
     {
@@ -196,9 +198,9 @@ class UserEditScreen extends Screen
     /**
      * @param User $user
      *
-     * @throws \Exception
+     * @throws Exception
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      *
      */
     public function remove(User $user)
@@ -213,7 +215,7 @@ class UserEditScreen extends Screen
     /**
      * @param User $user
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function loginAs(User $user)
     {
