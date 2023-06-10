@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use App\Components\ComponentData\ComponentDataServiceProvider;
+use App\Components\DeerRadio\DeerRadioServiceProvider;
 use App\Components\ImageData\ImageDataServiceProvider;
+use App\Components\Photoban\PhotobanServiceProvider;
 use App\Components\Setting\SettingAdminServiceProvider;
 use App\Components\Setting\SettingServiceProvider;
 use App\Components\UnsplashClient\UnsplashClientServiceProvider;
@@ -207,7 +209,9 @@ return [
         SettingServiceProvider::class,
         SettingAdminServiceProvider::class,
         UnsplashClientServiceProvider::class,
+        PhotobanServiceProvider::class,
         ImageDataServiceProvider::class,
+        DeerRadioServiceProvider::class,
     ],
 
     /*
