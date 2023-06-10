@@ -11,6 +11,8 @@ use Illuminate\Support\ServiceProvider;
 
 class ImageDataServiceProvider extends ServiceProvider
 {
+    public const SETTING_IMAGE_PATHS = 'local-image.image_paths';
+
     public function register()
     {
         $this->app->singleton(ImageDataListProviderDriverRegistry::class, function () {
@@ -26,7 +28,7 @@ class ImageDataServiceProvider extends ServiceProvider
             /** @var SettingReadService $settingReadService */
             $settingReadService = $this->app->get(SettingReadService::class);
 
-            $imagePathsJson = $settingReadService->getValue('deer-radio.local_image_paths', '[]');
+            $imagePathsJson = $settingReadService->getValue(self::SETTING_IMAGE_PATHS, '[]');
             $imagePaths = json_decode($imagePathsJson, true, flags: JSON_THROW_ON_ERROR);
 
             return new LocalDriver($imagePaths);

@@ -10,6 +10,10 @@ use Illuminate\Support\ServiceProvider;
 
 class UnsplashClientServiceProvider extends ServiceProvider implements DeferrableProvider
 {
+    public const SETTING_APP_ID = 'unsplash-client.app_id';
+    public const SETTING_APP_NAME = 'unsplash-client.app_name';
+    public const SETTING_APP_SECRET = 'unsplash-client.app_secret';
+
     public function register()
     {
         $this->app->singleton(UnsplashClient::class, function () {
@@ -17,14 +21,14 @@ class UnsplashClientServiceProvider extends ServiceProvider implements Deferrabl
             $settingReadService = $this->app->get(SettingReadService::class);
 
             return new UnsplashClient(
-                $settingReadService->getValue('unsplash.app_id'),
-                $settingReadService->getValue('unsplash.app_secret'),
-                $settingReadService->getValue('unsplash.app_name')
+                $settingReadService->getValue(self::SETTING_APP_ID),
+                $settingReadService->getValue(self::SETTING_APP_NAME),
+                $settingReadService->getValue(self::SETTING_APP_SECRET),
             );
         });
     }
 
-    public function provides()
+    public function provides(): array
     {
         return [
             UnsplashClient::class,
