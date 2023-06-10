@@ -1,8 +1,8 @@
 # Setting up PHP
 FROM php:8.1-fpm-alpine
 
-COPY ./.docker/php-app/conf/php.ini /usr/local/etc/php/conf.d/local.ini
-COPY ./.docker/php-app/entrypoint.sh /var/www/entrypoint.sh
+COPY ./.docker/php-fpm/conf/php.ini /usr/local/etc/php/conf.d/local.ini
+COPY ./.docker/php-fpm/entrypoint.sh /var/www/entrypoint.sh
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
