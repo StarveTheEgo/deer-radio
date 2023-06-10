@@ -141,7 +141,7 @@ class SettingScreen extends AbstractScreen
         foreach ($groupedSettings as $group => $settings) {
             $settingEditors = [];
             foreach ($settings as $setting) {
-                $settingEditors[] = Layout::view('radio-setting::setting-editor', [
+                $settingEditors[] = Layout::view('radio-admin-setting::setting-editor', [
                     'setting' => $setting,
                     'valueEditField' => $this->buildSettingValueEditorField($setting),
                 ]);
