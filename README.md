@@ -26,6 +26,7 @@ php artisan orchid:admin admin admin@admin.com password
 
 # Roadmap:
 - Finish project migration
+- Get rid of Laravel ActiveRecord, use Doctrine everywhere instead
 - Improve admin panel UX
 - Ensure coding style and fix lack of code comments
 - Integrate CI (tests, PHPStan)
