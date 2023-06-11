@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Components\Setting\Entity;
 
 use App\Components\DoctrineOrchid\AbstractDomainObject;
+use App\Components\DoctrineOrchid\TimestampableEntityTrait;
+use App\Components\DoctrineOrchid\TimestampableInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[Orm\Entity]
 #[Orm\Table(name: 'settings')]
 #[Orm\UniqueConstraint(name: '_idx_unique_key', columns: ['key'])]
-class Setting extends AbstractDomainObject
+class Setting extends AbstractDomainObject implements TimestampableInterface
 {
+    use TimestampableEntityTrait;
+
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id;

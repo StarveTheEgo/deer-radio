@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Components\ComponentData\Entity;
 
 use App\Components\DoctrineOrchid\AbstractDomainObject;
+use App\Components\DoctrineOrchid\TimestampableEntityTrait;
+use App\Components\DoctrineOrchid\TimestampableInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[Orm\Entity]
 #[Orm\Table(name: 'component_data')]
 #[Orm\UniqueConstraint(name: '_idx_unique_field', columns: ['component', 'key'])]
-class ComponentData extends AbstractDomainObject
+class ComponentData extends AbstractDomainObject implements TimestampableInterface
 {
+    use TimestampableEntityTrait;
+
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id;

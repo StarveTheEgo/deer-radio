@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Components\Photoban\Entity;
 
 use App\Components\DoctrineOrchid\AbstractDomainObject;
+use App\Components\DoctrineOrchid\TimestampableEntityTrait;
+use App\Components\DoctrineOrchid\TimestampableInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,8 +14,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[Orm\Table(name: 'photobans')]
 #[Orm\UniqueConstraint(name: '_idx_unique_key', columns: ['key'])]
 #[Orm\UniqueConstraint(name: '_idx_image_url', columns: ['imageUrl'])]
-class Photoban extends AbstractDomainObject
+class Photoban extends AbstractDomainObject implements TimestampableInterface
 {
+    use TimestampableEntityTrait;
+
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id;
