@@ -25,7 +25,7 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
         return (new Setting())
             ->setKey(DeerRadioUnsplashSearchQueryBuilder::SETTING_DEFAULT_SEARCH_PROMPT)
             ->setDescription('Default search prompt')
-            ->setValue(null)
+            ->setValue('deer')
             ->setFieldType((FieldType::INPUT)->value)
             ->setFieldOptions(null)
             ->setIsEncrypted(false);
