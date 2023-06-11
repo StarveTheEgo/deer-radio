@@ -11,6 +11,8 @@ use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterf
 
 class UnsplashDriver implements ImageDataListProviderInterface
 {
+    public const SETTING_IS_ENABLED = 'unsplash-query.is_enabled';
+
     private UnsplashClient $unsplashClient;
     private UnsplashImageDataFactory $unsplashImageDataFactory;
     private UnsplashSearchQueryBuilderInterface $queryBuilder;

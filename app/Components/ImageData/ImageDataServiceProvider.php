@@ -51,9 +51,17 @@ class ImageDataServiceProvider extends ServiceProvider
 
     private function getImageProviderDriverClasses(): array
     {
-        return [
+        $settingReadService = $this->app->get(SettingReadService::class);
+
+        $driverClassList = [
             LocalDriver::class,
-            UnsplashDriver::class,
         ];
+
+        /** @var SettingReadService $settingReadService */
+        if ($settingReadService->getValue(UnsplashDriver::SETTING_IS_ENABLED)) {
+            $driverClassList[] = UnsplashDriver::class;
+        }
+
+        return $driverClassList;
     }
 }
