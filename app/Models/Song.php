@@ -64,7 +64,7 @@ class Song extends Model
         'year' => 1993,
         'source' => '',
         'tempo' => 0,
-        'song_attachment_data' => [],
+        'song_attachment_data' => '[]',
         'played_at' => null,
         'finished_at' => null,
         'played_count' => 0,
