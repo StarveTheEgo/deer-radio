@@ -10,6 +10,8 @@ final class InputCustomOptions
 {
     private string $type = 'text';
 
+    private ?string $description = null;
+
     public static function fromArray(array $input): InputCustomOptions
     {
         $options = new self();
@@ -17,6 +19,11 @@ final class InputCustomOptions
         if (array_key_exists('type', $input)) {
             $options->setType($input['type']);
             unset($input['type']);
+        }
+
+        if (array_key_exists('description', $input)) {
+            $options->setDescription($input['description']);
+            unset($input['description']);
         }
 
         if (!empty($input)) {
@@ -29,6 +36,7 @@ final class InputCustomOptions
     public function toArray() : array {
         return [
             'type' => $this->getType(),
+            'description' => $this->getDescription(),
         ];
     }
 
@@ -40,6 +48,18 @@ final class InputCustomOptions
     public function setType(string $type): InputCustomOptions
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): InputCustomOptions
+    {
+        $this->description = $description;
 
         return $this;
     }

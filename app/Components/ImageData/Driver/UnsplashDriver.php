@@ -6,6 +6,7 @@ namespace App\Components\ImageData\Driver;
 
 use App\Components\ImageData\ImageData;
 use App\Components\ImageData\UnsplashImageDataFactory;
+use App\Components\Setting\Service\SettingReadService;
 use App\Components\UnsplashClient\UnsplashClient;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 
@@ -13,9 +14,12 @@ class UnsplashDriver implements ImageDataListProviderInterface
 {
     public const SETTING_IS_ENABLED = 'unsplash-query.is_enabled';
 
+    public const SETTING_DOWNLOAD_QUERY_PARAMS = 'unsplash-query.download_query_params';
+
     private UnsplashClient $unsplashClient;
     private UnsplashImageDataFactory $unsplashImageDataFactory;
     private UnsplashSearchQueryBuilderInterface $queryBuilder;
+    private SettingReadService $settingReadService;
 
     public static function getName(): string
     {
@@ -25,12 +29,14 @@ class UnsplashDriver implements ImageDataListProviderInterface
     public function __construct(
         UnsplashClient                      $unsplashClient,
         UnsplashSearchQueryBuilderInterface $unsplashQueryBuilder,
-        UnsplashImageDataFactory            $unsplashImageDataFactory
+        UnsplashImageDataFactory            $unsplashImageDataFactory,
+        SettingReadService $settingReadService,
     )
     {
         $this->unsplashClient = $unsplashClient;
         $this->unsplashImageDataFactory = $unsplashImageDataFactory;
         $this->queryBuilder = $unsplashQueryBuilder;
+        $this->settingReadService = $settingReadService;
     }
 
     /**
@@ -45,7 +51,15 @@ class UnsplashDriver implements ImageDataListProviderInterface
 
         $imageDataList = [];
         foreach ($photoListResponse as $unsplashImageInfo) {
-            $imageDataList[] = $this->unsplashImageDataFactory->buildImageData($unsplashImageInfo);
+            $imageData = $this->unsplashImageDataFactory->buildImageData($unsplashImageInfo);
+
+            // additional download query params
+            $downloadQueryParams = $this->settingReadService->getValue(self::SETTING_DOWNLOAD_QUERY_PARAMS);
+            if ($downloadQueryParams !== null) {
+                $imageData->setPath($imageData->getPath().$downloadQueryParams);
+            }
+
+            $imageDataList[] = $imageData;
         }
 
         return $imageDataList;

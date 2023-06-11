@@ -23,6 +23,7 @@ php artisan orchid:admin admin admin@admin.com password
 - Implement a dashboard
 - Update readme
 - Implement tests of features that are missing it
+- Add fields validation in Setting's seeders
 
 # Roadmap:
 - Finish project migration

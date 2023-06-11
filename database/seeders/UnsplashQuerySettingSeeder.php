@@ -20,6 +20,7 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
             $this->createIsEnabledSetting(),
             $this->createDefaultSearchPromptSetting(),
             $this->createImageListCountSetting(),
+            $this->createDownloadQueryParamsSetting(),
         ]);
     }
 
@@ -66,6 +67,23 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
             ->setKey(DeerRadioUnsplashSearchQueryBuilder::SETTING_IMAGE_LIST_COUNT)
             ->setDescription('Amount of images per API request')
             ->setValue('30')
+            ->setFieldType((FieldType::INPUT)->value)
+            ->setFieldOptions($fieldOptions->toArray())
+            ->setIsEncrypted(false);
+    }
+
+    private function createDownloadQueryParamsSetting(): Setting
+    {
+        $customFieldOptions = (new InputCustomOptions())
+            ->setDescription('Additional image download query parameters, i.e. "&h=1080&q=100"');
+
+        $fieldOptions = (new FieldOptions())
+            ->setCustom($customFieldOptions->toArray());
+
+        return (new Setting())
+            ->setKey(UnsplashDriver::SETTING_DOWNLOAD_QUERY_PARAMS)
+            ->setDescription('Additional download parameters')
+            ->setValue('&h=1080&q=100')
             ->setFieldType((FieldType::INPUT)->value)
             ->setFieldOptions($fieldOptions->toArray())
             ->setIsEncrypted(false);

@@ -29,8 +29,16 @@ class ImageData
 
     public function __construct(string $path, bool $isRemote)
     {
-        $this->path = $path;
+        $this->setPath($path);
+
         $this->isRemote = $isRemote;
+    }
+
+    public function setPath(string $path): ImageData
+    {
+        $this->path = $path;
+
+        return $this;
     }
 
     public function getPath(): string
