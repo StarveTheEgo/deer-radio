@@ -10,14 +10,14 @@
         <div class="col-sm-10">
             <fieldset class="row g-0 mb-3">
                 <legend class="text-black px-2 mt-2">
-                    {{ $setting->getKey() }}
+                    {{ $setting->getDescription() }}
                     @if ($setting->isEncrypted())
                         <span title="This setting is encrypted in storage">
                             <x-orchid-icon path="lock"></x-orchid-icon>
                         </span>
                     @endif
                     <p class="small text-muted mt-2 mb-0">
-                        {{ $setting->getDescription() }}
+                        {{ $setting->getKey() }}
                     </p>
                 </legend>
             </fieldset>
