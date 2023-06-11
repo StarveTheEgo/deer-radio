@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Components\Setting;
 
 use App\Components\Setting\Orchid\Field\Factory\Input\InputFieldFactory;
+use App\Components\Setting\Orchid\Field\Factory\Toggle\ToggleFieldFactory;
 use App\Components\Setting\Orchid\Field\FieldFactoryRegistry;
 use Illuminate\Support\ServiceProvider;
 use Psr\Container\ContainerExceptionInterface;
@@ -49,6 +50,7 @@ class SettingAdminServiceProvider extends ServiceProvider
     {
         return [
             InputFieldFactory::class,
+            ToggleFieldFactory::class,
         ];
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Components\Setting\Orchid\Field\Factory\Input;
 
 use LogicException;

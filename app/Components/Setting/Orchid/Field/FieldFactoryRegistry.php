@@ -9,7 +9,7 @@ class FieldFactoryRegistry
     /** @var FieldFactoryInterface[] */
     private array $factories = [];
 
-    public function registerFactory(FieldFactoryInterface $factory)
+    public function registerFactory(FieldFactoryInterface $factory): void
     {
         $fieldTypeValue = $factory::getType()->value;
         $this->factories[$fieldTypeValue] = $factory;
