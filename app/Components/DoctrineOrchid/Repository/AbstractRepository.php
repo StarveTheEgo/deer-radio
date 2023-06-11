@@ -6,6 +6,8 @@ namespace App\Components\DoctrineOrchid\Repository;
 
 use App\Components\DoctrineOrchid\AbstractDomainObject;
 use App\Components\DoctrineOrchid\Filter\AbstractDoctrineFilter;
+use App\Components\DoctrineOrchid\TimestampableInterface;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -42,10 +44,16 @@ abstract class AbstractRepository implements RepositoryInterface
     protected function createObject(AbstractDomainObject $object)
     {
         $em = $this->entityManager;
+
         if ($em->contains($object)) {
             $objectClass = get_class($object);
             throw new LogicException("Object {$objectClass} '{$object->getId()}' is already persisted");
         }
+
+        if ($object instanceof TimestampableInterface) {
+            $object->setCreatedAt(new DateTimeImmutable());
+        }
+
         $em->persist($object);
         $em->flush();
     }
@@ -53,10 +61,16 @@ abstract class AbstractRepository implements RepositoryInterface
     protected function updateObject(AbstractDomainObject $object)
     {
         $em = $this->entityManager;
+
         if (!$em->contains($object)) {
             $objectClass = get_class($object);
             throw new LogicException("Object {$objectClass} '{$object->getId()}' is not persisted");
         }
+
+        if ($object instanceof TimestampableInterface) {
+            $object->setUpdatedAt(new DateTimeImmutable());
+        }
+
         $em->flush();
     }
 
