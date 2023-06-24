@@ -41,13 +41,29 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->entityRepository;
     }
 
+    /**
+     * @param AbstractDomainObject $object
+     * @return string
+     */
+    protected function getEntityReadableName($object): string
+    {
+        $objectName = $object::class;
+
+        $objectId = $object->getId();
+        if ($objectId !== null) {
+            $objectName .= '#'.$objectId;
+        }
+
+        return $objectName;
+    }
+
     protected function createObject(AbstractDomainObject $object)
     {
         $em = $this->entityManager;
 
         if ($em->contains($object)) {
-            $objectClass = get_class($object);
-            throw new LogicException("Object {$objectClass} '{$object->getId()}' is already persisted");
+            $objectName = $this->getEntityReadableName($object);
+            throw new LogicException("Object '{$objectName}' is already persisted");
         }
 
         if ($object instanceof TimestampableInterface) {
@@ -63,14 +79,27 @@ abstract class AbstractRepository implements RepositoryInterface
         $em = $this->entityManager;
 
         if (!$em->contains($object)) {
-            $objectClass = get_class($object);
-            throw new LogicException("Object {$objectClass} '{$object->getId()}' is not persisted");
+            $objectName = $this->getEntityReadableName($object);
+            throw new LogicException("Object '$objectName' is not persisted");
         }
 
         if ($object instanceof TimestampableInterface) {
             $object->setUpdatedAt(new DateTimeImmutable());
         }
 
+        $em->flush();
+    }
+
+    protected function deleteObject(AbstractDomainObject $object)
+    {
+        $em = $this->getEntityManager();
+
+        if (!$em->contains($object)) {
+            $objectName = $this->getEntityReadableName($object);
+            throw new LogicException("Object '$objectName' is not persisted");
+        }
+
+        $em->remove($object);
         $em->flush();
     }
 
