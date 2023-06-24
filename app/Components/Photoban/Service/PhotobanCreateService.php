@@ -16,8 +16,8 @@ class PhotobanCreateService
         $this->repository = $repository;
     }
 
-    public function create(Photoban $setting): void
+    public function create(Photoban $photoban): void
     {
-        $this->repository->create($setting);
+        $this->repository->create($photoban);
     }
 }

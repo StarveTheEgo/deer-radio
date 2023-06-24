@@ -6,7 +6,6 @@ namespace App\Components\Photoban\Repository;
 
 use App\Components\DoctrineOrchid\Repository\AbstractRepository;
 use App\Components\Photoban\Entity\Photoban;
-use LogicException;
 
 class PhotobanRepository extends AbstractRepository implements PhotobanRepositoryInterface
 {
@@ -29,11 +28,6 @@ class PhotobanRepository extends AbstractRepository implements PhotobanRepositor
 
     public function delete(Photoban $photoban): void
     {
-        $em = $this->getEntityManager();
-        if (!$em->contains($photoban)) {
-            throw new LogicException("Photoban '{$photoban->getImageUrl()}' is not persisted");
-        }
-        $em->remove($photoban);
-        $em->flush();
+        parent::deleteObject($photoban);
     }
 }

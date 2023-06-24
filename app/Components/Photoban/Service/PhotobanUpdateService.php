@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Components\Photoban\Service;
 
+use App\Components\Photoban\Entity\Photoban;
 use App\Components\Photoban\Repository\PhotobanRepositoryInterface;
-use App\Components\Setting\Entity\Setting;
 
 class PhotobanUpdateService
 {
@@ -16,8 +16,8 @@ class PhotobanUpdateService
         $this->repository = $repository;
     }
 
-    public function update(Setting $setting): void
+    public function update(Photoban $photoban): void
     {
-        $this->repository->update($setting);
+        $this->repository->update($photoban);
     }
 }
