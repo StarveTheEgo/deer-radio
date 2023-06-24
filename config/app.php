@@ -11,6 +11,7 @@ use App\Components\Label\LabelServiceProvider;
 use App\Components\Photoban\PhotobanServiceProvider;
 use App\Components\Setting\SettingAdminServiceProvider;
 use App\Components\Setting\SettingServiceProvider;
+use App\Components\Song\SongServiceProvider;
 use App\Components\UnsplashClient\UnsplashClientServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
@@ -218,6 +219,7 @@ return [
         AuthorServiceProvider::class,
         AlbumServiceProvider::class,
         LabelServiceProvider::class,
+        SongServiceProvider::class,
     ],
 
     /*
