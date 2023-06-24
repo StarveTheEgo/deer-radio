@@ -9,10 +9,18 @@ use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Orchid\Field\FieldOptions;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use LogicException;
 
 class SettingRepository extends AbstractRepository implements SettingRepositoryInterface
 {
+    /**
+     * @param Setting $object
+     * @return string
+     */
+    protected function getEntityReadableName($object): string
+    {
+        return "Setting {$object->getKey()}";
+    }
+
     public function findByKey(string $key): ?Setting
     {
         /** @var Setting|null $setting */
@@ -36,12 +44,7 @@ class SettingRepository extends AbstractRepository implements SettingRepositoryI
 
     public function delete(Setting $setting): void
     {
-        $em = $this->getEntityManager();
-        if (!$em->contains($setting)) {
-            throw new LogicException("Setting '{$setting->getKey()}' is not persisted");
-        }
-        $em->remove($setting);
-        $em->flush();
+        parent::deleteObject($setting);
     }
 
     private function validateSettingValue(Setting $setting): void
