@@ -8,11 +8,7 @@ use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Orchid\Field\FieldFactoryRegistry;
 use App\Components\Setting\Orchid\Field\FieldOptions;
 use App\Components\Setting\Orchid\Field\FieldType;
-use App\Components\Setting\Service\SettingCreateService;
-use App\Components\Setting\Service\SettingDeleteService;
-use App\Components\Setting\Service\SettingReadService;
-use App\Components\Setting\Service\SettingUpdateService;
-use App\Components\Setting\Service\SettingValueService;
+use App\Components\Setting\Service\SettingServiceRegistry;
 use App\Components\Setting\SettingNameInfo;
 use App\Orchid\Screens\AbstractScreen;
 use Illuminate\Http\RedirectResponse;
@@ -35,11 +31,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SettingScreen extends AbstractScreen
 {
-    private SettingCreateService $settingCreateService;
-    private SettingReadService $settingReadService;
-    private SettingUpdateService $settingUpdateService;
-    private SettingDeleteService $settingDeleteService;
-    private SettingValueService $settingValueService;
+    private SettingServiceRegistry $settingServiceRegistry;
 
     private FieldFactoryRegistry $fieldFactoryRegistry;
 
@@ -70,19 +62,11 @@ class SettingScreen extends AbstractScreen
     }
 
     public function __construct(
-        SettingCreateService $settingCreateService,
-        SettingReadService $settingReadService,
-        SettingUpdateService $settingUpdateService,
-        SettingDeleteService $settingDeleteService,
-        FieldFactoryRegistry $fieldFactoryRegistry,
-        SettingValueService $settingValueService
+        SettingServiceRegistry $settingServiceRegistry,
+        FieldFactoryRegistry $fieldFactoryRegistry
     ) {
-        $this->settingCreateService = $settingCreateService;
-        $this->settingReadService = $settingReadService;
-        $this->settingUpdateService = $settingUpdateService;
-        $this->settingDeleteService = $settingDeleteService;
+        $this->settingServiceRegistry = $settingServiceRegistry;
         $this->fieldFactoryRegistry = $fieldFactoryRegistry;
-        $this->settingValueService = $settingValueService;
     }
 
     public function description(): ?string
@@ -108,7 +92,7 @@ class SettingScreen extends AbstractScreen
     public function query(): iterable
     {
         if (null === $this->cachedQuery) {
-            $settings = $this->settingReadService->filteredFindAll($this->filters());
+            $settings = $this->settingServiceRegistry->getReadService()->filteredFindAll($this->filters());
             $groupedSettings = [];
             foreach ($settings as $setting) {
                 $nameInfo = SettingNameInfo::fromSetting($setting);
@@ -163,7 +147,7 @@ class SettingScreen extends AbstractScreen
 
         return $field
             ->set('name', "settings[{$setting->getKey()}]")
-            ->set('value', $this->settingValueService->getValue($setting));
+            ->set('value', $this->settingServiceRegistry->getValueService()->getValue($setting));
     }
 
     private function buildCreateSettingModal(): Modal
@@ -242,8 +226,8 @@ class SettingScreen extends AbstractScreen
         $setting->setIsEncrypted((bool) $settingData['is_encrypted']);
         $setting->setOrd(0); // @todo sorting
 
-        $this->settingValueService->setValue($setting, (string) $settingData['value']);
-        $this->settingCreateService->create($setting);
+        $this->settingServiceRegistry->getValueService()->setValue($setting, (string) $settingData['value']);
+        $this->settingServiceRegistry->getCreateService()->create($setting);
 
         Toast::info(__('Setting :settingKey was created', ['settingKey' => $settingData['key']]));
     }
@@ -256,13 +240,13 @@ class SettingScreen extends AbstractScreen
         }
 
         foreach ($settingsData as $settingKey => $value) {
-            $setting = $this->settingReadService->findByKey($settingKey);
+            $setting = $this->settingServiceRegistry->getReadService()->findByKey($settingKey);
             if (null === $setting) {
                 throw new BadRequestHttpException(sprintf('Could not find setting "%s"', $settingKey));
             }
 
-            $this->settingValueService->setValue($setting, $value);
-            $this->settingUpdateService->update($setting);
+            $this->settingServiceRegistry->getValueService()->setValue($setting, $value);
+            $this->settingServiceRegistry->getUpdateService()->update($setting);
         }
 
         Toast::info(__('Settings were successfully saved.'));
@@ -273,12 +257,12 @@ class SettingScreen extends AbstractScreen
     public function remove(Request $request): void
     {
         $settingKey = $request->get('key');
-        $setting = $this->settingReadService->findByKey($settingKey);
+        $setting = $this->settingServiceRegistry->getReadService()->findByKey($settingKey);
         if (null === $setting) {
             throw new NotFoundHttpException(sprintf('Could not find setting "%s"', $settingKey));
         }
 
-        $this->settingDeleteService->delete($setting);
+        $this->settingServiceRegistry->getDeleteService()->delete($setting);
 
         Toast::info(__('Setting :settingKey was removed', ['settingKey' => $settingKey]));
     }
