@@ -36,7 +36,7 @@ class Author extends AbstractDomainObject implements TimestampableInterface
     protected ?string $unsplashSearchQuery;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Song::class)]
-    protected ArrayCollection $songs;
+    protected Collection $songs;
 
     public function __construct() {
         $this->songs = new ArrayCollection();

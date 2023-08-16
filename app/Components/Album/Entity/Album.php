@@ -31,7 +31,7 @@ class Album extends AbstractDomainObject implements TimestampableInterface
     protected int $year;
 
     #[ORM\OneToMany(mappedBy: 'album', targetEntity: Song::class)]
-    protected ArrayCollection $songs;
+    protected Collection $songs;
 
     public function __construct() {
         $this->songs = new ArrayCollection();
