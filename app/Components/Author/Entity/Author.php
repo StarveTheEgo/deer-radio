@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Components\Author\Entity;
 
+use App\Components\AuthorLink\Entity\AuthorLink;
 use App\Components\DoctrineOrchid\AbstractDomainObject;
 use App\Components\DoctrineOrchid\TimestampableEntityTrait;
 use App\Components\DoctrineOrchid\TimestampableInterface;
 use App\Components\Song\Entity\Song;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,8 +40,12 @@ class Author extends AbstractDomainObject implements TimestampableInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Song::class)]
     protected Collection $songs;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Author::class)]
+    protected Collection $links;
+
     public function __construct() {
         $this->songs = new ArrayCollection();
+        $this->links = new ArrayCollection();
     }
 
     /**
@@ -128,5 +134,13 @@ class Author extends AbstractDomainObject implements TimestampableInterface
     public function getSongs(): ArrayCollection
     {
         return $this->songs;
+    }
+
+    /**
+     * @return AuthorLink[]
+     */
+    public function getLinks(): array
+    {
+        return $this->links->toArray();
     }
 }
