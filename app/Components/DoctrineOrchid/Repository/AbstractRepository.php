@@ -41,6 +41,31 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->entityRepository;
     }
 
+    public function count() : int
+    {
+        return $this->createQueryBuilder('object')
+            ->select('count(*)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findObjectById(int $id)
+    {
+        return $this->entityRepository->find($id);
+    }
+
+    public function getObjectById(int $id)
+    {
+        $object = $this->findObjectById($id);
+
+        if ($object === null) {
+            $objectName = $this->getEntityReadableName($object);
+            throw new LogicException("Object '{$objectName}' is already persisted");
+        }
+
+        return $object;
+    }
+
     /**
      * @param AbstractDomainObject $object
      * @return string

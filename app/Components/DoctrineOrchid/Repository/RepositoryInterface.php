@@ -11,4 +11,10 @@ interface RepositoryInterface
     public function filteredFindAll(array $filters = []);
 
     public function wrapInTransaction(callable $callback);
+
+    public function findObjectById(int $id);
+
+    public function getObjectById(int $id);
+
+    public function count() : int;
 }
