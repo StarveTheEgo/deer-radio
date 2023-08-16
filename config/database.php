@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Support\Str;
 
 return [
@@ -107,6 +108,20 @@ return [
     */
 
     'migrations' => 'migrations',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Doctrine DBAL configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configuration of Doctrine Database Abstraction Layer
+    |
+    */
+    'dbal' => [
+        'types' => [
+            'timestamp' => TimestampType::class,
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
