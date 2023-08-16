@@ -9,6 +9,7 @@ use App\Components\DoctrineOrchid\TimestampableEntityTrait;
 use App\Components\DoctrineOrchid\TimestampableInterface;
 use App\Components\Song\Entity\Song;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +26,9 @@ class Album extends AbstractDomainObject implements TimestampableInterface
 
     #[ORM\Column(type: Types::STRING)]
     protected string $title;
+
+    #[ORM\Column(type: Types::INTEGER)]
+    protected int $year;
 
     #[ORM\OneToMany(mappedBy: 'album', targetEntity: Song::class)]
     protected ArrayCollection $songs;
@@ -56,6 +60,24 @@ class Album extends AbstractDomainObject implements TimestampableInterface
     public function setTitle(string $title): Album
     {
         $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getYear(): int
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param int $year
+     * @return Album
+     */
+    public function setYear(int $year): Album
+    {
+        $this->year = $year;
         return $this;
     }
 }
