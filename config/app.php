@@ -3,11 +3,14 @@
 declare(strict_types=1);
 
 use App\Components\Album\AlbumServiceProvider;
+use App\Components\Attachment\AttachmentServiceProvider;
 use App\Components\Author\AuthorServiceProvider;
+use App\Components\AuthorLink\AuthorLinkServiceProvider;
 use App\Components\ComponentData\ComponentDataServiceProvider;
 use App\Components\DeerRadio\DeerRadioServiceProvider;
 use App\Components\ImageData\ImageDataServiceProvider;
 use App\Components\Label\LabelServiceProvider;
+use App\Components\LabelLink\LabelLinkServiceProvider;
 use App\Components\Photoban\PhotobanServiceProvider;
 use App\Components\Setting\SettingAdminServiceProvider;
 use App\Components\Setting\SettingServiceProvider;
@@ -216,9 +219,12 @@ return [
         PhotobanServiceProvider::class,
         ImageDataServiceProvider::class,
         DeerRadioServiceProvider::class,
-        AuthorServiceProvider::class,
         AlbumServiceProvider::class,
+        AttachmentServiceProvider::class,
+        AuthorServiceProvider::class,
+        AuthorLinkServiceProvider::class,
         LabelServiceProvider::class,
+        LabelLinkServiceProvider::class,
         SongServiceProvider::class,
     ],
 
