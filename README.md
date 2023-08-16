@@ -24,6 +24,8 @@ php artisan orchid:admin admin admin@admin.com password
 - Update readme
 - Implement tests of features that are missing it
 - Add fields validation in Setting's seeders
+- Merge LabelLink and AuthorLink into one entity
+- Validate Doctrine ORM mapping
 
 # Roadmap:
 - Finish project migration
@@ -35,3 +37,4 @@ php artisan orchid:admin admin admin@admin.com password
 - Add media files tags parsing
 - Automatic normalization
 - Integrate self-learning AI
+- Integrate and comply PHPStan
