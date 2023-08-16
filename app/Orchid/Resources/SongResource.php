@@ -6,6 +6,10 @@ use App\Models\Album;
 use App\Models\Author;
 use App\Models\Label;
 use App\Models\Song;
+use App\Components\Song\Entity\Song as DoctrineSong;
+use App\Components\Author\Entity\Author as DoctrineAuthor;
+use App\Components\Album\Entity\Album as DoctrineAlbum;
+use App\Components\Label\Entity\Label as DoctrineLabel;
 use App\Orchid\Filters\RelatedAlbumFilter;
 use App\Orchid\Filters\RelatedAuthorFilter;
 use App\Orchid\Filters\RelatedLabelFilter;
@@ -184,26 +188,24 @@ class SongResource extends AbstractResource
         return [
             'title' => [
                 'required',
-                Rule::unique(self::$model, 'title')
-                    ->where(function ($query) use ($model_input) {
-                        return $query
-                            ->where('author_id', $model_input['author_id'])
-                            ->where('album_id', $model_input['album_id'])
-                            ->where('label_id', $model_input['label_id']);
-                    })->ignore($model),
+                Rule::unique(DoctrineSong::class, 'title')
+                    ->where('author', $model_input['author_id'])
+                    ->where('album', $model_input['album_id'])
+                    ->where('label', $model_input['label_id'])
+                    ->ignore($model),
             ],
 
             'author_id' => [
                 'required',
-                'exists:'.Author::class.',id',
+                'exists:'.DoctrineAuthor::class.',id',
             ],
 
             'album_id' => [
-                'exists:'.Album::class.',id',
+                'exists:'.DoctrineAlbum::class.',id',
             ],
 
             'label_id' => [
-                'exists:'.Label::class.',id',
+                'exists:'.DoctrineLabel::class.',id',
             ],
 
             'year' => [
