@@ -5,9 +5,6 @@ namespace App\Models;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Orchid\Attachment\Attachable;
-use Orchid\Attachment\Models\Attachment;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
@@ -33,7 +30,6 @@ class Song extends Model
 {
     use AsSource;
     use Filterable;
-    use Attachable;
 
     protected $casts = [
         'id' => 'integer',
@@ -44,7 +40,7 @@ class Song extends Model
         'year' => 'integer',
         'source' => 'string',
         'tempo' => 'integer',
-        'song_attachment_data' => 'array',
+        'song_attachment_id' => 'integer',
         'played_at' => 'immutable_datetime',
         'finished_at' => 'immutable_datetime',
         'played_count' => 'integer',
@@ -64,7 +60,7 @@ class Song extends Model
         'year' => 1993,
         'source' => '',
         'tempo' => 0,
-        'song_attachment_data' => '[]',
+        'song_attachment_id' => null,
         'played_at' => null,
         'finished_at' => null,
         'played_count' => 0,
@@ -80,6 +76,7 @@ class Song extends Model
         'year',
         'source',
         'tempo',
+        'song_attachment_id',
         'played_at',
         'finished_at',
         'played_count',
@@ -134,10 +131,5 @@ class Song extends Model
     public function label(): BelongsTo
     {
         return $this->belongsTo(Label::class, 'label_id');
-    }
-
-    public function songAttachment(): HasOne
-    {
-        return $this->hasOne(Attachment::class, 'id', 'song_attachment_data')->withDefault();
     }
 }

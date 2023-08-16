@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Components\Song\Entity;
 
 use App\Components\Album\Entity\Album;
+use App\Components\Attachment\Entity\Attachment;
+use App\Components\Author\Entity\Author;
 use App\Components\DoctrineOrchid\AbstractDomainObject;
 use App\Components\DoctrineOrchid\TimestampableEntityTrait;
 use App\Components\DoctrineOrchid\TimestampableInterface;
 use App\Components\Label\Entity\Label;
-use App\Models\Author;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -70,6 +71,9 @@ class Song extends AbstractDomainObject implements TimestampableInterface
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $songAttachmentData = null;
+
+    #[ORM\OneToOne(targetEntity: Attachment::class)]
+    protected ?Attachment $songAttachment = null;
 
     public function getId(): ?int
     {
@@ -325,6 +329,24 @@ class Song extends AbstractDomainObject implements TimestampableInterface
     public function setSongAttachmentData(?string $songAttachmentData): Song
     {
         $this->songAttachmentData = $songAttachmentData;
+        return $this;
+    }
+
+    /**
+     * @return Attachment|null
+     */
+    public function getSongAttachment(): ?Attachment
+    {
+        return $this->songAttachment;
+    }
+
+    /**
+     * @param Attachment|null $songAttachment
+     * @return Song
+     */
+    public function setSongAttachment(?Attachment $songAttachment): Song
+    {
+        $this->songAttachment = $songAttachment;
         return $this;
     }
 }
