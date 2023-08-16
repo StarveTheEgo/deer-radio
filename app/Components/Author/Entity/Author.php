@@ -129,14 +129,4 @@ class Author extends AbstractDomainObject implements TimestampableInterface
     {
         return $this->songs;
     }
-
-    /**
-     * @param ArrayCollection $songs
-     * @return Author
-     */
-    public function setSongs(ArrayCollection $songs): Author
-    {
-        $this->songs = $songs;
-        return $this;
-    }
 }
