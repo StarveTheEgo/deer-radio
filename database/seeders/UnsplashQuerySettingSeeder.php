@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Components\DeerRadio\DeerRadioUnsplashSearchQueryBuilder;
+use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
 use App\Components\ImageData\Driver\UnsplashDriver;
 use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Orchid\Field\Factory\Input\InputCustomOptions;

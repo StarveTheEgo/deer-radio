@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Components\DeerRadio;
+namespace App\Components\DeerRadio\UnsplashSearchQuery;
 
 use App\Components\Setting\Service\SettingReadService;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQuery;
