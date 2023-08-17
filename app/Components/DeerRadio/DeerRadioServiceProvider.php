@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio;
 
-use App\Components\ComponentData\Service\ComponentDataAccessService;
+use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
 use App\Components\ImageData\Driver\UnsplashDriver;
 use App\Components\ImageData\ImageDataListProviderDriverRegistry;
 use App\Components\Photoban\Service\PhotobanReadService;
@@ -25,8 +25,6 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
             $app = $this->app;
             /** @var FilesystemManager $filesystemManager */
             $filesystemManager = $this->app->get(FilesystemManager::class);
-            /** @var ComponentDataAccessService $componentDataAccessService */
-            $componentDataAccessService = $this->app->get(ComponentDataAccessService::class);
 
             return new DeerImageManager(
                 $app->get(ImageDataListProviderDriverRegistry::class),
@@ -34,7 +32,7 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
                 $filesystemManager->disk('temp'),
                 $app->get(ImageManager::class),
                 $app->get(PhotobanReadService::class),
-                $componentDataAccessService->buildAccessor(self::COMPONENT_NAME),
+                $app->get(DeerRadioDataAccessor::class),
                 $app->get(LoggerInterface::class)
             );
         });

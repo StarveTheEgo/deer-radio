@@ -6,6 +6,7 @@ namespace App\Components\Author\Repository;
 
 use App\Components\DoctrineOrchid\Repository\RepositoryInterface;
 use App\Components\Author\Entity\Author;
+use DateTimeImmutable;
 
 interface AuthorRepositoryInterface extends RepositoryInterface
 {
@@ -14,4 +15,6 @@ interface AuthorRepositoryInterface extends RepositoryInterface
     public function update(Author $author): void;
 
     public function delete(Author $author): void;
+
+    public function getLeastPlayedAuthorIds(DateTimeImmutable $maxFinishedAt) : array;
 }
