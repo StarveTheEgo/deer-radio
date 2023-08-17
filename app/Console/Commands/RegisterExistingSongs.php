@@ -26,7 +26,7 @@ class RegisterExistingSongs extends Command
         $songs = Song::all();
         /** @var Song $song */
         foreach ($songs as $song) {
-            if (!empty($song->song_attachment_data)) {
+            if (!empty($song->song_attachment_id)) {
                 echo $song->title, ': skipping', PHP_EOL;
                 continue;
             }
@@ -49,9 +49,7 @@ class RegisterExistingSongs extends Command
 
             $file = new UploadedFile($input_path, $source->original_name);
             $attachment = (new File($file))->path('/public/songs/'.date('Y-m-d', filemtime($input_path)).'/')->load();
-            $ids = [$attachment->id];
-            $song->song_attachment_data = $ids;
-            $song->attachment()->syncWithoutDetaching($ids);
+            $song->song_attachment_id = $attachment->id;
             $song->save();
             echo $song->title, PHP_EOL;
         }

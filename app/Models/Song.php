@@ -17,6 +17,7 @@ use Orchid\Screen\AsSource;
  * @property int              $year
  * @property string           $source
  * @property int              $tempo
+ * @property int              $song_attachment_id
  * @property ?CarbonImmutable $played_at
  * @property ?CarbonImmutable $finished_at
  * @property int              $played_count
