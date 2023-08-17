@@ -7,6 +7,7 @@ namespace App\Components\DeerRadio;
 use App\Components\DeerRadio\Commands\DeerImageUpdate;
 use App\Components\DeerRadio\Commands\GetCurrentDeerImage;
 use App\Components\DeerRadio\Commands\GetNextSong;
+use App\Components\DeerRadio\Commands\GetRadioSettings;
 use App\Components\DeerRadio\Commands\UpdateNowPlayingId;
 use App\Components\DeerRadio\Service\CurrentSongUpdateService;
 use App\Components\DeerRadio\Service\DeerImageDeleteService;
@@ -43,6 +44,9 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
             $this->commands([
                 DeerImageUpdate::class,
                 GetCurrentDeerImage::class,
+                GetNextSong::class,
+                GetRadioSettings::class,
+                UpdateNowPlayingId::class,
             ]);
         }
     }
