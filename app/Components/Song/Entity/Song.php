@@ -263,7 +263,7 @@ class Song extends AbstractDomainObject implements TimestampableInterface
     /**
      * @return bool
      */
-    public function isActive(): bool
+    public function getIsActive(): bool
     {
         return $this->isActive;
     }
