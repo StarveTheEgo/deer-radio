@@ -144,15 +144,15 @@ class DeerImageManager
             $this->renderAndSaveDeerImageScene($imageData->getPath(), $newImagePath);
         }
 
-        $formattedImageData = [
-            'path' => $newImagePath,
-            'imageUrl' => strtok($imageData->getImageUrl() ?? '', '?'),
-            'profileUrl' => strtok($imageData->getProfileUrl() ?? '', '?'),
-            'author' => $imageData->getAuthorName() ?? '<unknown>',
-            'description' => str_replace(["\r", "\n"], ['', ' '], $imageData->getDescription() ?? ''),
-        ];
+        // we will store the local image data
+        $localImageData = (new ImageData($newImagePath, false))
+            ->setPath($newImagePath)
+            ->setImageUrl(strtok($imageData->getImageUrl() ?? '', '?'))
+            ->setProfileUrl(strtok($imageData->getProfileUrl() ?? '', '?'))
+            ->setAuthorName($imageData->getAuthorName() ?? '<unknown>')
+            ->setPath(str_replace(["\r", "\n"], ['', ' '], $imageData->getDescription() ?? ''));
 
-        $this->componentDataAccessor->setValue(DeerRadioDataKey::CURRENT_IMAGE_DATA->value, json_encode($formattedImageData));
+        $this->componentDataAccessor->setValue(DeerRadioDataKey::CURRENT_IMAGE_DATA->value, $localImageData);
     }
 
     /**
