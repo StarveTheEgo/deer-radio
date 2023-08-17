@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Components\DeerRadio;
+namespace App\Components\DeerRadio\Service;
 
 use App\Components\ComponentData\ComponentDataAccessor;
 use App\Components\DeerRadio\Enum\DeerRadioDataKey;
@@ -14,12 +14,11 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Intervention\Image\ImageManager;
 use LogicException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Finder\Finder;
 use Throwable;
 
-class DeerImageManager
+class DeerImageUpdateService
 {
-    private const DEER_IMAGE_PREFIX = 'deer_image_';
+    public const DEER_IMAGE_PREFIX = 'deer_image_'; // @todo move somewhere
 
     private ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry;
 
@@ -101,23 +100,6 @@ class DeerImageManager
         }
 
         return $imageDataList[array_rand($imageDataList)];
-    }
-
-    public function removeOldImages(): void
-    {
-        $deerImageDirectory = $this->deerImageStorage->path('');
-        $finder = new Finder();
-        $finder
-            ->files()
-            ->in($deerImageDirectory)
-            ->depth('== 0')
-            ->name(self::DEER_IMAGE_PREFIX.'*.jpg')
-            ->date('< 5 minute ago')
-            ->sortByAccessedTime();
-
-        foreach ($finder as $file) {
-            @unlink($file->getRealPath());
-        }
     }
 
     /**

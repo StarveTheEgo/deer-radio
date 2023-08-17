@@ -6,16 +6,16 @@ namespace App\Components\DeerRadio;
 
 use App\Components\DeerRadio\Commands\DeerImageUpdate;
 use App\Components\DeerRadio\Commands\GetCurrentDeerImage;
+use App\Components\DeerRadio\Commands\GetNextSong;
+use App\Components\DeerRadio\Commands\UpdateNowPlayingId;
+use App\Components\DeerRadio\Service\DeerImageDeleteService;
+use App\Components\DeerRadio\Service\DeerImageUpdateService;
 use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
 use App\Components\ImageData\Driver\UnsplashDriver;
-use App\Components\ImageData\ImageDataListProviderDriverRegistry;
-use App\Components\Photoban\Service\PhotobanReadService;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\ServiceProvider;
-use Intervention\Image\ImageManager;
-use Psr\Log\LoggerInterface;
 
 class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -23,21 +23,8 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
 
     public function register()
     {
-        $this->app->singleton(DeerImageManager::class, function () {
-            $app = $this->app;
-            /** @var FilesystemManager $filesystemManager */
-            $filesystemManager = $this->app->get(FilesystemManager::class);
-
-            return new DeerImageManager(
-                $app->get(ImageDataListProviderDriverRegistry::class),
-                $filesystemManager->disk('public'),
-                $filesystemManager->disk('temp'),
-                $app->get(ImageManager::class),
-                $app->get(PhotobanReadService::class),
-                $app->get(DeerRadioDataAccessor::class),
-                $app->get(LoggerInterface::class)
-            );
-        });
+        $this->registerDeerImageUpdateService();
+        $this->registerDeerImageDeleteService();
 
         $this->app
             ->when(UnsplashDriver::class)
@@ -63,7 +50,49 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
     public function provides(): array
     {
         return [
-            DeerImageManager::class
+            DeerImageUpdateService::class,
+            DeerImageDeleteService::class,
         ];
+    }
+
+    private function registerDeerImageUpdateService() : void
+    {
+        $app = $this->app;
+
+        /** @var FilesystemManager $filesystemManager */
+        $filesystemManager = $app->get(FilesystemManager::class);
+
+        $app->singleton(DeerImageUpdateService::class);
+
+        $app
+            ->when(DeerImageUpdateService::class)
+            ->needs('$deerImageStorage')
+            ->give(function () use ($filesystemManager) {
+                return $filesystemManager->disk('public');
+            });
+
+        $app
+            ->when(DeerImageUpdateService::class)
+            ->needs('$tempStorage')
+            ->give(function () use ($filesystemManager) {
+                return $filesystemManager->disk('temp');
+            });
+    }
+
+    private function registerDeerImageDeleteService() : void
+    {
+        $app = $this->app;
+
+        /** @var FilesystemManager $filesystemManager */
+        $filesystemManager = $app->get(FilesystemManager::class);
+
+        $app->singleton(DeerImageDeleteService::class);
+
+        $app
+            ->when(DeerImageDeleteService::class)
+            ->needs('$deerImageStorage')
+            ->give(function () use ($filesystemManager) {
+                return $filesystemManager->disk('public');
+            });
     }
 }

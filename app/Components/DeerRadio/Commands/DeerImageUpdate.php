@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio\Commands;
 
-use App\Components\DeerRadio\DeerImageManager;
+use App\Components\DeerRadio\Service\DeerImageDeleteService;
+use App\Components\DeerRadio\Service\DeerImageUpdateService;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminated\Console\WithoutOverlapping;
@@ -30,17 +31,23 @@ class DeerImageUpdate extends Command
      */
     protected $description = 'Updates deer image using Unsplash API (or another service!)';
 
-    private DeerImageManager $deerImageManager;
+    private DeerImageUpdateService $deerImageUpdateService;
+    private DeerImageDeleteService $deerImageDeleteService;
 
     /**
      * @inheritDoc
      *
      * @return void
      */
-    public function __construct(DeerImageManager $deerImageManager)
+    public function __construct(
+        DeerImageUpdateService $deerImageUpdateService,
+        DeerImageDeleteService $deerImageDeleteService
+    )
     {
-        $this->deerImageManager = $deerImageManager;
         parent::__construct();
+
+        $this->deerImageUpdateService = $deerImageUpdateService;
+        $this->deerImageDeleteService = $deerImageDeleteService;
     }
 
     /**
@@ -49,8 +56,8 @@ class DeerImageUpdate extends Command
      */
     public function handle(): bool
     {
-        $this->deerImageManager->removeOldImages();
-        $this->deerImageManager->update();
+        $this->deerImageDeleteService->removeOldImages();
+        $this->deerImageUpdateService->update();
 
         return true;
     }
