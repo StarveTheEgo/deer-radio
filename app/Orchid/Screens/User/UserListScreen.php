@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\User;
 
+use App\Components\User\Entity\User as DoctrineUser;
 use App\Orchid\Layouts\User\UserEditLayout;
 use App\Orchid\Layouts\User\UserFiltersLayout;
 use App\Orchid\Layouts\User\UserListLayout;
@@ -114,7 +115,7 @@ class UserListScreen extends Screen
         $request->validate([
             'user.email' => [
                 'required',
-                Rule::unique(User::class, 'email')->ignore($user),
+                Rule::unique(DoctrineUser::class, 'email')->ignore($user->id),
             ],
         ]);
 

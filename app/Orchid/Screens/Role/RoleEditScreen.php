@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Role;
 
+use App\Components\Role\Entity\Role as DoctrineRole;
 use App\Orchid\Layouts\Role\RoleEditLayout;
 use App\Orchid\Layouts\Role\RolePermissionLayout;
 use Exception;
@@ -121,7 +122,7 @@ class RoleEditScreen extends Screen
         $request->validate([
             'role.slug' => [
                 'required',
-                Rule::unique(Role::class, 'slug')->ignore($role),
+                Rule::unique(DoctrineRole::class, 'slug')->ignore($role->id),
             ],
         ]);
 

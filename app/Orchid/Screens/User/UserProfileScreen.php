@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\User;
 
+use App\Components\User\Entity\User as DoctrineUser;
 use App\Orchid\Layouts\User\ProfilePasswordLayout;
 use App\Orchid\Layouts\User\UserEditLayout;
 use Illuminate\Http\Request;
@@ -100,7 +101,7 @@ class UserProfileScreen extends Screen
             'user.name'  => 'required|string',
             'user.email' => [
                 'required',
-                Rule::unique(User::class, 'email')->ignore($request->user()),
+                Rule::unique(DoctrineUser::class, 'email')->ignore($request->user()?->id),
             ],
         ]);
 
