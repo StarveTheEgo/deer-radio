@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Resources;
 
+use App\Components\Author\Entity\Author as DoctrineAuthor;
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -102,12 +103,16 @@ class AuthorResource extends AbstractResource
         ];
     }
 
+    /**
+     * @param Model|Author $model
+     * @return array
+     */
     public function rules(Model $model): array
     {
         return [
             'name' => [
                 'required',
-                Rule::unique(self::$model, 'name')->ignore($model),
+                Rule::unique(DoctrineAuthor::class, 'name')->ignore($model->id),
             ],
             'is_active' => [
                 'boolean',

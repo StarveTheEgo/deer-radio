@@ -2,6 +2,8 @@
 
 namespace App\Orchid\Resources;
 
+use App\Components\Album\Entity\Album as DoctrineAlbum;
+use App\Components\Author\Entity\Author as DoctrineAuthor;
 use App\Models\Album;
 use App\Models\Author;
 use App\Orchid\Filters\RelatedFieldStringFilter;
@@ -99,6 +101,10 @@ class AlbumResource extends AbstractResource
         ];
     }
 
+    /**
+     * @param Model|Album $model
+     * @return array
+     */
     public function rules(Model $model): array
     {
         $model_input = request()->input('model');
@@ -106,16 +112,14 @@ class AlbumResource extends AbstractResource
         return [
             'author_id' => [
                 'required',
-                'exists:'.Author::class.',id',
+                'exists:'.DoctrineAuthor::class.',id',
             ],
             'title' => [
                 'required',
-                Rule::unique(self::$model, 'title')
-                    ->where(function ($query) use ($model_input) {
-                        return $query
-                            ->where('author_id', $model_input['author_id'])
-                            ->where('title', $model_input['title']);
-                    })->ignore($model),
+                Rule::unique(DoctrineAlbum::class, 'title')
+                    ->where('author', $model_input['author_id'])
+                    ->where('title', $model_input['title'])
+                    ->ignore($model->id),
             ],
             'year' => [
                 'required',

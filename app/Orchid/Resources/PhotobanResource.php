@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Resources;
 
+use App\Components\Photoban\Entity\Photoban as DoctrinePhotoban;
 use App\Models\Photoban;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -74,13 +75,17 @@ class PhotobanResource extends AbstractResource
         ];
     }
 
+    /**
+     * @param Model|Photoban $model
+     * @return array
+     */
     public function rules(Model $model): array
     {
         return [
             'image_url' => [
                 'required',
                 'url',
-                Rule::unique(self::$model, 'image_url')->ignore($model),
+                Rule::unique(DoctrinePhotoban::class, 'imageUrl')->ignore($model->id),
             ],
 
             'reason' => [

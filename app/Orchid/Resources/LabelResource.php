@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Resources;
 
+use App\Components\Label\Entity\Label as DoctrineLabel;
 use App\Models\Label;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -69,12 +70,16 @@ class LabelResource extends AbstractResource
         ];
     }
 
+    /**
+     * @param Model|Label $model
+     * @return array[]
+     */
     public function rules(Model $model): array
     {
         return [
             'name' => [
                 'required',
-                Rule::unique(self::$model, 'name')->ignore($model),
+                Rule::unique(DoctrineLabel::class, 'name')->ignore($model->id),
             ],
         ];
     }

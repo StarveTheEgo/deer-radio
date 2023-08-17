@@ -181,6 +181,10 @@ class SongResource extends AbstractResource
         ];
     }
 
+    /**
+     * @param Model|Song $model
+     * @return array
+     */
     public function rules(Model $model): array
     {
         $model_input = request()->input('model');
@@ -192,7 +196,7 @@ class SongResource extends AbstractResource
                     ->where('author', $model_input['author_id'])
                     ->where('album', $model_input['album_id'])
                     ->where('label', $model_input['label_id'])
-                    ->ignore($model),
+                    ->ignore($model->id),
             ],
 
             'author_id' => [

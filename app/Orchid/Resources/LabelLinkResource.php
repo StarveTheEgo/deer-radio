@@ -2,9 +2,10 @@
 
 namespace App\Orchid\Resources;
 
+use App\Components\Label\Entity\Label as DoctrineLabel;
+use App\Components\LabelLink\Entity\LabelLink as DoctrineLabelLink;
 use App\Models\Label;
 use App\Models\LabelLink;
-use App\Orchid\Filters\RelatedFieldStringFilter;
 use App\Orchid\Filters\RelatedLabelFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -87,6 +88,10 @@ class LabelLinkResource extends AbstractResource
         ];
     }
 
+    /**
+     * @param Model|LabelLink $model
+     * @return array
+     */
     public function rules(Model $model): array
     {
         $model_input = request()->input('model');
@@ -94,17 +99,15 @@ class LabelLinkResource extends AbstractResource
         return [
             'label_id' => [
                 'required',
-                'exists:'.Label::class.',id',
+                'exists:'.DoctrineLabel::class.',id',
             ],
             'url' => [
                 'required',
                 'url',
-                Rule::unique(self::$model, 'url')
-                    ->where(function ($query) use ($model_input) {
-                        return $query
-                            ->where('label_id', $model_input['label_id'])
-                            ->where('url', $model_input['url']);
-                    })->ignore($model),
+                Rule::unique(DoctrineLabelLink::class, 'url')
+                    ->where('label', $model_input['label_id'])
+                    ->where('url', $model_input['url'])
+                    ->ignore($model->id),
             ],
         ];
     }

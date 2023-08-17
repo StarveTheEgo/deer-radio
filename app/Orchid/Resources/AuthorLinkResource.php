@@ -2,10 +2,11 @@
 
 namespace App\Orchid\Resources;
 
+use App\Components\Author\Entity\Author as DoctrineAuthor;
+use App\Components\AuthorLink\Entity\AuthorLink as DoctrineAuthorLink;
 use App\Models\Author;
 use App\Models\AuthorLink;
 use App\Orchid\Filters\RelatedAuthorFilter;
-use App\Orchid\Filters\RelatedFieldStringFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Orchid\Screen\Fields\Input;
@@ -87,24 +88,25 @@ class AuthorLinkResource extends AbstractResource
         ];
     }
 
+    /**
+     * @param Model|AuthorLink $model
+     * @return array
+     */
     public function rules(Model $model): array
     {
         $model_input = request()->input('model');
         return [
             'author_id' => [
                 'required',
-                'exists:'.Author::class.',id',
+                'exists:'.DoctrineAuthor::class.',id',
             ],
             'url' => [
                 'required',
                 'url',
-                Rule::unique(self::$model, 'url')
-                    ->where(function ($query) use ($model_input) {
-                        return $query
-                            ->where('author_id', $model_input['author_id'])
-                            ->where('url', $model_input['url']);
-                    })->ignore($model),
-
+                Rule::unique(DoctrineAuthorLink::class, 'url')
+                    ->where('author', $model_input['author_id'])
+                    ->where('url', $model_input['url'])
+                    ->ignore($model->id),
             ],
         ];
     }
