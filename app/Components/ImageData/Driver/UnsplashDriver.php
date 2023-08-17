@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\ImageData\Driver;
 
+use App\Components\ImageData\Enum\UnsplashDriverSettingKey;
 use App\Components\ImageData\ImageData;
 use App\Components\ImageData\UnsplashImageDataFactory;
 use App\Components\Setting\Service\SettingReadService;
@@ -12,8 +13,6 @@ use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterf
 
 class UnsplashDriver implements ImageDataListProviderInterface
 {
-    public const SETTING_IS_ENABLED = 'unsplash-query.is_enabled';
-
     public const SETTING_DOWNLOAD_QUERY_PARAMS = 'unsplash-query.download_query_params';
 
     private UnsplashClient $unsplashClient;
@@ -54,7 +53,7 @@ class UnsplashDriver implements ImageDataListProviderInterface
             $imageData = $this->unsplashImageDataFactory->buildImageData($unsplashImageInfo);
 
             // additional download query params
-            $downloadQueryParams = $this->settingReadService->getValue(self::SETTING_DOWNLOAD_QUERY_PARAMS);
+            $downloadQueryParams = $this->settingReadService->getValue(UnsplashDriverSettingKey::DOWNLOAD_QUERY_PARAMS->value);
             if ($downloadQueryParams !== null) {
                 $imageData->setPath($imageData->getPath().$downloadQueryParams);
             }

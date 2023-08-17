@@ -6,6 +6,8 @@ namespace App\Components\ImageData;
 
 use App\Components\ImageData\Driver\LocalDriver;
 use App\Components\ImageData\Driver\UnsplashDriver;
+use App\Components\ImageData\Enum\LocalImageSettingKey;
+use App\Components\ImageData\Enum\UnsplashDriverSettingKey;
 use App\Components\Setting\Service\SettingReadService;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,7 +30,7 @@ class ImageDataServiceProvider extends ServiceProvider
             /** @var SettingReadService $settingReadService */
             $settingReadService = $this->app->get(SettingReadService::class);
 
-            $imagePathsJson = $settingReadService->getValue(self::SETTING_IMAGE_PATHS, '[]');
+            $imagePathsJson = $settingReadService->getValue(LocalImageSettingKey::IMAGE_PATHS->value, '[]');
             $imagePaths = json_decode($imagePathsJson, true, flags: JSON_THROW_ON_ERROR);
 
             return new LocalDriver($imagePaths);
@@ -58,7 +60,7 @@ class ImageDataServiceProvider extends ServiceProvider
         ];
 
         /** @var SettingReadService $settingReadService */
-        if ($settingReadService->getValue(UnsplashDriver::SETTING_IS_ENABLED)) {
+        if ($settingReadService->getValue(UnsplashDriverSettingKey::IS_ENABLED->value)) {
             $driverClassList[] = UnsplashDriver::class;
         }
 

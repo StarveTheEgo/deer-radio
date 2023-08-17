@@ -8,7 +8,7 @@ use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Orchid\Field\Factory\Input\InputCustomOptions;
 use App\Components\Setting\Orchid\Field\FieldOptions;
 use App\Components\Setting\Orchid\Field\FieldType;
-use App\Components\UnsplashClient\UnsplashClientServiceProvider;
+use App\Components\UnsplashClient\Enum\UnsplashClientSettingKey;
 
 class UnsplashClientSettingSeeder extends AbstractSettingSeeder
 {
@@ -24,7 +24,7 @@ class UnsplashClientSettingSeeder extends AbstractSettingSeeder
     private function createAppIdSetting() : Setting
     {
         return (new Setting())
-            ->setKey(UnsplashClientServiceProvider::SETTING_APP_ID)
+            ->setKey(UnsplashClientSettingKey::APP_ID->value)
             ->setDescription('Unsplash app ID')
             ->setValue(null)
             ->setFieldType((FieldType::INPUT)->value)
@@ -35,7 +35,7 @@ class UnsplashClientSettingSeeder extends AbstractSettingSeeder
     private function createAppNameSetting() : Setting
     {
         return (new Setting())
-            ->setKey(UnsplashClientServiceProvider::SETTING_APP_NAME)
+            ->setKey(UnsplashClientSettingKey::APP_NAME->value)
             ->setDescription('Unsplash app name')
             ->setValue(null)
             ->setFieldType((FieldType::INPUT)->value)
@@ -53,7 +53,7 @@ class UnsplashClientSettingSeeder extends AbstractSettingSeeder
             ->setCustom($customFieldOptions->toArray());
 
         return (new Setting())
-            ->setKey(UnsplashClientServiceProvider::SETTING_APP_SECRET)
+            ->setKey(UnsplashClientSettingKey::APP_SECRET->value)
             ->setDescription('Unsplash app secret')
             ->setValue(null)
             ->setFieldType((FieldType::INPUT)->value)

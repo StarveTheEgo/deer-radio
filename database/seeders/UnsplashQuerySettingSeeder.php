@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
-use App\Components\ImageData\Driver\UnsplashDriver;
+use App\Components\DeerRadio\Enum\UnsplashSearchQueryBuilderSettingKey;
+use App\Components\ImageData\Enum\UnsplashDriverSettingKey;
 use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Orchid\Field\Factory\Input\InputCustomOptions;
 use App\Components\Setting\Orchid\Field\Factory\Toggle\ToggleCustomOptions;
@@ -35,7 +35,7 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
             ->setCustom($customFieldOptions->toArray());
 
         return (new Setting())
-            ->setKey(UnsplashDriver::SETTING_IS_ENABLED)
+            ->setKey(UnsplashDriverSettingKey::IS_ENABLED->value)
             ->setDescription('Unsplash image feature')
             ->setValue('0')
             ->setFieldType((FieldType::TOGGLE)->value)
@@ -46,7 +46,7 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
     private function createDefaultSearchPromptSetting() : Setting
     {
         return (new Setting())
-            ->setKey(DeerRadioUnsplashSearchQueryBuilder::SETTING_DEFAULT_SEARCH_PROMPT)
+            ->setKey(UnsplashSearchQueryBuilderSettingKey::DEFAULT_SEARCH_PROMPT->value)
             ->setDescription('Default search prompt')
             ->setValue('deer')
             ->setFieldType((FieldType::INPUT)->value)
@@ -64,7 +64,7 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
             ->setCustom($customFieldOptions->toArray());
 
         return (new Setting())
-            ->setKey(DeerRadioUnsplashSearchQueryBuilder::SETTING_IMAGE_LIST_COUNT)
+            ->setKey(UnsplashSearchQueryBuilderSettingKey::IMAGE_LIST_COUNT->value)
             ->setDescription('Amount of images per API request')
             ->setValue('30')
             ->setFieldType((FieldType::INPUT)->value)
@@ -81,7 +81,7 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
             ->setCustom($customFieldOptions->toArray());
 
         return (new Setting())
-            ->setKey(UnsplashDriver::SETTING_DOWNLOAD_QUERY_PARAMS)
+            ->setKey(UnsplashDriverSettingKey::DOWNLOAD_QUERY_PARAMS->value)
             ->setDescription('Additional download parameters')
             ->setValue('&h=1080&q=100')
             ->setFieldType((FieldType::INPUT)->value)

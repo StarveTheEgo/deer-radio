@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Components\ImageData\ImageDataServiceProvider;
+use App\Components\ImageData\Enum\LocalImageSettingKey;
 use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Orchid\Field\FieldType;
 
@@ -20,7 +20,7 @@ class LocalImageSettingSeeder extends AbstractSettingSeeder
     private function createImagePathsSetting() : Setting
     {
         return (new Setting())
-            ->setKey(ImageDataServiceProvider::SETTING_IMAGE_PATHS)
+            ->setKey(LocalImageSettingKey::IMAGE_PATHS->value)
             ->setDescription('Local fallback image paths (raw json for a while)')
             ->setValue('[]')
             ->setFieldType((FieldType::INPUT)->value)
