@@ -26,6 +26,7 @@ php artisan orchid:admin admin admin@admin.com password
 - Add fields validation in Setting's seeders
 - Merge LabelLink and AuthorLink into one entity
 - Validate Doctrine ORM mapping
+- Remove very specific code related to routing/menu elements from AbstractScreen
 
 # Roadmap:
 - Finish project migration
