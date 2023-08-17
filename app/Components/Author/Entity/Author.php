@@ -9,6 +9,7 @@ use App\Components\DoctrineOrchid\AbstractDomainObject;
 use App\Components\DoctrineOrchid\TimestampableEntityTrait;
 use App\Components\DoctrineOrchid\TimestampableInterface;
 use App\Components\Song\Entity\Song;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -30,6 +31,12 @@ class Author extends AbstractDomainObject implements TimestampableInterface
 
     #[ORM\Column(type: Types::BOOLEAN)]
     protected bool $isActive = true;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    protected ?DateTimeImmutable $playedAt;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    protected ?DateTimeImmutable $finishedAt;
 
     #[ORM\Column(type: Types::BIGINT)]
     protected int $playedCount = 0;
@@ -89,6 +96,42 @@ class Author extends AbstractDomainObject implements TimestampableInterface
     public function setIsActive(bool $isActive): Author
     {
         $this->isActive = $isActive;
+        return $this;
+    }
+
+    /**
+     * @return DateTimeImmutable|null
+     */
+    public function getPlayedAt(): ?DateTimeImmutable
+    {
+        return $this->playedAt;
+    }
+
+    /**
+     * @param DateTimeImmutable|null $playedAt
+     * @return Author
+     */
+    public function setPlayedAt(?DateTimeImmutable $playedAt): Author
+    {
+        $this->playedAt = $playedAt;
+        return $this;
+    }
+
+    /**
+     * @return DateTimeImmutable|null
+     */
+    public function getFinishedAt(): ?DateTimeImmutable
+    {
+        return $this->finishedAt;
+    }
+
+    /**
+     * @param DateTimeImmutable|null $finishedAt
+     * @return Author
+     */
+    public function setFinishedAt(?DateTimeImmutable $finishedAt): Author
+    {
+        $this->finishedAt = $finishedAt;
         return $this;
     }
 
