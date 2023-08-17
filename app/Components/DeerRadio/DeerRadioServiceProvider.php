@@ -8,8 +8,13 @@ use App\Components\DeerRadio\Commands\DeerImageUpdate;
 use App\Components\DeerRadio\Commands\GetCurrentDeerImage;
 use App\Components\DeerRadio\Commands\GetNextSong;
 use App\Components\DeerRadio\Commands\UpdateNowPlayingId;
+use App\Components\DeerRadio\Service\CurrentSongUpdateService;
 use App\Components\DeerRadio\Service\DeerImageDeleteService;
 use App\Components\DeerRadio\Service\DeerImageUpdateService;
+use App\Components\DeerRadio\Service\DeerRadioServiceRegistry;
+use App\Components\DeerRadio\Service\SongAnnotateService;
+use App\Components\DeerRadio\Service\SongPickService;
+use App\Components\DeerRadio\Service\SongQueueService;
 use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
 use App\Components\ImageData\Driver\UnsplashDriver;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
@@ -50,8 +55,13 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
     public function provides(): array
     {
         return [
-            DeerImageUpdateService::class,
+            CurrentSongUpdateService::class,
             DeerImageDeleteService::class,
+            DeerImageUpdateService::class,
+            DeerRadioServiceRegistry::class,
+            SongAnnotateService::class,
+            SongPickService::class,
+            SongQueueService::class,
         ];
     }
 
