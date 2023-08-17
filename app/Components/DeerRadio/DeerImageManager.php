@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Components\DeerRadio;
 
 use App\Components\ComponentData\ComponentDataAccessor;
+use App\Components\DeerRadio\Enum\DeerRadioDataKey;
 use App\Components\ImageData\ImageData;
 use App\Components\ImageData\ImageDataListProviderDriverRegistry;
 use App\Components\Photoban\Service\PhotobanReadService;
@@ -151,7 +152,7 @@ class DeerImageManager
             'description' => str_replace(["\r", "\n"], ['', ' '], $imageData->getDescription() ?? ''),
         ];
 
-        $this->componentDataAccessor->setValue('current_image_data', json_encode($formattedImageData));
+        $this->componentDataAccessor->setValue(DeerRadioDataKey::CURRENT_IMAGE_DATA->value, json_encode($formattedImageData));
     }
 
     /**
