@@ -6,8 +6,8 @@ namespace App\Components\DeerRadio\Commands;
 
 use App\Components\DeerRadio\DeerRadioDataAccessor;
 use App\Components\DeerRadio\Enum\DeerRadioDataKey;
-use App\Components\DeerRadio\LiquidsoapDataFormatter;
 use App\Components\ImageData\ImageData;
+use App\Components\Liquidsoap\AnnotationBuilder;
 use Illuminate\Console\Command;
 use JsonException;
 use RuntimeException;
@@ -33,17 +33,17 @@ class GetCurrentDeerImage extends Command
     protected $description = 'Gets current deer image data';
 
     private DeerRadioDataAccessor $dataAccessor;
-    private LiquidsoapDataFormatter $liquidsoapDataFormatter;
+    private AnnotationBuilder $liquidsoapAnnotationBuilder;
 
     public function __construct(
         DeerRadioDataAccessor $dataAccessor,
-        LiquidsoapDataFormatter $liquidsoapDataFormatter,
+        AnnotationBuilder     $liquidsoapAnnotationBuilder,
     )
     {
         parent::__construct();
 
         $this->dataAccessor = $dataAccessor;
-        $this->liquidsoapDataFormatter = $liquidsoapDataFormatter;
+        $this->liquidsoapAnnotationBuilder = $liquidsoapAnnotationBuilder;
     }
 
     /**
@@ -75,7 +75,7 @@ class GetCurrentDeerImage extends Command
         $imageDataArray = $imageData->toArray();
         $imageDataArray['duration'] = self::IMAGE_DURATION;
 
-        $annotation = $this->liquidsoapDataFormatter->buildDataAnnotation($imageData->getPath(), $imageDataArray);
+        $annotation = $this->liquidsoapAnnotationBuilder->buildDataAnnotation($imageData->getPath(), $imageDataArray);
         $this->line($annotation);
     }
 }
