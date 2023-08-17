@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio;
 
+use App\Components\DeerRadio\Commands\DeerImageUpdate;
 use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
 use App\Components\ImageData\Driver\UnsplashDriver;
 use App\Components\ImageData\ImageDataListProviderDriverRegistry;
@@ -41,6 +42,15 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
             ->when(UnsplashDriver::class)
             ->needs(UnsplashSearchQueryBuilderInterface::class)
             ->give(DeerRadioUnsplashSearchQueryBuilder::class);
+    }
+
+    public function boot() : void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                DeerImageUpdate::class,
+            ]);
+        }
     }
 
     /**

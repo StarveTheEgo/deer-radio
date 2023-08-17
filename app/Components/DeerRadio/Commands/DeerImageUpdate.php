@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Components\DeerRadio\Commands;
 
 use App\Components\DeerRadio\DeerImageManager;
 use Exception;
