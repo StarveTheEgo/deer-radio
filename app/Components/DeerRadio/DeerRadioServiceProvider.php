@@ -12,7 +12,6 @@ use App\Components\DeerRadio\Commands\UpdateNowPlayingId;
 use App\Components\DeerRadio\Service\CurrentSongUpdateService;
 use App\Components\DeerRadio\Service\DeerImageDeleteService;
 use App\Components\DeerRadio\Service\DeerImageUpdateService;
-use App\Components\DeerRadio\Service\DeerRadioServiceRegistry;
 use App\Components\DeerRadio\Service\SongAnnotateService;
 use App\Components\DeerRadio\Service\SongPickService;
 use App\Components\DeerRadio\Service\SongQueueService;
@@ -62,7 +61,6 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
             CurrentSongUpdateService::class,
             DeerImageDeleteService::class,
             DeerImageUpdateService::class,
-            DeerRadioServiceRegistry::class,
             SongAnnotateService::class,
             SongPickService::class,
             SongQueueService::class,
