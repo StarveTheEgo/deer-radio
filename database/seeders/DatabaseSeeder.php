@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             LocalImageSettingSeeder::class,
             UnsplashClientSettingSeeder::class,
             UnsplashQuerySettingSeeder::class,
+            LivestreamSettingSeeder::class,
         ]);
     }
 }
