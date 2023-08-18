@@ -17,6 +17,7 @@ use App\Components\DeerRadio\Service\SongPickService;
 use App\Components\DeerRadio\Service\SongQueueService;
 use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
 use App\Components\ImageData\Driver\UnsplashDriver;
+use App\Components\Storage\Enum\StorageName;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Filesystem\FilesystemManager;
@@ -80,14 +81,14 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
             ->when(DeerImageUpdateService::class)
             ->needs('$deerImageStorage')
             ->give(function () use ($filesystemManager) {
-                return $filesystemManager->disk('public');
+                return $filesystemManager->disk(StorageName::PUBLIC_STORAGE->value);
             });
 
         $app
             ->when(DeerImageUpdateService::class)
             ->needs('$tempStorage')
             ->give(function () use ($filesystemManager) {
-                return $filesystemManager->disk('temp');
+                return $filesystemManager->disk(StorageName::TEMP_STORAGE->value);
             });
     }
 
@@ -104,7 +105,7 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
             ->when(DeerImageDeleteService::class)
             ->needs('$deerImageStorage')
             ->give(function () use ($filesystemManager) {
-                return $filesystemManager->disk('public');
+                return $filesystemManager->disk(StorageName::PUBLIC_STORAGE->value);
             });
     }
 }

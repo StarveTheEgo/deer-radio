@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Components\Storage\Enum\StorageName;
 use App\Models\Song;
 use Illuminate\Console\Command;
 use Illuminate\Http\UploadedFile;
@@ -19,7 +20,7 @@ class RegisterExistingSongs extends Command
     {
         echo 'The script is disabled', PHP_EOL;
         exit;
-        $input_fs = Storage::disk('public');
+        $input_fs = Storage::disk(StorageName::PUBLIC_STORAGE->value);
         $path = $input_fs->path('/tmp/');
 
         $wrong_counts = [];

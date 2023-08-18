@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Resources;
 
+use App\Components\Storage\Enum\StorageName;
 use App\Models\Album;
 use App\Models\Author;
 use App\Models\Label;
@@ -68,7 +69,7 @@ class SongResource extends AbstractResource
                 ->required(),
 
             Upload::make('song_attachment_id')
-                ->storage('public')
+                ->storage(StorageName::PUBLIC_STORAGE->value)
                 ->path('/songs/'.date('Y-m-d').'/')
                 ->title('Song file')
                 ->maxFiles(1),
