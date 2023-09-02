@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Components\Setting\Repository;
 
 use App\Components\DoctrineOrchid\Repository\AbstractRepository;
+use App\Components\OrchidIntergration\Field\FieldOptions;
 use App\Components\Setting\Entity\Setting;
-use App\Components\Setting\Orchid\Field\FieldOptions;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 

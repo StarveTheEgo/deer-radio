@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Components\Setting\Orchid\Screen;
 
+use App\Components\OrchidIntergration\Field\FieldFactoryRegistry;
+use App\Components\OrchidIntergration\Field\FieldOptions;
+use App\Components\OrchidIntergration\Field\FieldType;
 use App\Components\Setting\Entity\Setting;
-use App\Components\Setting\Orchid\Field\FieldFactoryRegistry;
-use App\Components\Setting\Orchid\Field\FieldOptions;
-use App\Components\Setting\Orchid\Field\FieldType;
 use App\Components\Setting\Service\SettingServiceRegistry;
 use App\Components\Setting\SettingNameInfo;
+use App\Components\Setting\SettingServiceProvider;
 use App\Orchid\Screens\AbstractScreen;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -125,7 +126,8 @@ class SettingScreen extends AbstractScreen
         foreach ($groupedSettings as $group => $settings) {
             $settingEditors = [];
             foreach ($settings as $setting) {
-                $settingEditors[] = Layout::view('radio-admin-setting::setting-editor', [
+                $viewName = sprintf('%s::setting-editor', SettingServiceProvider::SERVICE_NS);
+                $settingEditors[] = Layout::view($viewName, [
                     'setting' => $setting,
                     'valueEditField' => $this->buildSettingValueEditorField($setting),
                 ]);

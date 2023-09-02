@@ -2,31 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Components\Setting;
+namespace App\Components\OrchidIntergration;
 
-use App\Components\Setting\Orchid\Field\Factory\Input\InputFieldFactory;
-use App\Components\Setting\Orchid\Field\Factory\Toggle\ToggleFieldFactory;
-use App\Components\Setting\Orchid\Field\FieldFactoryRegistry;
+use App\Components\OrchidIntergration\Field\Factory\Input\InputFieldFactory;
+use App\Components\OrchidIntergration\Field\Factory\Toggle\ToggleFieldFactory;
+use App\Components\OrchidIntergration\Field\FieldFactoryRegistry;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class SettingAdminServiceProvider extends ServiceProvider
+class OrchidIntegrationServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public const SERVICE_NS = 'radio-admin-setting';
-
     public $singletons = [
         FieldFactoryRegistry::class => FieldFactoryRegistry::class,
+        InputFieldFactory::class => InputFieldFactory::class,
+        ToggleFieldFactory::class => ToggleFieldFactory::class,
     ];
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-    }
 
     /**
      * Bootstrap any application services.
@@ -42,8 +34,6 @@ class SettingAdminServiceProvider extends ServiceProvider
         foreach ($this->getFieldFactoryClasses() as $factoryClass) {
             $fieldFactoryRegistry->registerFactory($this->app->get($factoryClass));
         }
-
-        $this->loadViewsFrom(__DIR__.'/resources/views', self::SERVICE_NS);
     }
 
     private function getFieldFactoryClasses(): array

@@ -20,6 +20,8 @@ use Illuminate\Support\ServiceProvider;
 
 class SettingServiceProvider extends ServiceProvider implements DeferrableProvider
 {
+    public const SERVICE_NS = 'setting';
+
     public $singletons = [
         SettingCreateService::class => SettingCreateService::class,
         SettingReadService::class => SettingReadService::class,
@@ -44,6 +46,8 @@ class SettingServiceProvider extends ServiceProvider implements DeferrableProvid
                 $entityRepository
             );
         });
+
+        $this->loadViewsFrom(__DIR__.'/resources/views', self::SERVICE_NS);
     }
 
     /**
