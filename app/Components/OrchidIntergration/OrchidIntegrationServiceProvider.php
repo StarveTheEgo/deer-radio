@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\OrchidIntergration;
 
+use App\Components\OrchidIntergration\Field\Factory\Code\CodeFieldFactory;
 use App\Components\OrchidIntergration\Field\Factory\Input\InputFieldFactory;
 use App\Components\OrchidIntergration\Field\Factory\Toggle\ToggleFieldFactory;
 use App\Components\OrchidIntergration\Field\FieldFactoryRegistry;
@@ -18,6 +19,7 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
         FieldFactoryRegistry::class => FieldFactoryRegistry::class,
         InputFieldFactory::class => InputFieldFactory::class,
         ToggleFieldFactory::class => ToggleFieldFactory::class,
+        CodeFieldFactory::class => CodeFieldFactory::class,
     ];
 
     /**
@@ -41,6 +43,7 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
         return [
             InputFieldFactory::class,
             ToggleFieldFactory::class,
+            CodeFieldFactory::class,
         ];
     }
 
@@ -53,6 +56,9 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
     {
         return [
             FieldFactoryRegistry::class => FieldFactoryRegistry::class,
+            InputFieldFactory::class,
+            ToggleFieldFactory::class,
+            CodeFieldFactory::class,
         ];
     }
 }
