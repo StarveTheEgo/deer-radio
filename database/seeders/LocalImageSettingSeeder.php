@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Components\ImageData\Enum\LocalImageSettingKey;
+use App\Components\OrchidIntergration\Field\FieldType;
 use App\Components\Setting\Entity\Setting;
-use App\Components\Setting\Orchid\Field\FieldType;
 
 class LocalImageSettingSeeder extends AbstractSettingSeeder
 {

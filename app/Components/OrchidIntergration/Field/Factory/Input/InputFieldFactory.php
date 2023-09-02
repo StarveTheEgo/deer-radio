@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Components\Setting\Orchid\Field\Factory\Input;
+namespace App\Components\OrchidIntergration\Field\Factory\Input;
 
-use App\Components\Setting\Orchid\Field\FieldFactoryInterface;
-use App\Components\Setting\Orchid\Field\FieldOptions;
-use App\Components\Setting\Orchid\Field\FieldType;
+use App\Components\OrchidIntergration\Field\FieldFactoryInterface;
+use App\Components\OrchidIntergration\Field\FieldOptions;
+use App\Components\OrchidIntergration\Field\FieldType;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
 

@@ -11,8 +11,9 @@ use App\Components\DeerRadio\DeerRadioServiceProvider;
 use App\Components\ImageData\ImageDataServiceProvider;
 use App\Components\Label\LabelServiceProvider;
 use App\Components\LabelLink\LabelLinkServiceProvider;
+use App\Components\OrchidIntergration\OrchidIntegrationServiceProvider;
+use App\Components\Output\OutputServiceProvider;
 use App\Components\Photoban\PhotobanServiceProvider;
-use App\Components\Setting\SettingAdminServiceProvider;
 use App\Components\Setting\SettingServiceProvider;
 use App\Components\Song\SongServiceProvider;
 use App\Components\UnsplashClient\UnsplashClientServiceProvider;
@@ -214,7 +215,7 @@ return [
 
         ComponentDataServiceProvider::class,
         SettingServiceProvider::class,
-        SettingAdminServiceProvider::class,
+        OrchidIntegrationServiceProvider::class,
         UnsplashClientServiceProvider::class,
         PhotobanServiceProvider::class,
         ImageDataServiceProvider::class,
@@ -226,6 +227,7 @@ return [
         LabelServiceProvider::class,
         LabelLinkServiceProvider::class,
         SongServiceProvider::class,
+        OutputServiceProvider::class,
     ],
 
     /*

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio\Commands;
 
-use App\Components\DeerRadio\Enum\LivestreamSettingKey;
+use App\Components\Google\Enum\GoogleOutputSettingKey;
 use App\Components\Setting\Service\SettingServiceRegistry;
 use Illuminate\Console\Command;
 use JsonException;
@@ -32,10 +32,11 @@ class GetRadioSettings extends Command {
 
         $settingReadService = $this->settingServiceRegistry->getReadService();
 
+        // @todo actualize
         $settings = [
             'livestream' => [
-                'endpoint' => $settingReadService->getValue(LivestreamSettingKey::ENDPOINT->value),
-                'api_key' => $settingReadService->getValue(LivestreamSettingKey::API_KEY->value),
+//                'endpoint' => $settingReadService->getValue(GoogleOutputSettingKey::ENDPOINT->value),
+//                'api_key' => $settingReadService->getValue(GoogleOutputSettingKey::API_KEY->value),
             ]
         ];
 

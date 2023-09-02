@@ -6,24 +6,22 @@ namespace Database\Seeders;
 
 use App\Components\Setting\Service\SettingCreateService;
 use App\Components\Setting\Service\SettingReadService;
+use App\Components\Setting\Service\SettingServiceRegistry;
 use Illuminate\Database\Seeder;
 
 abstract class AbstractSettingSeeder extends Seeder
 {
-    protected function getSettingReadService() : SettingReadService
-    {
-        return $this->container->get(SettingReadService::class);
-    }
+    private SettingServiceRegistry $settingServiceRegistry;
 
-    protected function getSettingCreateService() : SettingCreateService
+    public function __construct(SettingServiceRegistry $settingServiceRegistry)
     {
-        return $this->container->get(SettingCreateService::class);
+        $this->settingServiceRegistry = $settingServiceRegistry;
     }
 
     protected function createNotExistingSettings(array $settings, int $initialOrdValue = 0) : void
     {
-        $settingCreateService = $this->getSettingCreateService();
-        $settingReadService = $this->getSettingReadService();
+        $settingCreateService = $this->settingServiceRegistry->getCreateService();
+        $settingReadService = $this->settingServiceRegistry->getReadService();
 
         foreach ($settings as $index => $setting) {
             if ($settingReadService->findByKey($setting->getKey())) {

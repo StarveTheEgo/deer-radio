@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Components\OrchidIntergration\Field\Factory\Input\InputCustomOptions;
+use App\Components\OrchidIntergration\Field\FieldOptions;
+use App\Components\OrchidIntergration\Field\FieldType;
 use App\Components\Setting\Entity\Setting;
-use App\Components\Setting\Orchid\Field\Factory\Input\InputCustomOptions;
-use App\Components\Setting\Orchid\Field\FieldOptions;
-use App\Components\Setting\Orchid\Field\FieldType;
 use App\Components\UnsplashClient\Enum\UnsplashClientSettingKey;
 
 class UnsplashClientSettingSeeder extends AbstractSettingSeeder

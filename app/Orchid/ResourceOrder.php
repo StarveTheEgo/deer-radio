@@ -9,6 +9,7 @@ use App\Orchid\Resources\AuthorLinkResource;
 use App\Orchid\Resources\AuthorResource;
 use App\Orchid\Resources\LabelLinkResource;
 use App\Orchid\Resources\LabelResource;
+use App\Orchid\Resources\OutputResource;
 use App\Orchid\Resources\PhotobanResource;
 use App\Orchid\Resources\SongResource;
 use LogicException;
@@ -25,6 +26,7 @@ abstract class ResourceOrder
         LabelResource::class,
         LabelLinkResource::class,
         PhotobanResource::class,
+        OutputResource::class,
     ];
 
     public static function getSortValueFor(string $resource_class_name): string

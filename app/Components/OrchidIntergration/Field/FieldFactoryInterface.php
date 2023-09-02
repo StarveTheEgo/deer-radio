@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Components\Setting\Orchid\Field;
+namespace App\Components\OrchidIntergration\Field;
 
 use Orchid\Screen\Field;
 

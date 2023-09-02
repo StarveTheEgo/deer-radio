@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Components\Setting\Orchid\Field;
+namespace App\Components\OrchidIntergration\Field;
 
 use LogicException;
 

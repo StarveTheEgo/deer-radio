@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio\Service;
 
-use App\Components\ComponentData\ComponentDataAccessor;
+use App\Components\DeerRadio\DeerRadioDataAccessor;
 use App\Components\DeerRadio\Enum\DeerRadioDataKey;
 use App\Components\ImageData\ImageData;
 use App\Components\ImageData\ImageDataListProviderDriverRegistry;
@@ -32,7 +32,7 @@ class DeerImageUpdateService
 
     private LoggerInterface $logger;
 
-    private ComponentDataAccessor $componentDataAccessor;
+    private DeerRadioDataAccessor $componentDataAccessor;
 
     public function __construct(
         ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry,
@@ -40,7 +40,7 @@ class DeerImageUpdateService
         Filesystem $tempStorage,
         ImageManager $imageManager,
         PhotobanReadService $photobanReadService,
-        ComponentDataAccessor $componentDataAccessor,
+        DeerRadioDataAccessor $componentDataAccessor,
         LoggerInterface $logger
     )
     {
