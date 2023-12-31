@@ -12,6 +12,7 @@ use App\Components\ImageData\ImageDataServiceProvider;
 use App\Components\Label\LabelServiceProvider;
 use App\Components\LabelLink\LabelLinkServiceProvider;
 use App\Components\OrchidIntergration\OrchidIntegrationServiceProvider;
+use App\Components\Output\OutputServiceProvider;
 use App\Components\Photoban\PhotobanServiceProvider;
 use App\Components\Setting\SettingServiceProvider;
 use App\Components\Song\SongServiceProvider;
@@ -226,6 +227,7 @@ return [
         LabelServiceProvider::class,
         LabelLinkServiceProvider::class,
         SongServiceProvider::class,
+        OutputServiceProvider::class,
     ],
 
     /*
