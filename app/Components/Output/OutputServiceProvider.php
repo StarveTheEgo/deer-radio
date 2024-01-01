@@ -6,6 +6,7 @@ namespace App\Components\Output;
 
 use App\Components\Output\Driver\DummyOutputDriver;
 use App\Components\Output\Entity\Output;
+use App\Components\Output\Registry\OutputDriverRegistry;
 use App\Components\Output\Repository\OutputRepository;
 use App\Components\Output\Repository\OutputRepositoryInterface;
 use App\Components\Output\Service\OutputCreateService;

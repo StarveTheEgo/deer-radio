@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Components\Output;
+namespace App\Components\Output\Registry;
 
 use App\Components\Output\Interfaces\OutputDriverInterface;
 use InvalidArgumentException;
