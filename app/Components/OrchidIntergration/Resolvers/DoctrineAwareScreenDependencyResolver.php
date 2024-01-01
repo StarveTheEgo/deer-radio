@@ -97,7 +97,7 @@ class DoctrineAwareScreenDependencyResolver
             );
         } else {
             // possible is a Laravel model
-            $resolvedObject = resolve($parameterClass);
+            $resolvedObject = resolve($parameterClass->getName());
             if (!is_a($resolvedObject, LaravelUrlRoutable::class)) {
                 // is not a Laravel model
                 return $resolvedObject;
