@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use Illuminate\Contracts\Routing\UrlRoutable as LaravelUrlRoutable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use LaravelDoctrine\ORM\Contracts\UrlRoutable as DoctrineUrlRoutable;
 use Orchid\Screen\Resolvers\ScreenDependencyResolver;
@@ -52,13 +53,12 @@ class DoctrineAwareScreenDependencyResolver
     {
         $parameters = (new ReflectionClass($screen))->getMethod($method)->getParameters();
 
-        $argumentValues = collect($httpQueryArguments);
+        $httpQueryArgumentsCollection = collect($httpQueryArguments);
         $currentRoute = Route::current();
 
         return collect($parameters)
-            ->map(function (ReflectionParameter $parameter) use ($argumentValues, $currentRoute) {
-                $currentArgumentValue = $argumentValues->shift();
-                $resolvedValue = $this->resolveValue($parameter, $currentArgumentValue);
+            ->map(function (ReflectionParameter $parameter) use ($httpQueryArgumentsCollection, $currentRoute) {
+                $resolvedValue = $this->resolveCurrentValue($parameter, $httpQueryArgumentsCollection);
 
                 $currentRoute?->setParameter($parameter->getName(), $resolvedValue);
 
@@ -70,17 +70,17 @@ class DoctrineAwareScreenDependencyResolver
     /**
      * Resolves value for specified parameter
      * @param ReflectionParameter $parameter
-     * @param mixed $parameterValue
+     * @param Collection $httpQueryArgumentsCollection
      * @return mixed
      * @throws Throwable
      */
-    private function resolveValue(ReflectionParameter $parameter, mixed $parameterValue): mixed
+    private function resolveCurrentValue(ReflectionParameter $parameter, Collection $httpQueryArgumentsCollection): mixed
     {
         $parameterClassName = $this->getClassName($parameter);
 
         if ($parameterClassName === null) {
             // built-in / non-specified parameter type
-            return $parameterValue;
+            return $httpQueryArgumentsCollection->shift();
         }
 
         $parameterClass = new ReflectionClass($parameterClassName);
@@ -88,6 +88,7 @@ class DoctrineAwareScreenDependencyResolver
         if ($parameterClass->isSubclassOf(AbstractDomainObject::class)) {
             // is a Doctrine object
             $repository = $this->entityManagerRegistry->getRepository($parameterClassName);
+            $parameterValue = $httpQueryArgumentsCollection->shift();
             $resolvedObject = $this->resolveDoctrineEntity($repository, $parameterClass, $parameterValue);
 
             throw_if(
@@ -102,6 +103,7 @@ class DoctrineAwareScreenDependencyResolver
                 return $resolvedObject;
             }
 
+            $parameterValue = $httpQueryArgumentsCollection->shift();
             if ($parameterValue === null) {
                 // value is null, - returning uninitialized model
                 return $resolvedObject;
