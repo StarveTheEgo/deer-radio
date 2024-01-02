@@ -1,0 +1,11 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+parameters:
+	level: 9
+	excludePaths:
+	    - app/Orchid # is a vendor-provided directory, is not first-priority to fix it
+	    - app/Console/Commands # is not fully migrated yet
+	    - app/Components/Google # is not fully migrated yet
+	paths:
+		- app
+		- tests
