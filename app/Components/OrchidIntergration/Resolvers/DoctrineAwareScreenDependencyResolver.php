@@ -92,7 +92,7 @@ class DoctrineAwareScreenDependencyResolver
             $resolvedObject = $this->resolveDoctrineEntity($repository, $parameterClass, $parameterValue);
 
             throw_if(
-                $resolvedObject === null && !$parameter->isDefaultValueAvailable(),
+                $resolvedObject === null && !$parameter->allowsNull(),
                 (new ObjectNotFoundException())->setObjectInfo($parameterClass->getName(), [$parameterValue])
             );
         } else {
