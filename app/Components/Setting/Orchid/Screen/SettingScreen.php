@@ -13,6 +13,7 @@ use App\Components\Setting\Service\SettingServiceRegistry;
 use App\Components\Setting\SettingNameInfo;
 use App\Components\Setting\SettingServiceProvider;
 use App\Orchid\Screens\AbstractScreen;
+use App\Orchid\Screens\IconAwareInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,7 +32,7 @@ use Orchid\Support\Facades\Toast;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class SettingScreen extends AbstractScreen
+class SettingScreen extends AbstractScreen implements IconAwareInterface
 {
     private SettingServiceRegistry $settingServiceRegistry;
 
