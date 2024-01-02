@@ -1,4 +1,4 @@
-version: '3.0'
+version: '2.4'
 
 services:
   deer-radio-mysql:
@@ -17,7 +17,7 @@ services:
     networks:
       - deer-radio-network
     healthcheck:
-        test: mysqladmin ping -h 127.0.0.1 -u $$DB_USERNAME --password=$$DB_PASSWORD
+        test: out=$$(mysqladmin ping -h 127.0.0.1 -u $DB_USERNAME --password=$DB_PASSWORD 2>&1); echo $$out | grep 'mysqld is alive' || { echo $$out; exit 1; }
         interval: 5s
         timeout: 5s
         retries: 55
