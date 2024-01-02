@@ -8,6 +8,7 @@ use App\Components\OrchidIntergration\Field\FieldFactoryRegistry;
 use App\Components\OrchidIntergration\Field\FieldOptions;
 use App\Components\OrchidIntergration\Field\FieldType;
 use App\Components\Setting\Entity\Setting;
+use App\Components\Setting\Filler\SettingFiller;
 use App\Components\Setting\Service\SettingServiceRegistry;
 use App\Components\Setting\SettingNameInfo;
 use App\Components\Setting\SettingServiceProvider;
@@ -33,6 +34,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class SettingScreen extends AbstractScreen
 {
     private SettingServiceRegistry $settingServiceRegistry;
+
+    private SettingFiller $settingFiller;
 
     private FieldFactoryRegistry $fieldFactoryRegistry;
 
@@ -64,9 +67,11 @@ class SettingScreen extends AbstractScreen
 
     public function __construct(
         SettingServiceRegistry $settingServiceRegistry,
+        SettingFiller $settingFiller,
         FieldFactoryRegistry $fieldFactoryRegistry
     ) {
         $this->settingServiceRegistry = $settingServiceRegistry;
+        $this->settingFiller = $settingFiller;
         $this->fieldFactoryRegistry = $fieldFactoryRegistry;
     }
 
@@ -165,12 +170,12 @@ class SettingScreen extends AbstractScreen
                 ->title('Description')
                 ->placeholder('Some incredible description'),
 
-            Select::make('field_type')
+            Select::make('fieldType')
                 ->title('Field type')
                 ->options($this->fieldFactoryRegistry->getTypeTitles())
                 ->required(),
 
-            Code::make('field_options')
+            Code::make('fieldOptions')
                 ->title('Field options')
                 ->language(Code::JS)
                 ->value("{\n    \n}")
@@ -179,7 +184,7 @@ class SettingScreen extends AbstractScreen
             Input::make('value')
                 ->title('Initial value'),
 
-            CheckBox::make('is_encrypted')
+            CheckBox::make('isEncrypted')
                 ->title('Keep the value encrypted')
                 ->sendTrueOrFalse(),
         ]);
@@ -189,6 +194,9 @@ class SettingScreen extends AbstractScreen
         return $modal->applyButton(__('Create'));
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function create(Request $request)
     {
         $settingData = $request->validate([
@@ -201,12 +209,12 @@ class SettingScreen extends AbstractScreen
             'description' => [
                 'string',
             ],
-            'field_type' => [
+            'fieldType' => [
                 'required',
                 'string',
                 Rule::in($this->fieldFactoryRegistry->getTypeValues()),
             ],
-            'field_options' => [
+            'fieldOptions' => [
                 'required',
                 'string',
                 'json',
@@ -215,18 +223,15 @@ class SettingScreen extends AbstractScreen
                 'string',
                 'nullable',
             ],
-            'is_encrypted' => [
+            'isEncrypted' => [
                 'boolean',
             ],
         ]);
 
+        $settingData['fieldOptions'] = json_decode($settingData['fieldOptions'], true, flags: JSON_THROW_ON_ERROR);
+
         $setting = new Setting();
-        $setting->setKey($settingData['key']);
-        $setting->setDescription($settingData['description']);
-        $setting->setFieldType($settingData['field_type']);
-        $setting->setFieldOptions(json_decode($settingData['field_options'], true, flags: JSON_THROW_ON_ERROR));
-        $setting->setIsEncrypted((bool) $settingData['is_encrypted']);
-        $setting->setOrd(0); // @todo sorting
+        $setting = $this->settingFiller->fillFromArray($setting, $settingData);
 
         $this->settingServiceRegistry->getValueService()->setValue($setting, (string) $settingData['value']);
         $this->settingServiceRegistry->getCreateService()->create($setting);
