@@ -10,17 +10,23 @@ use App\Components\ComponentData\Repository\ComponentDataRepositoryInterface;
 use App\Components\ComponentData\Service\ComponentDataAccessService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
-class ComponentDataServiceProvider extends ServiceProvider
+class ComponentDataServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public const SERVICE_NS = 'component-data';
 
+    /**
+     * @var array<class-string>
+     */
     public $singletons = [
-        ComponentDataAccessService::class => ComponentDataAccessService::class,
+        ComponentDataAccessService::class,
     ];
 
+    /**
+     * @return void
+     */
     public function register()
     {
         $this->app->singleton(ComponentDataRepositoryInterface::class, function (Application $app) {
