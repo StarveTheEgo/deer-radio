@@ -6,6 +6,7 @@ namespace App\Orchid;
 
 use App\Components\Setting\Orchid\Screen\SettingScreen;
 use App\Orchid\Screens\AbstractScreen;
+use App\Orchid\Screens\IconAwareInterface;
 use InvalidArgumentException;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
@@ -58,16 +59,29 @@ class PlatformProvider extends OrchidServiceProvider
         ];
     }
 
-    private function makeRegisteredMenuFor(string $screen): Link|Menu
+    /**
+     * @param string $screen
+     * @return Link|Menu
+     */
+    private function makeRegisteredLinkFor(string $screen): Link|Menu
     {
         if (!is_subclass_of($screen, AbstractScreen::class)) {
-            throw new InvalidArgumentException(sprintf('Screen class must be inherited from %s, got: %s', AbstractScreen::class, $screen));
+            throw new InvalidArgumentException(sprintf(
+                'Screen class must be inherited from %s, got: %s',
+                AbstractScreen::class,
+                $screen
+            ));
         }
 
-        return Menu::make($screen::getName())
-            ->icon($screen::getIcon())
+        $menu = Menu::make($screen::getName())
             ->route($screen::getRoute())
             ->permission($screen::getPermissions());
+
+        if (is_subclass_of($screen, IconAwareInterface::class)) {
+            $menu->icon($screen::getIcon());
+        }
+
+        return $menu;
     }
 
     /**
