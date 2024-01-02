@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Components\DoctrineOrchid\AbstractDomainObject;
+use App\Components\Output\Orchid\Enum\OutputRoute;
+use App\Components\Output\Orchid\Screen\OutputEditScreen;
+use App\Components\Output\Orchid\Screen\OutputIndexScreen;
 use App\Components\Setting\Orchid\Screen\SettingScreen;
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -100,6 +98,33 @@ Route::screen('roles', RoleListScreen::class)
 // Platform -> Settings
 Route::screen('settings/{group?}', SettingScreen::class)
     ->name(SettingScreen::getRoute());
+
+// Platform -> Edit
+Route::screen('outputs/{output}/edit', OutputEditScreen::class)
+    ->name(OutputRoute::EDIT->value)
+    ->breadcrumbs(function (Trail $trail, ?AbstractDomainObject $output) {
+        return $trail
+            ->parent(OutputRoute::INDEX->value)
+            ->push(__('Edit output'), route(OutputRoute::EDIT->value, $output?->getId()));
+    });
+
+// Platform -> Create
+Route::screen('outputs/create', OutputEditScreen::class)
+    ->name(OutputRoute::CREATE->value)
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent(OutputRoute::INDEX->value)
+            ->push(__('Create output'), route(OutputRoute::CREATE->value));
+    });
+
+// Platform -> Outputs
+Route::screen('outputs', OutputIndexScreen::class)
+    ->name(OutputRoute::INDEX->value)
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Outputs'), route(OutputRoute::INDEX->value));
+    });
 
 // Example...
 Route::screen('example', ExampleScreen::class)

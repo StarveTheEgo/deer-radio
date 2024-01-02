@@ -9,11 +9,12 @@ use App\Components\DoctrineOrchid\TimestampableEntityTrait;
 use App\Components\DoctrineOrchid\TimestampableInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use LaravelDoctrine\ORM\Contracts\UrlRoutable;
 
 #[Orm\Entity]
 #[Orm\Table(name: 'outputs')]
 #[Orm\UniqueConstraint(name: 'unique_output', columns: ['output_name', 'driver_name'])]
-class Output extends AbstractDomainObject implements TimestampableInterface
+class Output extends AbstractDomainObject implements TimestampableInterface, UrlRoutable
 {
     use TimestampableEntityTrait;
 
@@ -27,11 +28,19 @@ class Output extends AbstractDomainObject implements TimestampableInterface
     #[ORM\Column(type: Types::STRING)]
     protected string $driverName;
 
-    #[ORM\Column(type: Types::TEXT)]
-    protected string $driverConfig;
+    #[ORM\Column(type: Types::JSON)]
+    protected array $driverConfig;
 
     #[ORM\Column(type: Types::BOOLEAN)]
     protected bool $isActive;
+
+    /**
+     * @return string
+     */
+    public static function getRouteKeyName(): string
+    {
+        return 'id';
+    }
 
     /**
      * @return int|null
@@ -88,18 +97,18 @@ class Output extends AbstractDomainObject implements TimestampableInterface
     }
 
     /**
-     * @return string
+     * @return array<string, mixed>
      */
-    public function getDriverConfig(): string
+    public function getDriverConfig(): array
     {
         return $this->driverConfig;
     }
 
     /**
-     * @param string $driverConfig
+     * @param array<string, mixed> $driverConfig
      * @return Output
      */
-    public function setDriverConfig(string $driverConfig): Output
+    public function setDriverConfig(array $driverConfig): Output
     {
         $this->driverConfig = $driverConfig;
         return $this;
