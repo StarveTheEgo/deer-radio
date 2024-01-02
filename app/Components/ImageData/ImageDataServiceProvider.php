@@ -9,12 +9,23 @@ use App\Components\ImageData\Driver\UnsplashDriver;
 use App\Components\ImageData\Enum\LocalImageSettingKey;
 use App\Components\ImageData\Enum\UnsplashDriverSettingKey;
 use App\Components\Setting\Service\SettingReadService;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
-class ImageDataServiceProvider extends ServiceProvider
+class ImageDataServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public const SETTING_IMAGE_PATHS = 'local-image.image_paths';
+    /**
+     * @var array<class-string>
+     */
+    public array $singletons = [
+        UnsplashImageDataFactory::class,
+    ];
 
+    /**
+     * @return void
+     */
     public function register()
     {
         $this->app->singleton(ImageDataListProviderDriverRegistry::class, function () {
@@ -47,10 +58,18 @@ class ImageDataServiceProvider extends ServiceProvider
     public function provides(): array
     {
         return [
-            ImageDataListProviderDriverRegistry::class
+            ImageDataListProviderDriverRegistry::class,
+            LocalDriver::class,
+            UnsplashDriver::class,
+            UnsplashImageDataFactory::class,
         ];
     }
 
+    /**
+     * @return string[]
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     private function getImageProviderDriverClasses(): array
     {
         $settingReadService = $this->app->get(SettingReadService::class);
