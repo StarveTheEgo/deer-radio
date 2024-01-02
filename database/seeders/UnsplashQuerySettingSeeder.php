@@ -7,10 +7,10 @@ namespace Database\Seeders;
 use App\Components\DeerRadio\Enum\UnsplashSearchQueryBuilderSettingKey;
 use App\Components\ImageData\Enum\UnsplashDriverSettingKey;
 use App\Components\Setting\Entity\Setting;
-use App\Components\Setting\Orchid\Field\Factory\Input\InputCustomOptions;
-use App\Components\Setting\Orchid\Field\Factory\Toggle\ToggleCustomOptions;
-use App\Components\Setting\Orchid\Field\FieldOptions;
-use App\Components\Setting\Orchid\Field\FieldType;
+use App\Components\OrchidIntergration\Field\Factory\Input\InputCustomOptions;
+use App\Components\OrchidIntergration\Field\Factory\Toggle\ToggleCustomOptions;
+use App\Components\OrchidIntergration\Field\FieldOptions;
+use App\Components\OrchidIntergration\Field\FieldType;
 
 class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
 {

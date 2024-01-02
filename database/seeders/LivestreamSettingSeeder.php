@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use App\Components\DeerRadio\Enum\LivestreamSettingKey;
 use App\Components\Setting\Entity\Setting;
-use App\Components\Setting\Orchid\Field\FieldType;
+use App\Components\OrchidIntergration\Field\FieldType;
 
 class LivestreamSettingSeeder extends AbstractSettingSeeder
 {
