@@ -1,5 +1,5 @@
 # Setting up PHP
-FROM php:8.1-fpm-alpine
+FROM php:8.2-fpm-alpine
 
 COPY ./.docker/php-fpm/conf/php.ini /usr/local/etc/php/conf.d/local.ini
 COPY ./.docker/php-fpm/entrypoint.sh /var/www/entrypoint.sh
