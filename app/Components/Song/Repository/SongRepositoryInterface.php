@@ -10,7 +10,7 @@ use App\Components\Song\Entity\Song;
 
 interface SongRepositoryInterface extends RepositoryInterface
 {
-    public function create(Song $song);
+    public function create(Song $song) : void;
 
     public function update(Song $song): void;
 

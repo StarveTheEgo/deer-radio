@@ -23,6 +23,9 @@ class Album extends Model
     use Filterable;
     use Attachable;
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'id' => 'integer',
         // @note author_id relation
@@ -32,6 +35,9 @@ class Album extends Model
         'updated_at' => 'immutable_datetime',
     ];
 
+    /**
+     * @var array<string, scalar|null>
+     */
     protected $attributes = [
         'id' => null,
         // @note author_id relation
@@ -41,6 +47,9 @@ class Album extends Model
         'updated_at' => null,
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedSorts = [
         'id',
         'title',
@@ -53,6 +62,9 @@ class Album extends Model
         'year',
     ];
 
+    /**
+     * @return BelongsTo<Author, Album>
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class, 'author_id');

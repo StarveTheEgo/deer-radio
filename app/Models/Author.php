@@ -26,6 +26,9 @@ class Author extends Model
     use Filterable;
     use Attachable;
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
@@ -38,6 +41,9 @@ class Author extends Model
         'updated_at' => 'immutable_datetime',
     ];
 
+    /**
+     * @var array<string, scalar|null>
+     */
     protected $attributes = [
         'id' => null,
         'name' => '',
@@ -50,12 +56,18 @@ class Author extends Model
         'updated_at' => null,
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $fillable = [
         'name',
         'is_active',
         'unsplash_search_query',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedSorts = [
         'id',
         'name',
@@ -66,17 +78,26 @@ class Author extends Model
         'unsplash_search_query',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedFilters = [
         'id',
         'name',
         'unsplash_search_query',
     ];
 
+    /**
+     * @return HasMany<AuthorLink, Author>
+     */
     public function authorLinks(): HasMany
     {
         return $this->hasMany(AuthorLink::class, 'author_id');
     }
 
+    /**
+     * @return HasMany<Album, Author>
+     */
     public function albums(): HasMany
     {
         return $this->hasMany(Album::class, 'author_id');

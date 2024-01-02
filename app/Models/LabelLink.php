@@ -22,6 +22,9 @@ class LabelLink extends Model
     use Filterable;
     use Attachable;
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'id' => 'integer',
         // @note label_id relation
@@ -30,6 +33,9 @@ class LabelLink extends Model
         'updated_at' => 'immutable_datetime',
     ];
 
+    /**
+     * @var array<string, scalar|null>
+     */
     protected $attributes = [
         'id' => null,
         'url' => '',
@@ -37,14 +43,23 @@ class LabelLink extends Model
         'updated_at' => null,
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedSorts = [
         'id',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedFilters = [
         'id',
     ];
 
+    /**
+     * @return BelongsTo<Label, LabelLink>
+     */
     public function label(): BelongsTo
     {
         return $this->belongsTo(Label::class, 'label_id');

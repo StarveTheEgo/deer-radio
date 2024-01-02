@@ -6,6 +6,7 @@ namespace App\Components\Song\Service;
 
 use App\Components\Song\Entity\Song;
 use App\Components\Song\Repository\SongRepositoryInterface;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemManager;
 
 class SongDeleteService
@@ -23,10 +24,15 @@ class SongDeleteService
         $this->filesystemManager = $filesystemManager;
     }
 
+    /**
+     * @param Song $song
+     * @return void
+     */
     public function delete(Song $song): void
     {
         $songAttachment = $song->getSongAttachment();
         if ($songAttachment !== null) {
+            /** @var Filesystem $disk */
             $disk = $this->filesystemManager->get($songAttachment->getDisk());
             $disk->delete($songAttachment->getPath());
         }

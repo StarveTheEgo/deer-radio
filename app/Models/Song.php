@@ -11,9 +11,9 @@ use Orchid\Screen\AsSource;
 /**
  * @property int              $id
  * @property string           $title
- * @property Author           $author
- * @property Album            $album
- * @property Label            $label
+ * @property Author|null      $author
+ * @property Album|null       $album
+ * @property Label|null       $label
  * @property int              $year
  * @property string           $source
  * @property int              $tempo
@@ -32,6 +32,9 @@ class Song extends Model
     use AsSource;
     use Filterable;
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'id' => 'integer',
         'title' => 'string',
@@ -52,6 +55,9 @@ class Song extends Model
         'updated_at' => 'immutable_datetime',
     ];
 
+    /**
+     * @var array<string, scalar|null>
+     */
     protected $attributes = [
         'id' => null,
         'title' => '',
@@ -72,6 +78,9 @@ class Song extends Model
         'updated_at' => null,
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $fillable = [
         'title',
         'year',
@@ -88,6 +97,9 @@ class Song extends Model
         'updated_at',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedSorts = [
         'id',
         'title',
@@ -103,6 +115,9 @@ class Song extends Model
         'updated_at',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedFilters = [
         'id',
         'title',
@@ -119,16 +134,25 @@ class Song extends Model
         'updated_at',
     ];
 
+    /**
+     * @return BelongsTo<Author, Song>
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class, 'author_id');
     }
 
+    /**
+     * @return BelongsTo<Album, Song>
+     */
     public function album(): BelongsTo
     {
         return $this->belongsTo(Album::class, 'album_id');
     }
 
+    /**
+     * @return BelongsTo<Label, Song>
+     */
     public function label(): BelongsTo
     {
         return $this->belongsTo(Label::class, 'label_id');

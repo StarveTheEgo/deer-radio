@@ -43,7 +43,7 @@ class UnsplashClient
 
     /**
      * @param UnsplashSearchQuery $searchQuery
-     * @return array
+     * @return array<mixed>
      */
     public function runSearchQuery(UnsplashSearchQuery $searchQuery) : array
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Carbon\CarbonImmutable;
@@ -22,6 +24,9 @@ class AuthorLink extends Model
     use Filterable;
     use Attachable;
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'id' => 'integer',
         // @note author_id relation
@@ -30,6 +35,9 @@ class AuthorLink extends Model
         'updated_at' => 'immutable_datetime',
     ];
 
+    /**
+     * @var array<string, scalar|null>
+     */
     protected $attributes = [
         'id' => null,
         'url' => '',
@@ -37,14 +45,23 @@ class AuthorLink extends Model
         'updated_at' => null,
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedSorts = [
         'id',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedFilters = [
         'id',
     ];
 
+    /**
+     * @return BelongsTo<Author, AuthorLink>
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class, 'author_id');

@@ -9,7 +9,7 @@ use App\Components\Setting\Entity\Setting;
 
 interface SettingRepositoryInterface extends RepositoryInterface
 {
-    public function create(Setting $setting);
+    public function create(Setting $setting) : void;
 
     public function findByKey(string $key): ?Setting;
 

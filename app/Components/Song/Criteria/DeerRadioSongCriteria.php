@@ -8,14 +8,19 @@ use DateTimeImmutable;
 
 class DeerRadioSongCriteria
 {
+    /** @var array<int> */
     private array $avoidableSongIds = [];
 
+    /** @var array<int> */
     private array $avoidableAuthorIds = [];
 
+    /** @var DateTimeImmutable|null */
     private ?DateTimeImmutable $maxSongFinishTime = null;
 
+    /** @var array<int> */
     private array $suitableAuthorIds = [];
 
+    /** @var int|null */
     private ?int $limit = null;
 
     /**
@@ -26,6 +31,10 @@ class DeerRadioSongCriteria
         return $this->avoidableSongIds;
     }
 
+    /**
+     * @param int $songId
+     * @return $this
+     */
     public function addAvoidableSongId(int $songId) : DeerRadioSongCriteria
     {
         $this->avoidableSongIds[$songId] = $songId;
@@ -33,7 +42,7 @@ class DeerRadioSongCriteria
     }
 
     /**
-     * @return int[]
+     * @return array<int>
      */
     public function getAvoidableAuthorIds(): array
     {
@@ -69,7 +78,7 @@ class DeerRadioSongCriteria
     }
 
     /**
-     * @return int[]
+     * @return array<int>
      */
     public function getSuitableAuthorIds(): array
     {

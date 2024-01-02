@@ -21,28 +21,43 @@ class Photoban extends Model
     use Filterable;
     use Attachable;
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'id' => 'integer',
         'image_url' => 'string',
         'reason' => 'string',
     ];
 
+    /**
+     * @var array<string, scalar|null>
+     */
     protected $attributes = [
         'id' => null,
         'image_url' => '',
         'reason' => '',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $fillable = [
         'image_url',
         'reason',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedSorts = [
         'id',
         'image_url',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedFilters = [
         'id',
         'image_url',

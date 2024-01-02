@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Orchid\Platform\Models\User as Authenticatable;
 
+/**
+ * @property int $id
+ */
 class User extends Authenticatable
 {
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<string>
      */
     protected $fillable = [
         'name',
@@ -21,7 +24,7 @@ class User extends Authenticatable
     /**
      * The attributes excluded from the model's JSON form.
      *
-     * @var array
+     * @var array<string>
      */
     protected $hidden = [
         'password',
@@ -32,7 +35,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'permissions'          => 'array',
@@ -42,7 +45,7 @@ class User extends Authenticatable
     /**
      * The attributes for which you can use filters in url.
      *
-     * @var array
+     * @var array<string>
      */
     protected $allowedFilters = [
         'id',
@@ -54,7 +57,7 @@ class User extends Authenticatable
     /**
      * The attributes for which can use sort in url.
      *
-     * @var array
+     * @var array<string>
      */
     protected $allowedSorts = [
         'id',

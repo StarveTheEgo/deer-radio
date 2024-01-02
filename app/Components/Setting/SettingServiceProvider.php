@@ -22,12 +22,15 @@ class SettingServiceProvider extends ServiceProvider implements DeferrableProvid
 {
     public const SERVICE_NS = 'setting';
 
+    /**
+     * @var array<class-string>
+     */
     public $singletons = [
-        SettingCreateService::class => SettingCreateService::class,
-        SettingReadService::class => SettingReadService::class,
-        SettingUpdateService::class => SettingUpdateService::class,
-        SettingDeleteService::class => SettingDeleteService::class,
-        SettingValueService::class => SettingValueService::class,
+        SettingCreateService::class,
+        SettingReadService::class,
+        SettingUpdateService::class,
+        SettingDeleteService::class,
+        SettingValueService::class,
     ];
 
     /**

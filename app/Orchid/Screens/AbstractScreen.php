@@ -6,6 +6,7 @@ namespace App\Orchid\Screens;
 
 use App\Components\OrchidIntergration\Resolvers\DoctrineAwareScreenDependencyResolver;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Orchid\Filters\Filter;
 use Orchid\Screen\Screen;
 use ReflectionException;
 
@@ -22,6 +23,9 @@ abstract class AbstractScreen extends Screen
         return self::DEFAULT_PER_PAGE;
     }
 
+    /**
+     * @return array<string>|null
+     */
     public static function getPermissions(): ?array
     {
         return [];
@@ -32,6 +36,9 @@ abstract class AbstractScreen extends Screen
         return static::getName();
     }
 
+    /**
+     * @return iterable<string>|null
+     */
     public function permission(): ?iterable
     {
         return static::getPermissions();
@@ -56,7 +63,7 @@ abstract class AbstractScreen extends Screen
     /**
      * Get the filters available for the resource.
      *
-     * @return array
+     * @return array<Filter|class-string<Filter>>
      */
     public function filters(): array
     {

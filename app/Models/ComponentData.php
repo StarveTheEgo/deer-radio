@@ -15,6 +15,9 @@ class ComponentData extends Model
     use Filterable;
     use Attachable;
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'id' => 'integer',
         'component' => 'string',
@@ -22,6 +25,9 @@ class ComponentData extends Model
         'value' => 'string',
     ];
 
+    /**
+     * @var array<string, scalar|null>
+     */
     protected $attributes = [
         'id' => null,
         'component' => '',
@@ -29,12 +35,18 @@ class ComponentData extends Model
         'value' => null,
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $fillable = [
         'component',
         'field',
         'value',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedSorts = [
         'id',
         'component',
@@ -42,6 +54,9 @@ class ComponentData extends Model
         'value',
     ];
 
+    /**
+     * @var array<string>
+     */
     protected $allowedFilters = [
         'id',
         'component',
