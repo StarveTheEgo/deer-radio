@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Orchid;
 
+use App\Components\Output\Orchid\Screen\OutputEditScreen;
+use App\Components\Output\Orchid\Screen\OutputIndexScreen;
 use App\Components\Setting\Orchid\Screen\SettingScreen;
 use App\Orchid\Screens\AbstractScreen;
 use App\Orchid\Screens\IconAwareInterface;
@@ -21,6 +23,8 @@ class PlatformProvider extends OrchidServiceProvider
      */
     private const PERMISSION_AWARE_SCREENS = [
         SettingScreen::class,
+        OutputIndexScreen::class,
+        OutputEditScreen::class,
     ];
 
     public function boot(Dashboard $dashboard): void
@@ -55,7 +59,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
 
-            $this->makeRegisteredMenuFor(SettingScreen::class),
+            $this->makeRegisteredLinkFor(OutputIndexScreen::class),
+            $this->makeRegisteredLinkFor(SettingScreen::class),
         ];
     }
 
