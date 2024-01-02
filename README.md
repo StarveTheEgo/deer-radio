@@ -27,6 +27,10 @@ php artisan orchid:admin admin admin@admin.com password
 - Merge LabelLink and AuthorLink into one entity
 - Validate Doctrine ORM mapping
 - Remove very specific code related to routing/menu elements from AbstractScreen
+- Migrate to PHP 8.2
+- Use JSON schema validator instead of manual validation&parsing
+- Probably to restore auto-disover feature (currently it tries to access not-ready-yet hostname; Need to find out why it is not ready)
+- Remove 'custom' fieldOptions, let only fieldOptions without this over-engineering
 
 # Roadmap:
 - Finish project migration
