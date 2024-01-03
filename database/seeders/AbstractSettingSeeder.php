@@ -10,20 +10,22 @@ use Illuminate\Database\Seeder;
 
 abstract class AbstractSettingSeeder extends Seeder
 {
-    protected function getSettingReadService() : SettingReadService
-    {
-        return $this->container->get(SettingReadService::class);
-    }
+    private SettingCreateService $settingCreateService;
+    private SettingReadService $settingReadService;
 
-    protected function getSettingCreateService() : SettingCreateService
+    public function __construct(
+        SettingCreateService $createService,
+        SettingReadService $readService
+    )
     {
-        return $this->container->get(SettingCreateService::class);
+        $this->settingCreateService = $createService;
+        $this->settingReadService = $readService;
     }
 
     protected function createNotExistingSettings(array $settings, int $initialOrdValue = 0) : void
     {
-        $settingCreateService = $this->getSettingCreateService();
-        $settingReadService = $this->getSettingReadService();
+        $settingCreateService = $this->settingCreateService;
+        $settingReadService = $this->settingReadService;
 
         foreach ($settings as $index => $setting) {
             if ($settingReadService->findByKey($setting->getKey())) {

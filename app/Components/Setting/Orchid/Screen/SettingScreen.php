@@ -10,7 +10,11 @@ use App\Components\OrchidIntergration\Field\FieldType;
 use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Filler\SettingFiller;
 use App\Components\Setting\Orchid\Layout\SettingEditLayout;
-use App\Components\Setting\Service\SettingServiceRegistry;
+use App\Components\Setting\Service\SettingCreateService;
+use App\Components\Setting\Service\SettingDeleteService;
+use App\Components\Setting\Service\SettingReadService;
+use App\Components\Setting\Service\SettingUpdateService;
+use App\Components\Setting\Service\SettingValueService;
 use App\Components\Setting\SettingNameInfo;
 use App\Components\Setting\SettingServiceProvider;
 use App\Orchid\Screens\AbstractScreen;
@@ -22,10 +26,6 @@ use Illuminate\Validation\Rule;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Field;
-use Orchid\Screen\Fields\CheckBox;
-use Orchid\Screen\Fields\Code;
-use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Modal;
 use Orchid\Screen\Layouts\Tabs;
 use Orchid\Support\Facades\Layout;
@@ -35,8 +35,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SettingScreen extends AbstractScreen implements IconAwareInterface
 {
-    private SettingServiceRegistry $settingServiceRegistry;
-
     private SettingFiller $settingFiller;
 
     private FieldFactoryRegistry $fieldFactoryRegistry;
@@ -44,6 +42,11 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
     private const MODAL_CREATE_SETTING = 'createSettingModal';
 
     private ?array $cachedQuery = null;
+    private SettingCreateService $createService;
+    private SettingReadService $readService;
+    private SettingUpdateService $updateService;
+    private SettingDeleteService $deleteService;
+    private SettingValueService $valueService;
 
     public static function getName(): ?string
     {
@@ -68,13 +71,21 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
     }
 
     public function __construct(
-        SettingServiceRegistry $settingServiceRegistry,
         SettingFiller $settingFiller,
-        FieldFactoryRegistry $fieldFactoryRegistry
+        FieldFactoryRegistry $fieldFactoryRegistry,
+        SettingValueService $valueService,
+        SettingCreateService $createService,
+        SettingReadService $readService,
+        SettingUpdateService $updateService,
+        SettingDeleteService $deleteService
     ) {
-        $this->settingServiceRegistry = $settingServiceRegistry;
         $this->settingFiller = $settingFiller;
         $this->fieldFactoryRegistry = $fieldFactoryRegistry;
+        $this->valueService = $valueService;
+        $this->createService = $createService;
+        $this->readService = $readService;
+        $this->updateService = $updateService;
+        $this->deleteService = $deleteService;
     }
 
     public function description(): ?string
@@ -100,7 +111,7 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
     public function query(): iterable
     {
         if (null === $this->cachedQuery) {
-            $settings = $this->settingServiceRegistry->getReadService()->filteredFindAll($this->filters());
+            $settings = $this->readService->filteredFindAll($this->filters());
             $groupedSettings = [];
             foreach ($settings as $setting) {
                 $nameInfo = SettingNameInfo::fromSetting($setting);
@@ -156,7 +167,7 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
 
         return $field
             ->set('name', "settings[{$setting->getKey()}]")
-            ->set('value', $this->settingServiceRegistry->getValueService()->getValue($setting));
+            ->set('value', $this->valueService->getValue($setting));
     }
 
     private function buildCreateSettingModal(): Modal
@@ -207,8 +218,8 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
         $setting = new Setting();
         $setting = $this->settingFiller->fillFromArray($setting, $settingData);
 
-        $this->settingServiceRegistry->getValueService()->setValue($setting, (string) $settingData['value']);
-        $this->settingServiceRegistry->getCreateService()->create($setting);
+        $this->valueService->setValue($setting, (string) $settingData['value']);
+        $this->createService->create($setting);
 
         Toast::info(__('Setting :settingKey was created', ['settingKey' => $settingData['key']]));
     }
@@ -221,13 +232,13 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
         }
 
         foreach ($settingsData as $settingKey => $value) {
-            $setting = $this->settingServiceRegistry->getReadService()->findByKey($settingKey);
+            $setting = $this->readService->findByKey($settingKey);
             if (null === $setting) {
                 throw new BadRequestHttpException(sprintf('Could not find setting "%s"', $settingKey));
             }
 
-            $this->settingServiceRegistry->getValueService()->setValue($setting, $value);
-            $this->settingServiceRegistry->getUpdateService()->update($setting);
+            $this->valueService->setValue($setting, $value);
+            $this->updateService->update($setting);
         }
 
         Toast::info(__('Settings were successfully saved.'));
@@ -238,12 +249,12 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
     public function remove(Request $request): void
     {
         $settingKey = $request->get('key');
-        $setting = $this->settingServiceRegistry->getReadService()->findByKey($settingKey);
+        $setting = $this->readService->findByKey($settingKey);
         if (null === $setting) {
             throw new NotFoundHttpException(sprintf('Could not find setting "%s"', $settingKey));
         }
 
-        $this->settingServiceRegistry->getDeleteService()->delete($setting);
+        $this->deleteService->delete($setting);
 
         Toast::info(__('Setting :settingKey was removed', ['settingKey' => $settingKey]));
     }
