@@ -13,25 +13,32 @@ RUN apk update && apk add --no-cache \
     libjpeg-turbo-dev \
     libpng-dev \
     libzip-dev \
+    libxml2-dev \
     zip \
     jpegoptim optipng pngquant gifsicle \
     vim \
     nano \
     unzip \
+    php82-tokenizer \
+    php82-session \
+    php82-xml \
+    php82-xmlwriter \
+    php82-dom \
+    php82-pdo \
+    php82-pdo_mysql \
+    php82-fileinfo \
     git \
     oniguruma-dev \
-    curl && \
+    curl  \
+    composer && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install pdo_mysql mbstring zip exif pcntl -j$(nproc) gd && \
+    docker-php-ext-install gd pdo_mysql mbstring zip exif pcntl -j$(nproc) && \
     apk add --update nodejs npm && \
     npm install npm@latest -g && \
     npm install n -g && \
     n latest && \
     git config --global user.email "deerfuldeeringdeer@gmail.com" && \
     git config --global user.name "EvergreenDeer"
-
-# Composer
-COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 RUN addgroup -g 1000 deerdoor
 RUN adduser -u 1000 -G deerdoor -S deerdoor
