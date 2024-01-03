@@ -173,6 +173,8 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
     {
         $settingData = $request->validate([
             'key' => [
+                Rule::unique(Setting::class, 'key')
+                    ->ignore($request->post('key')),
                 'required',
                 'string',
                 'between:1,128',
