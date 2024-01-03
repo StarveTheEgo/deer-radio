@@ -9,6 +9,7 @@ use App\Components\OrchidIntergration\Field\FieldOptions;
 use App\Components\OrchidIntergration\Field\FieldType;
 use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Filler\SettingFiller;
+use App\Components\Setting\Orchid\Layout\SettingEditLayout;
 use App\Components\Setting\Service\SettingServiceRegistry;
 use App\Components\Setting\SettingNameInfo;
 use App\Components\Setting\SettingServiceProvider;
@@ -160,37 +161,7 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
 
     private function buildCreateSettingModal(): Modal
     {
-        $layout = Layout::rows([
-            Input::make('key')
-                ->title('Setting key')
-                ->placeholder('group-name.setting_name')
-                ->help('Unique key of the setting. Must have format <code>group-name.setting_name</code>')
-                ->required(),
-
-            Input::make('description')
-                ->title('Description')
-                ->placeholder('Some incredible description'),
-
-            Select::make('fieldType')
-                ->title('Field type')
-                ->options($this->fieldFactoryRegistry->getTypeTitles())
-                ->required(),
-
-            Code::make('fieldOptions')
-                ->title('Field options')
-                ->language(Code::JS)
-                ->value("{\n    \n}")
-                ->required(),
-
-            Input::make('value')
-                ->title('Initial value'),
-
-            CheckBox::make('isEncrypted')
-                ->title('Keep the value encrypted')
-                ->sendTrueOrFalse(),
-        ]);
-
-        $modal = Layout::modal(self::MODAL_CREATE_SETTING, $layout);
+        $modal = Layout::modal(self::MODAL_CREATE_SETTING, SettingEditLayout::class);
 
         return $modal->applyButton(__('Create'));
     }
