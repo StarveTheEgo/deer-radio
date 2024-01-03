@@ -7,27 +7,21 @@ namespace App\Components\DeerRadio\Service;
 use App\Components\DeerRadio\DeerRadioDataAccessor;
 use App\Components\DeerRadio\Enum\DeerRadioDataKey;
 use App\Components\Song\Entity\Song;
-use App\Components\Song\Service\SongServiceRegistry;
-use Psr\Log\LoggerInterface;
+use App\Components\Song\Service\SongReadService;
 
 class SongQueueService
 {
     private DeerRadioDataAccessor $dataAccessor;
-    private SongServiceRegistry $songServiceRegistry;
-    private SongPickService $songPickService;
-    private LoggerInterface $logger;
+
+    private SongReadService $songReadService;
 
     public function __construct(
         DeerRadioDataAccessor $dataAccessor,
-        SongServiceRegistry $songServiceRegistry,
-        SongPickService $songPickService,
-        LoggerInterface $logger
+        SongReadService $songReadService,
     )
     {
         $this->dataAccessor = $dataAccessor;
-        $this->songServiceRegistry = $songServiceRegistry;
-        $this->songPickService = $songPickService;
-        $this->logger = $logger;
+        $this->songReadService = $songReadService;
     }
 
     /**
@@ -51,6 +45,6 @@ class SongQueueService
             return null;
         }
 
-        return $this->songServiceRegistry->getReadService()->findById($currentSongId);
+        return $this->songReadService->findById($currentSongId);
     }
 }
