@@ -7,6 +7,7 @@ namespace Tests\Feature\Components\ImageData\Driver;
 use App\Components\ImageData\Driver\UnsplashDriver;
 use App\Components\ImageData\ImageData;
 use App\Components\ImageData\UnsplashImageDataFactory;
+use App\Components\Setting\Service\SettingReadService;
 use App\Components\UnsplashClient\UnsplashClient;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -41,6 +42,7 @@ class UnsplashImageDataListProviderDriverTest extends TestCase
             $unsplashClientMock,
             $this->createMock(UnsplashSearchQueryBuilderInterface::class),
             new UnsplashImageDataFactory(),
+            $this->createMock(SettingReadService::class)
         );
 
         $actualImageDataList = $unsplashDriver->getImageDataList();
