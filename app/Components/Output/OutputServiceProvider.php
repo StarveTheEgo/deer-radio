@@ -12,7 +12,6 @@ use App\Components\Output\Repository\OutputRepositoryInterface;
 use App\Components\Output\Service\OutputCreateService;
 use App\Components\Output\Service\OutputDeleteService;
 use App\Components\Output\Service\OutputReadService;
-use App\Components\Output\Service\OutputServiceRegistry;
 use App\Components\Output\Service\OutputUpdateService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -27,7 +26,6 @@ class OutputServiceProvider extends ServiceProvider implements DeferrableProvide
         OutputReadService::class,
         OutputUpdateService::class,
         OutputDeleteService::class,
-        OutputServiceRegistry::class,
         OutputDriverRegistry::class,
     ];
 
@@ -68,7 +66,6 @@ class OutputServiceProvider extends ServiceProvider implements DeferrableProvide
             OutputReadService::class,
             OutputUpdateService::class,
             OutputDeleteService::class,
-            OutputServiceRegistry::class,
             OutputRepositoryInterface::class,
             OutputDriverRegistry::class,
             DummyOutputDriver::class,

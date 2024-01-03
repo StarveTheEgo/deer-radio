@@ -8,7 +8,6 @@ use App\Components\Output\Entity\Output;
 use App\Components\Output\Orchid\Enum\OutputRoute;
 use App\Components\Output\Orchid\Screen\OutputIndexScreen;
 use App\Components\Output\Registry\OutputDriverRegistry;
-use App\Components\Output\Service\OutputServiceRegistry;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
@@ -24,20 +23,13 @@ class OutputListLayout extends Table
      */
     public $target = OutputIndexScreen::QUERY_KEY_OUTPUTS;
 
-    private OutputServiceRegistry $outputServiceRegistry;
-
     private OutputDriverRegistry $outputDriverRegistry;
 
     /**
-     * @param OutputServiceRegistry $outputServiceRegistry
      * @param OutputDriverRegistry $outputDriverRegistry
      */
-    public function __construct(
-        OutputServiceRegistry $outputServiceRegistry,
-        OutputDriverRegistry $outputDriverRegistry
-    )
+    public function __construct(OutputDriverRegistry $outputDriverRegistry)
     {
-        $this->outputServiceRegistry = $outputServiceRegistry;
         $this->outputDriverRegistry = $outputDriverRegistry;
     }
 

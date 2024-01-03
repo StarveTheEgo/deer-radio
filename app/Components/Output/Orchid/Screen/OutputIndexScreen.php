@@ -8,7 +8,8 @@ use App\Components\Output\Entity\Output;
 use App\Components\Output\Orchid\Enum\OutputPermission;
 use App\Components\Output\Orchid\Enum\OutputRoute;
 use App\Components\Output\Orchid\Layout\OutputListLayout;
-use App\Components\Output\Service\OutputServiceRegistry;
+use App\Components\Output\Service\OutputDeleteService;
+use App\Components\Output\Service\OutputReadService;
 use App\Orchid\Screens\AbstractScreen;
 use App\Orchid\Screens\IconAwareInterface;
 use Orchid\Screen\Actions\Link;
@@ -16,10 +17,11 @@ use Orchid\Support\Facades\Toast;
 
 class OutputIndexScreen extends AbstractScreen implements IconAwareInterface
 {
-
     public const QUERY_KEY_OUTPUTS = 'outputs';
 
-    private OutputServiceRegistry $outputServiceRegistry;
+    private OutputReadService $readService;
+
+    private OutputDeleteService $deleteService;
 
     public static function getName(): ?string
     {
@@ -47,11 +49,16 @@ class OutputIndexScreen extends AbstractScreen implements IconAwareInterface
     }
 
     /**
-     * @param OutputServiceRegistry $outputServiceRegistry
+     * @param OutputReadService $readService
+     * @param OutputDeleteService $deleteService
      */
-    public function __construct(OutputServiceRegistry $outputServiceRegistry)
+    public function __construct(
+        OutputReadService $readService,
+        OutputDeleteService $deleteService
+    )
     {
-        $this->outputServiceRegistry = $outputServiceRegistry;
+        $this->readService = $readService;
+        $this->deleteService = $deleteService;
     }
 
     public function description(): ?string
@@ -72,7 +79,7 @@ class OutputIndexScreen extends AbstractScreen implements IconAwareInterface
     {
         // @todo consider pagination
         return [
-            self::QUERY_KEY_OUTPUTS => $this->outputServiceRegistry->getReadService()->filteredFindAll($this->filters()),
+            self::QUERY_KEY_OUTPUTS => $this->readService->filteredFindAll($this->filters()),
         ];
     }
 
@@ -88,7 +95,7 @@ class OutputIndexScreen extends AbstractScreen implements IconAwareInterface
      */
     public function delete(Output $output): void
     {
-        $this->outputServiceRegistry->getDeleteService()->delete($output);
+        $this->deleteService->delete($output);
 
         Toast::info(__('Output was removed'));
     }
