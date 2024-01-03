@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio\Service;
 
-use App\Components\Author\Service\AuthorServiceRegistry;
+use App\Components\Author\Service\AuthorUpdateService;
 use App\Components\DeerRadio\DeerRadioDataAccessor;
 use App\Components\DeerRadio\Enum\DeerRadioDataKey;
 use App\Components\Song\Service\SongServiceRegistry;
@@ -15,19 +15,19 @@ class CurrentSongUpdateService
 {
     private DeerRadioDataAccessor $dataAccessor;
     private SongServiceRegistry $songServiceRegistry;
-    private AuthorServiceRegistry $authorServiceRegistry;
+    private AuthorUpdateService $authorUpdateService;
     private LoggerInterface $logger;
 
     public function __construct(
         DeerRadioDataAccessor $dataAccessor,
         SongServiceRegistry $songServiceRegistry,
-        AuthorServiceRegistry $authorServiceRegistry,
+        AuthorUpdateService $authorUpdateService,
         LoggerInterface $logger
     )
     {
         $this->dataAccessor = $dataAccessor;
         $this->songServiceRegistry = $songServiceRegistry;
-        $this->authorServiceRegistry = $authorServiceRegistry;
+        $this->authorUpdateService = $authorUpdateService;
         $this->logger = $logger;
     }
 
@@ -48,7 +48,7 @@ class CurrentSongUpdateService
 
                 $previousSongAuthor = $previousSong->getAuthor();
                 $previousSongAuthor->setFinishedAt($now);
-                $this->authorServiceRegistry->getUpdateService()->update($previousSongAuthor);
+                $this->authorUpdateService->update($previousSongAuthor);
             }
         }
 
@@ -66,7 +66,7 @@ class CurrentSongUpdateService
         $nowPlayingAuthor = $nowPlayingSong->getAuthor();
         $nowPlayingAuthor->setPlayedAt($now);
         $nowPlayingAuthor->setPlayedCount($nowPlayingAuthor->getPlayedCount() + 1);
-        $this->authorServiceRegistry->getUpdateService()->update($nowPlayingAuthor);
+        $this->authorUpdateService->update($nowPlayingAuthor);
 
         $this->logger->info(sprintf(
             'Now playing song #%s: %s - %s',
