@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Components\OrchidIntergration\Enum\FieldType;
+use App\Components\OrchidIntergration\Field\Input\FieldOptions\InputOptions;
 use App\Components\Setting\Entity\Setting;
-use App\Components\OrchidIntergration\Field\Factory\Input\InputCustomOptions;
-use App\Components\OrchidIntergration\Field\FieldOptions;
-use App\Components\OrchidIntergration\Field\FieldType;
 use App\Components\UnsplashClient\Enum\UnsplashClientSettingKey;
 
 class UnsplashClientSettingSeeder extends AbstractSettingSeeder
@@ -45,12 +44,9 @@ class UnsplashClientSettingSeeder extends AbstractSettingSeeder
 
     private function createAppSecretSetting() : Setting
     {
-        $customFieldOptions = (new InputCustomOptions())
-            ->setType('password');
-
-        $fieldOptions = (new FieldOptions())
+        $fieldOptions = (new InputOptions())
             ->setValidation(null)
-            ->setCustom($customFieldOptions->toArray());
+            ->setType('password');
 
         return (new Setting())
             ->setKey(UnsplashClientSettingKey::APP_SECRET->value)

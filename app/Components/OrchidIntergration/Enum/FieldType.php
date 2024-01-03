@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Components\OrchidIntergration\Field;
+namespace App\Components\OrchidIntergration\Enum;
 
 enum FieldType: string
 {

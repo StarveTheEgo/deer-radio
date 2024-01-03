@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Components\Setting\Repository;
 
 use App\Components\DoctrineOrchid\Repository\AbstractRepository;
-use App\Components\OrchidIntergration\Field\FieldOptions;
+use App\Components\OrchidIntergration\Enum\FieldType;
+use App\Components\OrchidIntergration\Registry\FieldFactoryRegistry;
 use App\Components\Setting\Entity\Setting;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -49,8 +50,14 @@ class SettingRepository extends AbstractRepository implements SettingRepositoryI
 
     private function validateSettingValue(Setting $setting): void
     {
+        $fieldType = FieldType::tryFrom($setting->getFieldType());
+
         // @todo refactor
-        $fieldOptions = FieldOptions::fromArray($setting->getFieldOptions() ?? []);
+        /** @var FieldFactoryRegistry $fieldFactoryRegistry */
+        $fieldFactoryRegistry = app(FieldFactoryRegistry::class);
+        $fieldOptionsFactory = $fieldFactoryRegistry->getFieldOptionsFactory($fieldType);
+        $fieldOptions = $fieldOptionsFactory->fromArray($setting->getFieldOptions() ?? []);
+
         $validation = $fieldOptions->getValidation();
         if (empty($validation)) {
             return;

@@ -6,11 +6,10 @@ namespace Database\Seeders;
 
 use App\Components\DeerRadio\Enum\UnsplashSearchQueryBuilderSettingKey;
 use App\Components\ImageData\Enum\UnsplashDriverSettingKey;
+use App\Components\OrchidIntergration\Enum\FieldType;
+use App\Components\OrchidIntergration\Field\Input\FieldOptions\InputOptions;
+use App\Components\OrchidIntergration\Field\Toggle\FieldOptions\ToggleOptions;
 use App\Components\Setting\Entity\Setting;
-use App\Components\OrchidIntergration\Field\Factory\Input\InputCustomOptions;
-use App\Components\OrchidIntergration\Field\Factory\Toggle\ToggleCustomOptions;
-use App\Components\OrchidIntergration\Field\FieldOptions;
-use App\Components\OrchidIntergration\Field\FieldType;
 
 class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
 {
@@ -26,13 +25,10 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
 
     private function createIsEnabledSetting(): Setting
     {
-        $customFieldOptions = (new ToggleCustomOptions())
-            ->setDescription('When enabled, Deer Radio will request and use images from Unsplash API');
-
-        $fieldOptions = (new FieldOptions())
+        $fieldOptions = (new ToggleOptions())
             ->setTitle('Enable Unsplash image feature')
-            ->setValidation(null)
-            ->setCustom($customFieldOptions->toArray());
+            ->setDescription('When enabled, Deer Radio will request and use images from Unsplash API')
+            ->setValidation(null);
 
         return (new Setting())
             ->setKey(UnsplashDriverSettingKey::IS_ENABLED->value)
@@ -56,12 +52,9 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
 
     private function createImageListCountSetting() : Setting
     {
-        $customFieldOptions = (new InputCustomOptions())
-            ->setType('number');
-
-        $fieldOptions = (new FieldOptions())
+        $fieldOptions = (new InputOptions())
             ->setValidation(null)
-            ->setCustom($customFieldOptions->toArray());
+            ->setType('number');
 
         return (new Setting())
             ->setKey(UnsplashSearchQueryBuilderSettingKey::IMAGE_LIST_COUNT->value)
@@ -74,11 +67,8 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
 
     private function createDownloadQueryParamsSetting(): Setting
     {
-        $customFieldOptions = (new InputCustomOptions())
+        $fieldOptions = (new InputOptions())
             ->setDescription('Additional image download query parameters, i.e. "&h=1080&q=100"');
-
-        $fieldOptions = (new FieldOptions())
-            ->setCustom($customFieldOptions->toArray());
 
         return (new Setting())
             ->setKey(UnsplashDriverSettingKey::DOWNLOAD_QUERY_PARAMS->value)

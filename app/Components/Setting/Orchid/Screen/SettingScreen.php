@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Components\Setting\Orchid\Screen;
 
-use App\Components\OrchidIntergration\Field\FieldFactoryRegistry;
-use App\Components\OrchidIntergration\Field\FieldOptions;
-use App\Components\OrchidIntergration\Field\FieldType;
+use App\Components\OrchidIntergration\Enum\FieldType;
+use App\Components\OrchidIntergration\Registry\FieldFactoryRegistry;
 use App\Components\Setting\Entity\Setting;
 use App\Components\Setting\Filler\SettingFiller;
 use App\Components\Setting\Orchid\Layout\SettingEditLayout;
@@ -160,9 +159,11 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
     private function buildSettingValueEditorField(Setting $setting): Field
     {
         $fieldType = FieldType::tryFrom($setting->getFieldType());
-        $fieldFactory = $this->fieldFactoryRegistry->getFactory($fieldType);
 
-        $fieldOptions = FieldOptions::fromArray($setting->getFieldOptions() ?: []);
+        $fieldOptionsFactory = $this->fieldFactoryRegistry->getFieldOptionsFactory($fieldType);
+        $fieldOptions = $fieldOptionsFactory->fromArray($setting->getFieldOptions() ?: []);
+
+        $fieldFactory = $this->fieldFactoryRegistry->getFieldFactory($fieldType);
         $field = $fieldFactory->buildField($fieldOptions);
 
         return $field
@@ -197,7 +198,7 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
             'fieldType' => [
                 'required',
                 'string',
-                Rule::in($this->fieldFactoryRegistry->getTypeValues()),
+                Rule::in($this->fieldFactoryRegistry->getFieldTypeValues()),
             ],
             'fieldOptions' => [
                 'required',

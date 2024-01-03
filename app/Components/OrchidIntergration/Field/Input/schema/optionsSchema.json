@@ -1,0 +1,21 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "title": {
+            "type": ["string", "null"],
+            "default": null
+        },
+        "description": {
+            "type": ["string", "null"],
+            "default": null
+        },
+        "validation": {
+            "type": ["array", "null"],
+            "default": null
+        },
+        "type": {
+            "type": "string",
+            "default": "text"
+        }
+    }
+}

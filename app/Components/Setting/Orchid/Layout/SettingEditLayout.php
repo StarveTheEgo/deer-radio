@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\Setting\Orchid\Layout;
 
-use App\Components\OrchidIntergration\Field\FieldFactoryRegistry;
+use App\Components\OrchidIntergration\Registry\FieldFactoryRegistry;
 use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Code;
 use Orchid\Screen\Fields\Input;
@@ -38,7 +38,7 @@ class SettingEditLayout extends Rows
 
             Select::make('fieldType')
                 ->title('Field type')
-                ->options($this->fieldFactoryRegistry->getTypeTitles())
+                ->options($this->fieldFactoryRegistry->getFieldTypeTitles())
                 ->required(),
 
             Code::make('fieldOptions')

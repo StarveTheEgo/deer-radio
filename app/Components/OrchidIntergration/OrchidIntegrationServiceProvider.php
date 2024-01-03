@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Components\OrchidIntergration;
 
-use App\Components\OrchidIntergration\Field\Factory\Code\CodeFieldFactory;
-use App\Components\OrchidIntergration\Field\Factory\Input\InputFieldFactory;
-use App\Components\OrchidIntergration\Field\Factory\Toggle\ToggleFieldFactory;
-use App\Components\OrchidIntergration\Field\FieldFactoryRegistry;
+use App\Components\OrchidIntergration\Enum\FieldType;
+use App\Components\OrchidIntergration\Field\Code\Factory\CodeFieldFactory;
+use App\Components\OrchidIntergration\Field\Code\Factory\CodeFieldOptionsFactory;
+use App\Components\OrchidIntergration\Field\Input\Factory\InputFieldFactory;
+use App\Components\OrchidIntergration\Field\Input\Factory\InputFieldOptionsFactory;
+use App\Components\OrchidIntergration\Field\Toggle\Factory\ToggleFieldFactory;
+use App\Components\OrchidIntergration\Field\Toggle\Factory\ToggleFieldOptionsFactory;
+use App\Components\OrchidIntergration\Registry\FieldFactoryRegistry;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Psr\Container\ContainerExceptionInterface;
@@ -15,11 +19,20 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class OrchidIntegrationServiceProvider extends ServiceProvider implements DeferrableProvider
 {
+    /**
+     * @var array<class-string>
+     */
     public $singletons = [
-        FieldFactoryRegistry::class => FieldFactoryRegistry::class,
-        InputFieldFactory::class => InputFieldFactory::class,
-        ToggleFieldFactory::class => ToggleFieldFactory::class,
-        CodeFieldFactory::class => CodeFieldFactory::class,
+        FieldFactoryRegistry::class,
+
+        InputFieldFactory::class,
+        InputFieldOptionsFactory::class,
+
+        ToggleFieldFactory::class,
+        ToggleFieldOptionsFactory::class,
+
+        CodeFieldFactory::class,
+        CodeFieldOptionsFactory::class,
     ];
 
     /**
@@ -33,17 +46,40 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
     {
         /** @var FieldFactoryRegistry $fieldFactoryRegistry */
         $fieldFactoryRegistry = $this->app->get(FieldFactoryRegistry::class);
-        foreach ($this->getFieldFactoryClasses() as $factoryClass) {
-            $fieldFactoryRegistry->registerFactory($this->app->get($factoryClass));
+        // registering field factories
+        foreach ($this->getFieldFactoryClasses() as $fieldTypeValue => $fieldFactoryClass) {
+            $fieldType = FieldType::tryFrom($fieldTypeValue);
+            $fieldFactoryRegistry->registerFieldFactory($fieldType, $this->app->get($fieldFactoryClass));
+        }
+
+        // registering field options factories
+        foreach ($this->getFieldOptionsFactoryClasses() as $fieldTypeValue => $fieldOptionsFactoryClass) {
+            $fieldType = FieldType::tryFrom($fieldTypeValue);
+            $fieldFactoryRegistry->registerFieldOptionsFactory($fieldType, $this->app->get($fieldOptionsFactoryClass));
         }
     }
 
+    /**
+     * @return array<string, class-string>
+     */
     private function getFieldFactoryClasses(): array
     {
         return [
-            InputFieldFactory::class,
-            ToggleFieldFactory::class,
-            CodeFieldFactory::class,
+            FieldType::INPUT->value => InputFieldFactory::class,
+            FieldType::TOGGLE->value => ToggleFieldFactory::class,
+            FieldType::CODE->value => CodeFieldFactory::class,
+        ];
+    }
+
+    /**
+     * @return array<string, class-string>
+     */
+    private function getFieldOptionsFactoryClasses(): array
+    {
+        return [
+            FieldType::INPUT->value => InputFieldOptionsFactory::class,
+            FieldType::TOGGLE->value => ToggleFieldOptionsFactory::class,
+            FieldType::CODE->value => CodeFieldOptionsFactory::class,
         ];
     }
 
@@ -55,10 +91,16 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
     public function provides(): array
     {
         return [
-            FieldFactoryRegistry::class => FieldFactoryRegistry::class,
+            FieldFactoryRegistry::class,
+
             InputFieldFactory::class,
+            InputFieldOptionsFactory::class,
+
             ToggleFieldFactory::class,
+            ToggleFieldOptionsFactory::class,
+
             CodeFieldFactory::class,
+            CodeFieldOptionsFactory::class,
         ];
     }
 }
