@@ -18,7 +18,8 @@
         "laravel/tinker": "^2.7",
         "orchid/crud": "^3.8",
         "orchid/platform": "^13.5",
-        "unsplash/unsplash": "^3.2"
+        "unsplash/unsplash": "^3.2",
+        "webmozart/assert": "^1.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
