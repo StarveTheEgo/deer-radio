@@ -61,7 +61,7 @@ class Album extends \App\Components\Album\Entity\Album implements \Doctrine\ORM\
 
 
     /**
-     *
+     * 
      * @return array
      */
     public function __sleep()
@@ -74,7 +74,7 @@ class Album extends \App\Components\Album\Entity\Album implements \Doctrine\ORM\
     }
 
     /**
-     *
+     * 
      */
     public function __wakeup()
     {
@@ -96,7 +96,7 @@ class Album extends \App\Components\Album\Entity\Album implements \Doctrine\ORM\
     }
 
     /**
-     *
+     * 
      */
     public function __clone()
     {
@@ -176,7 +176,7 @@ class Album extends \App\Components\Album\Entity\Album implements \Doctrine\ORM\
         return self::$lazyPropertiesDefaults;
     }
 
-
+    
     /**
      * {@inheritDoc}
      */
