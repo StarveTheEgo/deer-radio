@@ -14,7 +14,7 @@ class UpdateNowPlayingId extends Command
      *
      * @var string
      */
-    protected $signature = 'song:updateNowPlaying {song_id}';
+    protected $signature = 'song:updateNowPlaying {songId}';
 
     /**
      * The console command description.
@@ -42,7 +42,7 @@ class UpdateNowPlayingId extends Command
      */
     public function handle() : void
     {
-        $song_id = $this->argument('song_id');
+        $song_id = $this->argument('songId');
         $this->currentSongUpdateService->updateCurrentSongId((int) $song_id);
     }
 }

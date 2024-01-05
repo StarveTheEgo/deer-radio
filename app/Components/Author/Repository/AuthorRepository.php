@@ -35,8 +35,8 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
         $result = $queryBuilder
             ->select('author.id')
             ->add('where', $queryBuilder->expr()->orX(
-                $queryBuilder->expr()->lte('author.finished_at', ':authorFinishedBefore'),
-                $queryBuilder->expr()->isNull('author.finished_at')
+                $queryBuilder->expr()->lte('author.finishedAt', ':authorFinishedBefore'),
+                $queryBuilder->expr()->isNull('author.finishedAt')
             ))
             ->setParameters([
                 'authorFinishedBefore' => $maxFinishedAt,

@@ -44,7 +44,7 @@ abstract class AbstractRepository implements RepositoryInterface
     public function count() : int
     {
         return $this->createQueryBuilder('object')
-            ->select('count(*)')
+            ->select('count(object.id)')
             ->getQuery()
             ->getSingleScalarResult();
     }

@@ -40,7 +40,7 @@ class ComponentDataRepository extends AbstractRepository implements ComponentDat
             return null;
         }
 
-        return unserialize($value, ['allowed_classes' => false]);
+        return unserialize($value, ['allowed_classes' => true]);
     }
 
     public function setValue(string $component, string $field, $value): ComponentData

@@ -60,7 +60,7 @@ class GetCurrentDeerImage extends Command
             throw new RuntimeException('No image data found');
         }
 
-        $description = $imageData->getDescription();
+        $description = $imageData->getDescription() ?: '';
         $description_length = mb_strlen($description);
         if ($description_length >= self::IMAGE_DESCRIPTION_LIMIT) {
             $imageData->setDescription(mb_substr($description, 0, self::IMAGE_DESCRIPTION_LIMIT).'…');

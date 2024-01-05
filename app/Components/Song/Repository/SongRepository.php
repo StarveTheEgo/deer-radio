@@ -31,34 +31,38 @@ class SongRepository extends AbstractRepository implements SongRepositoryInterfa
             ->createQueryBuilder('song')
             ->select('song.id')
             ->leftJoin('song.author', 'author')
-            ->where('song.isActive', 1)
+            ->andWhere('song.isActive = 1')
             ->orderBy('song.finishedAt', 'ASC');
 
         $avoidableSongIds = $criteria->getAvoidableSongIds();
         if (count($avoidableSongIds) > 0) {
-            $queryBuilder = $queryBuilder->where('song.id', 'NOT IN', $avoidableSongIds);
+            $queryBuilder = $queryBuilder
+                ->andWhere($queryBuilder->expr()->notIn('song.id', ':avoidableSongIds'))
+                ->setParameter('avoidableSongIds', $avoidableSongIds);
         }
 
         $avoidableAuthorIds = $criteria->getAvoidableAuthorIds();
         if (count($avoidableAuthorIds) > 0) {
-            $queryBuilder = $queryBuilder->where('author.id', 'NOT IN', $avoidableAuthorIds);
+            $queryBuilder = $queryBuilder
+                ->andWhere($queryBuilder->expr()->notIn('author.id', ':avoidableAuthorIds'))
+                ->setParameter('avoidableAuthorIds', $avoidableAuthorIds);
         }
 
         $authorIds = $criteria->getSuitableAuthorIds();
         if (count($authorIds) > 0) {
-            $queryBuilder = $queryBuilder->where('author.id', 'IN', $authorIds);
+            $queryBuilder = $queryBuilder
+                ->andWhere($queryBuilder->expr()->in('author.id', ':suitableAuthorIds'))
+                ->setParameter('suitableAuthorIds', $authorIds);
         }
 
         $maxSongFinishTime = $criteria->getMaxSongFinishTime();
         if ($maxSongFinishTime !== null) {
             $queryBuilder = $queryBuilder
-                ->add('where', $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->lte('song.finished_at', ':maxSongFinishTime'),
-                    $queryBuilder->expr()->isNull('song.finished_at')
+                ->andWhere($queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->lte('song.finishedAt', ':maxSongFinishTime'),
+                    $queryBuilder->expr()->isNull('song.finishedAt')
                 ))
-                ->setParameters([
-                    'maxSongFinishTime' => $maxSongFinishTime,
-                ]);
+                ->setParameter('maxSongFinishTime', $maxSongFinishTime);
         }
 
         $limit = $criteria->getLimit();

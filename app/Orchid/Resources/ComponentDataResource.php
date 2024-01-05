@@ -98,7 +98,7 @@ class ComponentDataResource extends Resource
 
             TD::make('updated_at', 'Update date')
                 ->render(function ($model) {
-                    return $model->updated_at->toDateTimeString();
+                    return $model->updated_at?->toDateTimeString();
                 }),
         ];
     }

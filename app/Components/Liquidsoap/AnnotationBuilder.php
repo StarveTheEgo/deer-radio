@@ -10,7 +10,7 @@ class AnnotationBuilder
 {
     /**
      * @param string $path
-     * @param array $metadata
+     * @param array<string, mixed> $metadata
      * @return string
      * @throws JsonException
      */
@@ -22,10 +22,19 @@ class AnnotationBuilder
 
         $result = [];
         foreach ($metadata as $attribute => $value) {
+            if ($value === null) {
+                $value = '';
+            }
+
+            if (is_bool($value)) {
+                $value = (int) $value;
+            }
+
             if (!is_scalar($value)) {
                 $value = json_encode($value, JSON_THROW_ON_ERROR);
             }
-            $value = str_replace('"', '\\"', $value);
+
+            $value = str_replace('"', '\\"', (string) $value);
             $result[]= sprintf('%s="%s"', $attribute, $value);
         }
 
