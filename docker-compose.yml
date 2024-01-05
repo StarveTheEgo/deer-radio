@@ -39,6 +39,8 @@ services:
     depends_on:
       deer-radio-mysql:
           condition: service_healthy
+      deer-radio-liquidsoap:
+          condition: service_healthy
     healthcheck:
         test: php artisan db:show | grep -c "deer-radio-mysql" > /dev/null
         interval: 5s
@@ -65,6 +67,23 @@ services:
       deer-radio-mysql:
           condition: service_healthy
 
+  deer-radio-liquidsoap:
+      container_name: deer-radio-liquidsoap
+      build:
+          context: ./
+          dockerfile: ./.docker/liquidsoap/Dockerfile
+      volumes:
+          - ./.docker/liquidsoap/radio:/var/liquidsoap/radio:cached
+          - deer-radio-app-data:/var/www/storage/app
+      networks:
+          - deer-radio-network
+      healthcheck:
+          test: curl -sS http://deer-radio-liquidsoap:8080/healthcheck | grep -c '"status":"ok"' > /dev/null
+          interval: 5s
+          timeout: 5s
+          retries: 55
+# 0 Tyson's addition
+
 networks:
   deer-radio-network:
     driver: bridge
@@ -78,3 +97,4 @@ volumes:
     driver: local
   deer-radio-js-vendor:
     driver: local
+# 000000 Tyson's touch
