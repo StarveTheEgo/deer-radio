@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[Orm\Entity]
 #[Orm\Table(name: 'songs')]
-#[Orm\UniqueConstraint(name: 'songs_author_id_album_id_title_unique', columns: ['authorId', 'albumId', 'title'])]
+#[Orm\UniqueConstraint(name: 'songs_author_id_album_id_title_unique', columns: ['author_id', 'album_id', 'title'])]
 class Song extends AbstractDomainObject implements TimestampableInterface
 {
     use TimestampableEntityTrait;
@@ -29,13 +29,13 @@ class Song extends AbstractDomainObject implements TimestampableInterface
     #[ORM\Column(type: Types::STRING)]
     protected string $title;
 
-    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'song')]
+    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'songs')]
     protected Author $author;
 
-    #[ORM\ManyToOne(targetEntity: Album::class, inversedBy: 'song')]
+    #[ORM\ManyToOne(targetEntity: Album::class, inversedBy: 'songs')]
     protected ?Album $album;
 
-    #[ORM\ManyToOne(targetEntity: Label::class, inversedBy: 'song')]
+    #[ORM\ManyToOne(targetEntity: Label::class, inversedBy: 'songs')]
     protected ?Label $label;
 
     #[ORM\Column(type: Types::INTEGER)]
@@ -58,7 +58,7 @@ class Song extends AbstractDomainObject implements TimestampableInterface
     protected ?DateTimeImmutable $finishedAt;
 
     #[ORM\Column(type: Types::BIGINT)]
-    protected int $playedCount = 0;
+    protected string $playedCount = '0';
 
     #[ORM\Column(type: Types::BOOLEAN)]
     protected bool $isActive = true;
@@ -243,18 +243,18 @@ class Song extends AbstractDomainObject implements TimestampableInterface
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getPlayedCount(): int
+    public function getPlayedCount(): string
     {
         return $this->playedCount;
     }
 
     /**
-     * @param int $playedCount
+     * @param string $playedCount
      * @return Song
      */
-    public function setPlayedCount(int $playedCount): Song
+    public function setPlayedCount(string $playedCount): Song
     {
         $this->playedCount = $playedCount;
         return $this;

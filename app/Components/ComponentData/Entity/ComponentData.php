@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[Orm\Entity]
 #[Orm\Table(name: 'component_data')]
-#[Orm\UniqueConstraint(name: '_idx_unique_field', columns: ['component', 'key'])]
+#[Orm\UniqueConstraint(name: '_idx_unique_field', columns: ['component', 'field'])]
 class ComponentData extends AbstractDomainObject implements TimestampableInterface
 {
     use TimestampableEntityTrait;

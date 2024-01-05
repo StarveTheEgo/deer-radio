@@ -12,8 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[Orm\Entity]
 #[Orm\Table(name: 'photobans')]
-#[Orm\UniqueConstraint(name: '_idx_unique_key', columns: ['key'])]
-#[Orm\UniqueConstraint(name: '_idx_image_url', columns: ['imageUrl'])]
+#[Orm\UniqueConstraint(name: '_idx_image_url', columns: ['image_url'])]
 class Photoban extends AbstractDomainObject implements TimestampableInterface
 {
     use TimestampableEntityTrait;

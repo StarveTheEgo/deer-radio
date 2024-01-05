@@ -63,13 +63,13 @@ class CurrentSongUpdateService
 
         // update stats of this song
         $nowPlayingSong->setPlayedAt($now);
-        $nowPlayingSong->setPlayedCount($nowPlayingSong->getPlayedCount() + 1);
+        $nowPlayingSong->setPlayedCount(bcadd($nowPlayingSong->getPlayedCount(), '1'));
         $this->songUpdateService->update($nowPlayingSong);
 
         // and stats of its author
         $nowPlayingAuthor = $nowPlayingSong->getAuthor();
         $nowPlayingAuthor->setPlayedAt($now);
-        $nowPlayingAuthor->setPlayedCount($nowPlayingAuthor->getPlayedCount() + 1);
+        $nowPlayingAuthor->setPlayedCount(bcadd($nowPlayingAuthor->getPlayedCount(), '1'));
         $this->authorUpdateService->update($nowPlayingAuthor);
 
         $this->logger->info(sprintf(

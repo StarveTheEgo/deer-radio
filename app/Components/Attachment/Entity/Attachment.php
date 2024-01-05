@@ -33,7 +33,7 @@ class Attachment extends AbstractDomainObject implements TimestampableInterface
     protected string $size;
 
     #[ORM\Column(type: Types::INTEGER)]
-    protected string $sort;
+    protected int $sort;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $path;
@@ -137,18 +137,18 @@ class Attachment extends AbstractDomainObject implements TimestampableInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getSort(): string
+    public function getSort(): int
     {
         return $this->sort;
     }
 
     /**
-     * @param string $sort
+     * @param int $sort
      * @return Attachment
      */
-    public function setSort(string $sort): Attachment
+    public function setSort(int $sort): Attachment
     {
         $this->sort = $sort;
         return $this;

@@ -39,7 +39,7 @@ class Author extends AbstractDomainObject implements TimestampableInterface
     protected ?DateTimeImmutable $finishedAt;
 
     #[ORM\Column(type: Types::BIGINT)]
-    protected int $playedCount = 0;
+    protected string $playedCount = '0';
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     protected ?string $unsplashSearchQuery;
@@ -47,7 +47,7 @@ class Author extends AbstractDomainObject implements TimestampableInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Song::class)]
     protected Collection $songs;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Author::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: AuthorLink::class)]
     protected Collection $links;
 
     public function __construct() {
@@ -136,18 +136,18 @@ class Author extends AbstractDomainObject implements TimestampableInterface
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getPlayedCount(): int
+    public function getPlayedCount(): string
     {
         return $this->playedCount;
     }
 
     /**
-     * @param int $playedCount
+     * @param string $playedCount
      * @return Author
      */
-    public function setPlayedCount(int $playedCount): Author
+    public function setPlayedCount(string $playedCount): Author
     {
         $this->playedCount = $playedCount;
         return $this;
