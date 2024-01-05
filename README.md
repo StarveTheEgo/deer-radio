@@ -31,6 +31,7 @@ php artisan orchid:admin admin admin@admin.com password
 - Use JSON schema validator instead of manual validation&parsing
 - Probably to restore auto-disover feature (currently it tries to access not-ready-yet hostname; Need to find out why it is not ready)
 - Remove 'custom' fieldOptions, let only fieldOptions without this over-engineering
+- Added authorization for both http servers (app and liquidsoap's harbor)
 
 # Roadmap:
 - Finish project migration
