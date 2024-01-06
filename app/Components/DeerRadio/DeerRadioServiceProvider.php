@@ -16,7 +16,6 @@ use App\Components\DeerRadio\Service\SongAnnotateService;
 use App\Components\DeerRadio\Service\SongPickService;
 use App\Components\DeerRadio\Service\SongQueueService;
 use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
-use App\Components\ImageData\Driver\UnsplashDriver;
 use App\Components\Storage\Enum\StorageName;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -27,15 +26,17 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
 {
     public const COMPONENT_NAME = 'DeerRadio';
 
+    /**
+     * @var array<class-string, class-string>
+     */
+    public array $singletons = [
+        UnsplashSearchQueryBuilderInterface::class => DeerRadioUnsplashSearchQueryBuilder::class,
+    ];
+
     public function register()
     {
         $this->registerDeerImageUpdateService();
         $this->registerDeerImageDeleteService();
-
-        $this->app
-            ->when(UnsplashDriver::class)
-            ->needs(UnsplashSearchQueryBuilderInterface::class)
-            ->give(DeerRadioUnsplashSearchQueryBuilder::class);
     }
 
     public function boot() : void

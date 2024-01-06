@@ -61,8 +61,12 @@ class SettingServiceProvider extends ServiceProvider implements DeferrableProvid
     public function provides(): array
     {
         return [
+            SettingCreateService::class,
             SettingReadService::class,
             SettingUpdateService::class,
+            SettingDeleteService::class,
+            SettingValueService::class,
+
             SettingRepositoryInterface::class,
         ];
     }
