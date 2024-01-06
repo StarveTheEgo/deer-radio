@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio\Service;
 
+use App\Components\Attachment\Helper\AttachmentPathHelper;
 use App\Components\Liquidsoap\AnnotationBuilder;
 use App\Components\Song\Entity\Song;
 use Illuminate\Filesystem\FilesystemManager;
@@ -15,13 +16,17 @@ class SongAnnotateService
     private FilesystemManager $filesystemManager;
     private AnnotationBuilder $annotationBuilder;
 
+    private AttachmentPathHelper $attachmentPathHelper;
+
     public function __construct(
         FilesystemManager $filesystemManager,
         AnnotationBuilder $annotationBuilder,
+        AttachmentPathHelper $attachmentPathHelper
     )
     {
         $this->filesystemManager = $filesystemManager;
         $this->annotationBuilder = $annotationBuilder;
+        $this->attachmentPathHelper = $attachmentPathHelper;
     }
 
     /**
@@ -31,19 +36,29 @@ class SongAnnotateService
      */
     public function annotate(Song $song) : string
     {
+        $songId = $song->getId();
         $songAttachment = $song->getSongAttachment();
         if ($songAttachment === null) {
             throw new LogicException(sprintf(
                 'Song #%d has no attachment',
-                $song->getId()
+                $songId
             ));
         }
 
         $disk = $this->filesystemManager->disk($songAttachment->getDisk());
-        $songFilePath = $disk->path($songAttachment->getPath());
+        $songPath = $this->attachmentPathHelper->getPathOnDisk($songAttachment);
+
+        if (!$disk->exists($songPath)) {
+            throw new LogicException(sprintf(
+                'Song #%d\'s attachment does not exist in: %s',
+                $songId,
+                $songPath
+            ));
+        }
 
         return $this->annotationBuilder->buildDataAnnotation(
-            $songFilePath,
+            // @fixme security concern: API should not reveal full path
+            $disk->path($songPath),
             $this->buildSongMetadata($song)
         );
     }
@@ -65,8 +80,10 @@ class SongAnnotateService
         }
 
         $labelLinks = [];
-        foreach ($label->getLinks() as $labelLink) {
-            $labelLinks[] = $labelLink->getUrl();
+        if ($label !== null) {
+            foreach ($label->getLinks() as $labelLink) {
+                $labelLinks[] = $labelLink->getUrl();
+            }
         }
 
         return [
@@ -77,7 +94,7 @@ class SongAnnotateService
             'album' => $album->getTitle() ?? '',
             'album_year' => $album->getYear(),
             'author_links' => $authorLinks,
-            'label' => $label->getName() ?? '',
+            'label' => $label?->getName() ?? '',
             'label_links' => $labelLinks,
         ];
     }
