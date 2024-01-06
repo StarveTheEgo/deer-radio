@@ -10,13 +10,22 @@ class LocalDriver implements ImageDataListProviderInterface
 {
     private array $imagePaths;
 
-    public function __construct(array $imagePaths) {
-        $this->imagePaths = $imagePaths;
-    }
-
     public static function getName(): string
     {
         return 'local_image_list';
+    }
+
+    public function __construct(array $imagePaths = [])
+    {
+        $this->imagePaths = $imagePaths;
+    }
+
+    /**
+     * @param array $imagePaths
+     */
+    public function setImagePaths(array $imagePaths): void
+    {
+        $this->imagePaths = $imagePaths;
     }
 
     /**
