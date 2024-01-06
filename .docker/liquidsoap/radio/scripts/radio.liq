@@ -12,10 +12,10 @@
 %include "outputs/main.liq"
 
 
-#thread.when({30s}, update_deer_image)
+thread.when({30s}, update_deer_image)
 
 # PERIODIC LINKS
-#thread.when({10s}, update_current_shop_links)
+thread.when({10s}, update_current_shop_links)
 
 # enable_replaygain_metadata()
 
@@ -27,6 +27,7 @@
 # Combinate :-D
 
 
+deer_video = fallback([deer_video, blank()])
 
 combined_stream = mux_video(video=deer_video, mksafe(audio))
 

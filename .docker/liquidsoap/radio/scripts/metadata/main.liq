@@ -19,7 +19,7 @@ def apply_song(m) =
   #log("Now playing: #{song_author()} by #{song_title()}")
   log("Now playing $(title) by $(artist)" % [("artist", song_author()), ("title", song_title())])
 
-  ignore(process.read("php /var/www/deer-radio/artisan song:updateNowPlaying #{track_id}"))
+  update_now_playing_id(track_id)
   log("actually playing")
   update_deer_image()
   send_notification(get_formatted_song_notification())
