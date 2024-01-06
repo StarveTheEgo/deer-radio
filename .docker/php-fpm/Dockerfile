@@ -32,7 +32,7 @@ RUN apk update && apk add --no-cache \
     curl  \
     composer && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install gd pdo_mysql mbstring zip exif pcntl -j$(nproc) && \
+    docker-php-ext-install gd bcmath pdo_mysql mbstring zip exif pcntl -j$(nproc) && \
     apk add --update nodejs npm && \
     npm install npm@latest -g && \
     npm install n -g && \
