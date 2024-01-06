@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60224671f65b008bd829c16fe2c895a6",
+    "content-hash": "b6a34757cfb2662f3b625ea5629dcbf5",
     "packages": [
         {
             "name": "arvenil/ninja-mutex",
@@ -11732,7 +11732,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "ext-bcmath": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

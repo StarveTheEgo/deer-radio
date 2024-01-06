@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-bcmath": "*",
         "doctrine/dbal": "^2.13",
         "google/apiclient": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
@@ -19,8 +20,7 @@
         "orchid/crud": "^3.8",
         "orchid/platform": "^13.5",
         "unsplash/unsplash": "^3.2",
-        "webmozart/assert": "^1.11",
-        "ext-bcmath": "*"
+        "webmozart/assert": "^1.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
