@@ -39,8 +39,6 @@ services:
     depends_on:
       deer-radio-mysql:
           condition: service_healthy
-      deer-radio-liquidsoap:
-          condition: service_healthy
     healthcheck:
         test: php artisan db:show | grep -c "deer-radio-mysql" > /dev/null
         interval: 5s
@@ -66,6 +64,11 @@ services:
           condition: service_healthy
       deer-radio-mysql:
           condition: service_healthy
+    healthcheck:
+        test: [ "CMD", "nc", "-vz", "-w1", "localhost", "80" ]
+        interval: 10s
+        timeout: 1s
+        retries: 30
 
   deer-radio-liquidsoap:
       container_name: deer-radio-liquidsoap
@@ -77,6 +80,11 @@ services:
           - deer-radio-app-data:/var/www/storage/app
       networks:
           - deer-radio-network
+      depends_on:
+          deer-radio-php-fpm:
+              condition: service_healthy
+          deer-radio-nginx:
+              condition: service_healthy
       healthcheck:
           test: curl -sS http://deer-radio-liquidsoap:8080/healthcheck | grep -c '"status":"ok"' > /dev/null
           interval: 5s
