@@ -88,7 +88,7 @@ class CliCommandController extends Controller
      */
     public function notifyStreamChat(Request $request): JsonResponse
     {
-        $message = $request->post('message');
+        $message = $request->json('message');
 //      @todo implement
 
         return response()->json([
