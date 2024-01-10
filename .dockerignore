@@ -1,20 +1,20 @@
-bootstrap/cache/
+src/bootstrap/cache/
 
-storage/app/*
-storage/framework/cache/*
-storage/framework/sessions/*
-storage/framework/views/*
-storage/logs/*
+src/storage/app/*
+src/storage/framework/cache/*
+src/storage/framework/sessions/*
+src/storage/framework/views/*
+src/storage/logs/*
 
-vendor/
-node_modules/
+src/vendor/
+src/node_modules/
 
 .git
 .idea
-.gitignore
-.gitattributes
+src/.gitignore
+src/.gitattributes
 
-README.md
+src/README.md
 
 Dockerfile
 docker-compose.yml
