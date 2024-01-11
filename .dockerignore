@@ -9,6 +9,8 @@ src/storage/logs/*
 src/vendor/
 src/node_modules/
 
+docker/
+
 .git
 .idea
 .gitignore

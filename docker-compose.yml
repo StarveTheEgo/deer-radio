@@ -26,7 +26,7 @@ services:
     container_name: deer-radio-php-fpm
     build:
       context: ./
-      dockerfile: .docker/php-fpm/Dockerfile
+      dockerfile: docker/php-fpm/Dockerfile
     ports:
       - '9000:9000'
     volumes:
@@ -49,7 +49,7 @@ services:
     container_name: deer-radio-nginx
     build:
       context: ./
-      dockerfile: ./.docker/nginx/Dockerfile
+      dockerfile: /docker/nginx/Dockerfile
     ports:
       - '81:80'
     volumes:
@@ -74,9 +74,9 @@ services:
       container_name: deer-radio-liquidsoap
       build:
           context: ./
-          dockerfile: ./.docker/liquidsoap/Dockerfile
+          dockerfile: ./docker/liquidsoap/Dockerfile
       volumes:
-          - ./.docker/liquidsoap/radio:/var/liquidsoap/radio:cached
+          - ./docker/liquidsoap/radio:/var/liquidsoap/radio:cached
           - deer-radio-app-data:/var/www/storage/app
       networks:
           - deer-radio-network
