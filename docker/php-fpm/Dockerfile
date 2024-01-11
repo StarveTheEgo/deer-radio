@@ -41,8 +41,7 @@ RUN apk update && apk add --no-cache \
     git config --global user.email "deerfuldeeringdeer@gmail.com" && \
     git config --global user.name "EvergreenDeer"
 
-RUN addgroup -g 1000 deerdoor && adduser -u 1000 -G deerdoor -S deerdoor
-
+COPY --chown=deerdoor:deerdoor ./src/. /var/www/app
 COPY --chown=deerdoor:deerdoor ./.env /var/www/app
 
 USER deerdoor

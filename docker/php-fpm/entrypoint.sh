@@ -2,6 +2,6 @@
 
 set -e
 
-php artisan migrate --seed
+php /var/www/app/artisan migrate --seed
 
 exec "$@"
