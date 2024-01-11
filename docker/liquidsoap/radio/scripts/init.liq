@@ -1,13 +1,13 @@
 settings.init.force_start := true
 
-#settings.log.file := true
-#settings.log.file.path := "/var/www/storage/logs/liquidsoap.log"
+settings.log.file := true
+settings.log.file.path := "/var/radio-storage/logs/liquidsoap.log"
 
 settings.init.catch_exn := false
 settings.log.level := 5
 settings.log.stdout := true
 settings.sandbox := false
-settings.sandbox.rw := ['/var/www/storage/app', '/var/www/storage/logs']
+settings.sandbox.rw := ['/var/radio-storage']
 
 settings.frame.audio.samplerate := audio_samplerate
 settings.audio.converter.samplerate.converters := ["libsamplerate", "native"]

@@ -39,7 +39,12 @@ RUN apk update && apk add --no-cache \
     npm install n -g && \
     n latest && \
     git config --global user.email "deerfuldeeringdeer@gmail.com" && \
-    git config --global user.name "EvergreenDeer"
+    git config --global user.name "EvergreenDeer" && \
+    addgroup -g 1000 deerdoor && adduser -u 1000 -G deerdoor -S deerdoor && \
+    # configuring upcoming radio-storage shared volume
+    mkdir -p /var/radio-storage && \
+    chown deerdoor:deerdoor /var/radio-storage && \
+    chmod -R 755 /var/radio-storage
 
 COPY --chown=deerdoor:deerdoor ./src/. /var/www/app
 COPY --chown=deerdoor:deerdoor ./.env /var/www/app
