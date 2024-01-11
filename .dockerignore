@@ -11,8 +11,8 @@ src/node_modules/
 
 .git
 .idea
-src/.gitignore
-src/.gitattributes
+.gitignore
+.gitattributes
 
 README.md
 
