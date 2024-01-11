@@ -43,7 +43,7 @@ RUN apk update && apk add --no-cache \
 
 RUN addgroup -g 1000 deerdoor && adduser -u 1000 -G deerdoor -S deerdoor
 
-COPY --chown=deerdoor:deerdoor . /var/www/app
+COPY --chown=deerdoor:deerdoor ./.env /var/www/app
 
 USER deerdoor
 
