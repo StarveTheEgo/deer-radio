@@ -14,7 +14,7 @@ src/node_modules/
 src/.gitignore
 src/.gitattributes
 
-src/README.md
+README.md
 
 Dockerfile
 docker-compose.yml
