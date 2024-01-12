@@ -30,7 +30,7 @@ services:
     ports:
       - '9000:9000'
     volumes:
-      - ./:/var/www/app:cached
+      - ./src/:/var/www/app:cached
       - deer-radio-storage:/var/radio-storage
       - deer-radio-php-vendor:/var/www/app/vendor/
       - deer-radio-js-vendor:/var/www/app/node_modules/
@@ -53,7 +53,7 @@ services:
     ports:
       - '81:80'
     volumes:
-      - ./:/var/www/app:cached
+      - ./src/:/var/www/app:cached
       - deer-radio-storage:/var/radio-storage
       - deer-radio-php-vendor:/var/www/app/vendor/
       - deer-radio-js-vendor:/var/www/app/node_modules/
