@@ -47,7 +47,7 @@ RUN apk update && apk add --no-cache \
     chmod -R 755 /var/radio-storage
 
 COPY --chown=deerdoor:deerdoor ./src/. /var/www/app
-COPY --chown=deerdoor:deerdoor ./.env /var/www/app/.env
+COPY --chown=deerdoor:deerdoor ./.env /var/www/.env
 
 USER deerdoor
 
