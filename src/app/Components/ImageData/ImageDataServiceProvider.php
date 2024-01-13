@@ -21,9 +21,6 @@ class ImageDataServiceProvider extends ServiceProvider implements DeferrableProv
      */
     public array $singletons = [
         UnsplashImageDataFactory::class,
-        ImageDataListProviderDriverRegistry::class,
-        LocalDriver::class,
-        UnsplashDriver::class,
     ];
 
     /**
