@@ -13,8 +13,6 @@ use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterf
 
 class UnsplashDriver implements ImageDataListProviderInterface
 {
-    public const SETTING_DOWNLOAD_QUERY_PARAMS = 'unsplash-query.download_query_params';
-
     private UnsplashClient $unsplashClient;
     private UnsplashImageDataFactory $unsplashImageDataFactory;
     private UnsplashSearchQueryBuilderInterface $queryBuilder;
@@ -26,9 +24,9 @@ class UnsplashDriver implements ImageDataListProviderInterface
     }
 
     public function __construct(
-        UnsplashClient                      $unsplashClient,
+        UnsplashClient $unsplashClient,
         UnsplashSearchQueryBuilderInterface $unsplashQueryBuilder,
-        UnsplashImageDataFactory            $unsplashImageDataFactory,
+        UnsplashImageDataFactory $unsplashImageDataFactory,
         SettingReadService $settingReadService,
     )
     {
