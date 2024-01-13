@@ -32,8 +32,7 @@ class SongDeleteService
     {
         $songAttachment = $song->getSongAttachment();
         if ($songAttachment !== null) {
-            /** @var Filesystem $disk */
-            $disk = $this->filesystemManager->get($songAttachment->getDisk());
+            $disk = $this->filesystemManager->disk($songAttachment->getDisk());
             $disk->delete($songAttachment->getPath());
         }
 
