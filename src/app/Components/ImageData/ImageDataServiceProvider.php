@@ -11,7 +11,6 @@ use App\Components\ImageData\Enum\UnsplashDriverSettingKey;
 use App\Components\Setting\Service\SettingReadService;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
-use JsonException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -28,28 +27,30 @@ class ImageDataServiceProvider extends ServiceProvider implements DeferrableProv
     ];
 
     /**
-     * @param ImageDataListProviderDriverRegistry $driverRegistry
-     * @param LocalDriver $localDriver
      * @return void
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws JsonException
      */
-    public function boot(
-        ImageDataListProviderDriverRegistry $driverRegistry,
-        LocalDriver $localDriver
-    ) : void
+    public function register(): void
     {
-        foreach ($this->getImageProviderDriverClasses() as $driverClass) {
-            $driverRegistry->registerDriver($this->app->get($driverClass));
-        }
+        $this->app->singleton(ImageDataListProviderDriverRegistry::class, function () {
+            $driverRegistry = new ImageDataListProviderDriverRegistry();
+            foreach ($this->getImageProviderDriverClasses() as $driverClass) {
+                $driverRegistry->registerDriver($this->app->get($driverClass));
+            }
 
-        /** @var SettingReadService $settingReadService */
-        $settingReadService = $this->app->get(SettingReadService::class);
+            return $driverRegistry;
+        });
 
-        $imagePathsJson = $settingReadService->getValue(LocalImageSettingKey::IMAGE_PATHS->value, '[]');
-        $imagePaths = json_decode($imagePathsJson, true, flags: JSON_THROW_ON_ERROR);
-        $localDriver->setImagePaths($imagePaths);
+        $this->app->singleton(LocalDriver::class, function () {
+            /** @var SettingReadService $settingReadService */
+            $settingReadService = $this->app->get(SettingReadService::class);
+
+            $imagePathsJson = $settingReadService->getValue(LocalImageSettingKey::IMAGE_PATHS->value, '[]');
+            $imagePaths = json_decode($imagePathsJson, true, flags: JSON_THROW_ON_ERROR);
+
+            return new LocalDriver($imagePaths);
+        });
+
+        $this->app->singleton(UnsplashDriver::class, UnsplashDriver::class);
     }
 
     /**
