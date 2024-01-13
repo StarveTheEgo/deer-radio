@@ -76,8 +76,8 @@ class PhotobanResource extends AbstractResource
     }
 
     /**
-     * @param Model|Photoban $model
-     * @return array
+     * @param Model&Photoban $model
+     * @return array<string, mixed>
      */
     public function rules(Model $model): array
     {
@@ -94,6 +94,9 @@ class PhotobanResource extends AbstractResource
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function filters(): array
     {
         return [];

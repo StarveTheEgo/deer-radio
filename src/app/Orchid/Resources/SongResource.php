@@ -17,6 +17,8 @@ use App\Orchid\Filters\RelatedLabelFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Orchid\Crud\ResourceRequest;
+use Orchid\Filters\Filter;
+use Orchid\Screen\Cell;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\Switcher;
@@ -38,6 +40,9 @@ class SongResource extends AbstractResource
         return __('All songs we know :-)');
     }
 
+    /**
+     * @return array<string>
+     */
     public function with(): array
     {
         return ['author', 'album', 'label'];
@@ -97,7 +102,7 @@ class SongResource extends AbstractResource
     }
 
     /**
-     * @return TD[]
+     * @return array<Cell>
      */
     public function columns(): array
     {
@@ -112,7 +117,7 @@ class SongResource extends AbstractResource
 
             TD::make('author_id', __('Author'))
                 ->render(function (Song $song) {
-                    return $song->author->name;
+                    return $song->author?->name;
                 }),
 
             TD::make('album_id', __('Album'))
@@ -184,7 +189,7 @@ class SongResource extends AbstractResource
 
     /**
      * @param Model|Song $model
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules(Model $model): array
     {
@@ -249,6 +254,9 @@ class SongResource extends AbstractResource
         ];
     }
 
+    /**
+     * @return array<Filter|class-string<Filter>>
+     */
     public function filters(): array
     {
         return [
