@@ -14,7 +14,7 @@ class JsonFieldFactory
      */
     public static function make(?string $name = null) : Code
     {
-        $field = Code::make($name) // Code
+        $field = Code::make($name)
             ->language(Code::JS); // vendor's implementation 'json' is broken, we so are using similar syntax highlighter here
 
         $field->addBeforeRender(function () use ($field) {
