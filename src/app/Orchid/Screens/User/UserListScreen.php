@@ -22,7 +22,9 @@ class UserListScreen extends Screen
     /**
      * Query data.
      *
-     * @return array
+     * @return array{
+     *      users: iterable<User>
+     * }
      */
     public function query(): iterable
     {

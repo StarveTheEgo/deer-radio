@@ -25,7 +25,9 @@ class UserProfileScreen extends Screen
      *
      * @param Request $request
      *
-     * @return array
+     * @return array{
+     *     user: User|null
+     * }
      */
     public function query(Request $request): iterable
     {
