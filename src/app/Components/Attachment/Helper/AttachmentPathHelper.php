@@ -16,17 +16,14 @@ class AttachmentPathHelper
     /**
      * @param FilesystemManager $filesystemManager
      * @param AnnotationBuilder $annotationBuilder
-     * @param AttachmentPathHelper $attachmentPathHelper
      */
     public function __construct(
         FilesystemManager $filesystemManager,
-        AnnotationBuilder $annotationBuilder,
-        AttachmentPathHelper $attachmentPathHelper
+        AnnotationBuilder $annotationBuilder
     )
     {
         $this->filesystemManager = $filesystemManager;
         $this->annotationBuilder = $annotationBuilder;
-        $this->attachmentPathHelper = $attachmentPathHelper;
     }
 
     /**
