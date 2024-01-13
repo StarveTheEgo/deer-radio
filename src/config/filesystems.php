@@ -44,6 +44,11 @@ return [
             'throw' => false,
         ],
 
+        'radio-storage' => [
+            'driver' => 'local',
+            'root' => env('RADIO_STORAGE_PATH'),
+        ],
+
         'temp' => [
             'driver' => 'local',
             'root' => env('TEMP_DIR_PATH'),
