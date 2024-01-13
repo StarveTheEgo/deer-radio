@@ -15,14 +15,18 @@ use App\Components\DeerRadio\Service\DeerImageUpdateService;
 use App\Components\DeerRadio\Service\SongPickService;
 use App\Components\DeerRadio\Service\SongQueueService;
 use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
+use App\Components\ImageData\ImageDataListProviderDriverRegistry;
+use App\Components\Photoban\Service\PhotobanReadService;
 use App\Components\Storage\Enum\StorageName;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\ServiceProvider;
+use Intervention\Image\ImageManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -92,21 +96,20 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
         /** @var FilesystemManager $filesystemManager */
         $filesystemManager = $app->get(FilesystemManager::class);
 
-        $app->singleton(DeerImageUpdateService::class);
+        $app->singleton(DeerImageUpdateService::class, function () use ($app, $filesystemManager) {
+            $radioStorage = $filesystemManager->disk(StorageName::RADIO_STORAGE->value);
+            $tempStorage = $filesystemManager->disk(StorageName::TEMP_STORAGE->value);
 
-        $app
-            ->when(DeerImageUpdateService::class)
-            ->needs('$deerImageStorage')
-            ->give(function () use ($filesystemManager) {
-                return $filesystemManager->disk(StorageName::PUBLIC_STORAGE->value);
-            });
-
-        $app
-            ->when(DeerImageUpdateService::class)
-            ->needs('$tempStorage')
-            ->give(function () use ($filesystemManager) {
-                return $filesystemManager->disk(StorageName::TEMP_STORAGE->value);
-            });
+            return new DeerImageUpdateService(
+                $app->get(ImageDataListProviderDriverRegistry::class),
+                $radioStorage,
+                $tempStorage,
+                $app->get(ImageManager::class),
+                $app->get(PhotobanReadService::class),
+                $app->get(DeerRadioDataAccessor::class),
+                $app->get(LoggerInterface::class),
+            );
+        });
     }
 
     /**
@@ -121,13 +124,10 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
         /** @var FilesystemManager $filesystemManager */
         $filesystemManager = $app->get(FilesystemManager::class);
 
-        $app->singleton(DeerImageDeleteService::class);
+        $app->singleton(DeerImageDeleteService::class, function () use ($app, $filesystemManager) {
+            $radioStorage = $filesystemManager->disk(StorageName::RADIO_STORAGE->value);
 
-        $app
-            ->when(DeerImageDeleteService::class)
-            ->needs('$deerImageStorage')
-            ->give(function () use ($filesystemManager) {
-                return $filesystemManager->disk(StorageName::PUBLIC_STORAGE->value);
-            });
+            return new DeerImageDeleteService($radioStorage,);
+        });
     }
 }
