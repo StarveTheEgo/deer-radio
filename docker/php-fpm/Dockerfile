@@ -57,10 +57,11 @@ RUN chmod -R 775 ./storage && \
     mkdir -m 755 ./bootstrap/cache && \
 #    chmod -R 755 ./bootstrap/cache && \
     mkdir -m 755 /var/radio-storage/deer-images && \
+    mkdir -m 755 /var/radio-storage/logs && \
     composer install && \
     npm ci && \
     npm run build
-
+#  --only=production
 EXPOSE 9000
 
 ENTRYPOINT ["/var/www/entrypoint.sh", "php-fpm", "-F"]
