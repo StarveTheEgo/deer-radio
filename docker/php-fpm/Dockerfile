@@ -56,6 +56,7 @@ WORKDIR /var/www/app
 RUN chmod -R 775 ./storage && \
     mkdir -m 755 ./bootstrap/cache && \
 #    chmod -R 755 ./bootstrap/cache && \
+    mkdir -m 755 /var/radio-storage/deer-images && \
     composer install && \
     npm ci && \
     npm run build
