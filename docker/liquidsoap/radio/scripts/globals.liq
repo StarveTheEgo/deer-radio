@@ -9,6 +9,8 @@ control_host = 'deer-radio-nginx'
 control_protocol = 'http'
 control_api_url = control_protocol ^ '://' ^ control_host ^ '/api/liquidsoap'
 
+harbor_server_port = 8080
+
 base_font_size = 28 # 22
 
 author_info = ref ("")

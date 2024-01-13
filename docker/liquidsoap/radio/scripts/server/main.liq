@@ -13,4 +13,4 @@
 
 
 
-harbor.http.register("/healthcheck", port=8080, method="GET", srv_healthcheck)
+harbor.http.register("/healthcheck", port=harbor_server_port, method="GET", srv_healthcheck)
