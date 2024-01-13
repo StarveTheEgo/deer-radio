@@ -4,27 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Components\DeerRadio\Commands\DeerImageUpdate;
-use App\Components\DeerRadio\Commands\GetCurrentDeerImage;
-use App\Components\DeerRadio\Commands\GetNextSong;
-use App\Components\DeerRadio\Commands\UpdateNowPlayingId;
-use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * @var array<class-string<Command>>
-     */
-    protected $commands = [
-        GetCurrentDeerImage::class,
-        DeerImageUpdate::class,
-        GetCurrentDeerImage::class,
-        GetNextSong::class,
-        UpdateNowPlayingId::class,
-    ];
-
     /**
      * Define the application's command schedule.
      *

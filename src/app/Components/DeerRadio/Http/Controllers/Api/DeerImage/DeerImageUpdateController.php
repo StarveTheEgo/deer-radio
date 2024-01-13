@@ -2,63 +2,48 @@
 
 declare(strict_types=1);
 
-namespace App\Components\DeerRadio\Commands;
+namespace App\Components\DeerRadio\Http\Controllers\Api\DeerImage;
 
 use App\Components\DeerRadio\Service\DeerImageDeleteService;
 use App\Components\DeerRadio\Service\DeerImageUpdateService;
+use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Console\Command;
-use Illuminated\Console\WithoutOverlapping;
+use Illuminate\Routing\ResponseFactory;
+use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Command to update current deer image to display on the Deer Radio
- */
-class DeerImageUpdate extends Command
+class DeerImageUpdateController extends Controller
 {
-    use WithoutOverlapping;
-
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'deer-image:update';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Updates deer image using Unsplash API (or another service!)';
+    private ResponseFactory $responseFactory;
 
     private DeerImageUpdateService $deerImageUpdateService;
+
     private DeerImageDeleteService $deerImageDeleteService;
 
     /**
-     * @inheritDoc
-     *
-     * @return void
+     * @param ResponseFactory $responseFactory
+     * @param DeerImageUpdateService $deerImageUpdateService
+     * @param DeerImageDeleteService $deerImageDeleteService
      */
     public function __construct(
+        ResponseFactory $responseFactory,
         DeerImageUpdateService $deerImageUpdateService,
         DeerImageDeleteService $deerImageDeleteService
     )
     {
-        parent::__construct();
-
+        $this->responseFactory = $responseFactory;
         $this->deerImageUpdateService = $deerImageUpdateService;
         $this->deerImageDeleteService = $deerImageDeleteService;
     }
 
     /**
-     * @return bool
+     * @return Response
      * @throws Exception
      */
-    public function handle(): bool
+    public function update(): Response
     {
         $this->deerImageDeleteService->removeOldImages();
         $this->deerImageUpdateService->update();
 
-        return true;
+        return $this->responseFactory->noContent();
     }
 }

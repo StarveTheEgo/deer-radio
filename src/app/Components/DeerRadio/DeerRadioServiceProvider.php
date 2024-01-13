@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio;
 
-use App\Components\DeerRadio\Commands\DeerImageUpdate;
-use App\Components\DeerRadio\Commands\GetCurrentDeerImage;
-use App\Components\DeerRadio\Commands\GetNextSong;
-use App\Components\DeerRadio\Commands\GetRadioSettings;
-use App\Components\DeerRadio\Commands\UpdateNowPlayingId;
+use App\Components\DeerRadio\Http\Controllers\Api\Chat\DeerLivestreamChatController;
+use App\Components\DeerRadio\Http\Controllers\Api\DeerImage\DeerImageIndexController;
+use App\Components\DeerRadio\Http\Controllers\Api\DeerImage\DeerImageUpdateController;
+use App\Components\DeerRadio\Http\Controllers\Api\Liquidsoap\DeerMusic\DeerMusicQueueController;
+use App\Components\DeerRadio\Http\Controllers\Api\Settings\DeerRadioSettingsController;
 use App\Components\DeerRadio\Service\CurrentSongUpdateService;
 use App\Components\DeerRadio\Service\DeerImageDeleteService;
 use App\Components\DeerRadio\Service\DeerImageUpdateService;
-use App\Components\DeerRadio\Service\SongAnnotateService;
 use App\Components\DeerRadio\Service\SongPickService;
 use App\Components\DeerRadio\Service\SongQueueService;
 use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
@@ -20,7 +19,10 @@ use App\Components\Storage\Enum\StorageName;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\ServiceProvider;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -39,17 +41,21 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
         $this->registerDeerImageDeleteService();
     }
 
-    public function boot() : void
+    public function boot(RouteRegistrar $routeRegistrar) : void
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                DeerImageUpdate::class,
-                GetCurrentDeerImage::class,
-                GetNextSong::class,
-                GetRadioSettings::class,
-                UpdateNowPlayingId::class,
-            ]);
-        }
+        $routeRegistrar
+            ->prefix('internal')
+            ->group(function() use ($routeRegistrar) {
+                $routeRegistrar->get('settings', [DeerRadioSettingsController::class, 'index']);
+
+                $routeRegistrar->get('deer-image/current', [DeerImageIndexController::class, 'index']);
+                $routeRegistrar->get('deer-image/current', [DeerImageUpdateController::class, 'update']);
+
+                $routeRegistrar->get('song-queue/enqueue/auto', [DeerMusicQueueController::class, 'enqueueNextSong']);
+                $routeRegistrar->get('song-queue/update-current-song', [DeerMusicQueueController::class, 'updateCurrentSongId']);
+
+                $routeRegistrar->get('/stream-chat/send-message', [DeerLivestreamChatController::class, 'sendMessage']);
+            });
     }
 
     /**
@@ -63,12 +69,22 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
             CurrentSongUpdateService::class,
             DeerImageDeleteService::class,
             DeerImageUpdateService::class,
-            SongAnnotateService::class,
             SongPickService::class,
             SongQueueService::class,
+
+            DeerLivestreamChatController::class,
+            DeerImageIndexController::class,
+            DeerImageUpdateController::class,
+            DeerMusicQueueController::class,
+            DeerRadioSettingsController::class,
         ];
     }
 
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     private function registerDeerImageUpdateService() : void
     {
         $app = $this->app;
@@ -93,6 +109,11 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
             });
     }
 
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     private function registerDeerImageDeleteService() : void
     {
         $app = $this->app;
