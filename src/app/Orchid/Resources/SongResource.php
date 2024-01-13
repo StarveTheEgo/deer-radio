@@ -69,7 +69,7 @@ class SongResource extends AbstractResource
                 ->required(),
 
             Upload::make('song_attachment_id')
-                ->storage(StorageName::PUBLIC_STORAGE->value)
+                ->storage(StorageName::RADIO_STORAGE->value)
                 ->path('/songs/'.date('Y-m-d').'/')
                 ->title('Song file')
                 ->maxFiles(1),
