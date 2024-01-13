@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio\Service;
 
+use App\Components\DeerRadio\Enum\DeerRadioPath;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 class DeerImageDeleteService
 {
-    private Filesystem $deerImageStorage;
+    private Filesystem $radioStorage;
 
-    public function __construct(
-        Filesystem $deerImageStorage
-    )
+    public function __construct(Filesystem $radioStorage)
     {
-        $this->deerImageStorage = $deerImageStorage;
+        $this->radioStorage = $radioStorage;
     }
 
     public function removeOldImages(): void
     {
-        $deerImageDirectory = $this->deerImageStorage->path('');
+        $deerImageDirectory = $this->radioStorage->path(DeerRadioPath::DEER_IMAGES_DIR->value);
+
         $finder = new Finder();
         $finder
             ->files()
@@ -31,7 +31,7 @@ class DeerImageDeleteService
             ->sortByAccessedTime();
 
         foreach ($finder as $file) {
-            @unlink($file->getRealPath());
+            $this->radioStorage->delete($file->getPath());
         }
     }
 }

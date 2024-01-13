@@ -6,6 +6,7 @@ namespace App\Components\DeerRadio\Service;
 
 use App\Components\DeerRadio\DeerRadioDataAccessor;
 use App\Components\DeerRadio\Enum\DeerRadioDataKey;
+use App\Components\DeerRadio\Enum\DeerRadioPath;
 use App\Components\ImageData\ImageData;
 use App\Components\ImageData\ImageDataListProviderDriverRegistry;
 use App\Components\Photoban\Service\PhotobanReadService;
@@ -22,7 +23,7 @@ class DeerImageUpdateService
 
     private ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry;
 
-    private Filesystem $deerImageStorage;
+    private Filesystem $radioStorage;
 
     private Filesystem $tempStorage;
 
@@ -34,9 +35,18 @@ class DeerImageUpdateService
 
     private DeerRadioDataAccessor $componentDataAccessor;
 
+    /**
+     * @param ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry
+     * @param Filesystem $radioStorage
+     * @param Filesystem $tempStorage
+     * @param ImageManager $imageManager
+     * @param PhotobanReadService $photobanReadService
+     * @param DeerRadioDataAccessor $componentDataAccessor
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry,
-        Filesystem $deerImageStorage,
+        Filesystem $radioStorage,
         Filesystem $tempStorage,
         ImageManager $imageManager,
         PhotobanReadService $photobanReadService,
@@ -45,7 +55,7 @@ class DeerImageUpdateService
     )
     {
         $this->imageDataListProviderDriverRegistry = $imageDataListProviderDriverRegistry;
-        $this->deerImageStorage = $deerImageStorage;
+        $this->radioStorage = $radioStorage;
         $this->tempStorage = $tempStorage;
         $this->imageManagerLib = $imageManager;
         $this->photobanReadService = $photobanReadService;
@@ -113,15 +123,16 @@ class DeerImageUpdateService
             throw new LogicException('Could not find any suitable deer photo');
         }
 
+        $imagesDir = DeerRadioPath::DEER_IMAGES_DIR->value;
         // @todo check if filename is unique?
         $uniqueId = uniqid(self::DEER_IMAGE_PREFIX, true);
-        $newImagePath = $this->deerImageStorage->path($uniqueId.'.jpg');
 
+        $newImagePath = $this->radioStorage->path("$imagesDir/$uniqueId.jpg");
         if ($imageData->getIsRemote()) {
-            $tempImagePath = $this->tempStorage->path($uniqueId.'.tmp.jpg');
+            $tempImagePath = $this->tempStorage->path("$uniqueId.tmp.jpg");
             $this->downloadRemoteImageTo($imageData, $tempImagePath);
             $this->renderAndSaveDeerImageScene($tempImagePath, $newImagePath);
-            @unlink($tempImagePath);
+            $this->tempStorage->delete($tempImagePath);
         } else {
             $this->renderAndSaveDeerImageScene($imageData->getPath(), $newImagePath);
         }
