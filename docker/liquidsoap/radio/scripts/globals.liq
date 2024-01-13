@@ -7,7 +7,7 @@ video_samplerate = 25
 
 control_host = 'deer-radio-nginx'
 control_protocol = 'http'
-control_api_url = control_protocol ^ '://' ^ control_host ^ '/api/liquidsoap'
+control_api_url = control_protocol ^ '://' ^ control_host ^ '/api/internal'
 
 harbor_server_port = 8080
 

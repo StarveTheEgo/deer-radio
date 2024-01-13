@@ -1,5 +1,6 @@
+# Sends specified message to the stream chat(s)
 def send_notification(message) =
-    endpointUrl = control_api_url ^ '/notify-stream-chat/'
+    endpointUrl = control_api_url ^ '/stream-chat/send-message'
 
     payload = json()
     payload.add('message', message)
@@ -21,49 +22,60 @@ def send_notification(message) =
     end
 end
 
-def get_simple_api_result(endpoint) =
-    response = http.get(
+# Makes API request to specified endpoint
+def get_api_response(endpoint) =
+    http.get(
         headers=[
             ("Accept","application/json")
         ],
         control_api_url ^ endpoint
     )
+end
 
+# Requests for current deer image
+def get_deer_image() =
+    response = get_api_response('/deer-image/current')
     try
         let json.parse ({
-            result,
+            annotatedPath,
         } : {
-            result: string,
+            annotatedPath: string,
         }) = response
 
-        result
+        request.create(annotatedPath)
     catch err: [error.json] do
-        error.raise(error.json, 'Failed parsing {#endpoint} response, status is {#response.status_code}, error: {#err}')
+        error.raise(error.json, "Failed at requesting the current deer image, status is #{response.status_code}, error: #{err}")
     end
 end
 
-def get_deer_image() =
-    deer_image_url = get_simple_api_result('/current-deer-image/')
+# Requests the next track for the queue
+def get_next_track() =
+    response = get_api_response('/song-queue/enqueue/auto')
+    try
+        let json.parse ({
+            annotatedPath,
+        } : {
+            annotatedPath: string,
+        }) = response
 
-    request.create(deer_image_url)
+        request.create(annotatedPath)
+    catch err: [error.json] do
+        error.raise(error.json, "Failed at requesting the next song, status is #{response.status_code}, error: #{err}")
+    end
 end
 
-# @note it was not 'force' before
-def get_next_track(mode="force") =
-    song_url = get_simple_api_result('/next-song/' ^ mode)
-
-    request.create(song_url)
-end
-
+# Actualizes currently playing song id for API
 def update_now_playing_id(song_id) =
-    ignore(get_simple_api_result('/update-now-playing/' ^ string(song_id)))
+    ignore(get_api_response('/song-queue/update-current-song' ^ string(song_id)))
 end
 
+# Requests API to update current deer image to a new one
 def update_deer_image() =
     log('updating deer image')
-    ignore(get_simple_api_result('/update-deer-image/'))
+    ignore(get_api_response('/deer-image/update/'))
 end
 
+# Actualizes variables with links to stores
 def update_current_shop_links() =
     # AUTHOR LINK
     author_links_length = list.length(author_links())
