@@ -2,16 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Components\DeerRadio\Http\Controllers\Api\Liquidsoap\DeerMusic;
+namespace App\Components\DeerRadio\Http\Controllers\Api\DeerMusic;
 
 use App\Components\Attachment\Helper\AttachmentPathHelper;
 use App\Components\DeerRadio\Metadata\SongMetadataBuilder;
 use App\Components\DeerRadio\Service\CurrentSongUpdateService;
 use App\Components\DeerRadio\Service\SongPickService;
 use App\Components\DeerRadio\Service\SongQueueService;
+use App\Components\Liquidsoap\AnnotationBuilder;
+use App\Components\Storage\Enum\StorageName;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\ResponseFactory;
+use Illuminate\Support\Facades\Storage;
+use JsonException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -29,6 +33,8 @@ class DeerMusicQueueController extends Controller
 
     private SongPickService $songPickService;
 
+    private AnnotationBuilder $annotationBuilder;
+
     /**
      * @param ResponseFactory $responseFactory
      * @param SongQueueService $songQueueService
@@ -36,6 +42,7 @@ class DeerMusicQueueController extends Controller
      * @param CurrentSongUpdateService $currentSongUpdateService
      * @param SongMetadataBuilder $songMetadataBuilder
      * @param AttachmentPathHelper $attachmentPathHelper
+     * @param AnnotationBuilder $annotationBuilder
      */
     public function __construct(
         ResponseFactory $responseFactory,
@@ -43,7 +50,8 @@ class DeerMusicQueueController extends Controller
         SongPickService $songPickService,
         CurrentSongUpdateService $currentSongUpdateService,
         SongMetadataBuilder $songMetadataBuilder,
-        AttachmentPathHelper $attachmentPathHelper
+        AttachmentPathHelper $attachmentPathHelper,
+        AnnotationBuilder $annotationBuilder
     )
     {
         $this->responseFactory = $responseFactory;
@@ -52,10 +60,12 @@ class DeerMusicQueueController extends Controller
         $this->currentSongUpdateService = $currentSongUpdateService;
         $this->songMetadataBuilder = $songMetadataBuilder;
         $this->attachmentPathHelper = $attachmentPathHelper;
+        $this->annotationBuilder = $annotationBuilder;
     }
 
     /**
      * @return JsonResponse
+     * @throws JsonException
      */
     public function enqueueNextSong() : JsonResponse
     {
@@ -74,9 +84,16 @@ class DeerMusicQueueController extends Controller
             ));
         }
 
+        $songPath = $this->attachmentPathHelper->getExistingPathOnDisk($songAttachment);
+        $songMetadata = $this->songMetadataBuilder->buildFromSong($nextSong);
+
         return $this->responseFactory->json([
-            'metadata' => $this->songMetadataBuilder->buildFromSong($nextSong),
-            'path' => $this->attachmentPathHelper->getExistingPathOnDisk($songAttachment),
+            'path' => $songPath,
+            'metadata' => $songMetadata,
+            'annotatedPath' => $this->annotationBuilder->buildDataAnnotation(
+                Storage::disk(StorageName::RADIO_STORAGE->value)->path($songPath),
+                $songMetadata
+            )
         ]);
     }
 
