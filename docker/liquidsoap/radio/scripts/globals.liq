@@ -3,8 +3,6 @@ video_width = 1920
 video_height = 1080
 video_samplerate = 25
 
-#storage_path = '/var/www/storage/app'
-
 control_host = 'deer-radio-nginx'
 control_protocol = 'http'
 control_api_url = control_protocol ^ '://' ^ control_host ^ '/api/internal'
