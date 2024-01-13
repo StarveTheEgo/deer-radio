@@ -143,7 +143,7 @@ class DeerImageUpdateService
             ->setImageUrl(strtok($imageData->getImageUrl() ?? '', '?'))
             ->setProfileUrl(strtok($imageData->getProfileUrl() ?? '', '?'))
             ->setAuthorName($imageData->getAuthorName() ?? '<unknown>')
-            ->setPath(str_replace(["\r", "\n"], ['', ' '], $imageData->getDescription() ?? ''));
+            ->setDescription(str_replace(["\r", "\n"], ['', ' '], $imageData->getDescription() ?? ''));
 
         $this->componentDataAccessor->setValue(DeerRadioDataKey::CURRENT_IMAGE_DATA->value, $localImageData);
     }
