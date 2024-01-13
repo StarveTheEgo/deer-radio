@@ -37,7 +37,12 @@ class DeerRadioServiceProvider extends ServiceProvider
         UnsplashSearchQueryBuilderInterface::class => DeerRadioUnsplashSearchQueryBuilder::class,
     ];
 
-    public function register()
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function register(): void
     {
         $this->registerDeerImageUpdateService();
         $this->registerDeerImageDeleteService();
