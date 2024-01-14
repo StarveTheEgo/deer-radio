@@ -47,12 +47,33 @@ class UnsplashImageDataListProviderDriverTest extends TestCase
 
         $actualImageDataList = $unsplashDriver->getImageDataList();
         $this->assertCount(count($expectedImageDataList), $actualImageDataList);
+
         foreach ($expectedImageDataList as $index => $expectedImageData) {
             $actualImageData = $actualImageDataList[$index] ?? null;
             $this->assertNotNull($actualImageData);
 
-            $this->assertEquals($expectedImageData->toArray(), $actualImageData->toArray());
+            $this->assertEquals(
+                $this->imageDataToArray($expectedImageData),
+                $this->imageDataToArray($actualImageData)
+            );
         }
+    }
+
+    /**
+     * @param ImageData $imageData
+     * @return array<string, scalar|null>
+     */
+    private function imageDataToArray(ImageData $imageData) : array
+    {
+        return [
+            'path' => $imageData->getPath(),
+            'isRemote' => $imageData->getIsRemote(),
+            'imageUrl' => $imageData->getImageUrl(),
+            'photobanUrl' => $imageData->getPhotobanUrl(),
+            'profileUrl' => $imageData->getProfileUrl(),
+            'authorName' => $imageData->getAuthorName(),
+            'description' => $imageData->getDescription(),
+        ];
     }
 
     private function getImageDataListDataProvider(): array

@@ -120,16 +120,4 @@ class ImageData
 
         return $this;
     }
-
-    public function toArray() : array {
-        return [
-            'path' => $this->getPath(),
-            'isRemote' => $this->getIsRemote(),
-            'imageUrl' => $this->getImageUrl(),
-            'photobanUrl' => $this->getPhotobanUrl(),
-            'profileUrl' => $this->getProfileUrl(),
-            'authorName' => $this->getAuthorName(),
-            'description' => $this->getDescription(),
-        ];
-    }
 }
