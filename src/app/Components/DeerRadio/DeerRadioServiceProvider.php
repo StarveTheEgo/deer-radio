@@ -19,14 +19,17 @@ use App\Components\ImageData\ImageDataListProviderDriverRegistry;
 use App\Components\Photoban\Service\PhotobanReadService;
 use App\Components\Storage\Enum\StorageName;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\ServiceProvider;
 use Intervention\Image\ImageManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
-class DeerRadioServiceProvider extends ServiceProvider
+class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     public const COMPONENT_NAME = 'DeerRadio';
 
@@ -46,6 +49,23 @@ class DeerRadioServiceProvider extends ServiceProvider
     {
         $this->registerDeerImageUpdateService();
         $this->registerDeerImageDeleteService();
+    }
+
+    public function boot(RouteRegistrar $routeRegistrar) : void
+    {
+        Route::prefix('api/internal')
+            ->middleware('api')
+            ->group(function() use ($routeRegistrar) {
+                $routeRegistrar->get('settings', [DeerRadioSettingsController::class, 'index']);
+
+                $routeRegistrar->get('deer-image/current', [DeerImageIndexController::class, 'index']);
+                $routeRegistrar->get('deer-image/update', [DeerImageUpdateController::class, 'update']);
+
+                $routeRegistrar->get('song-queue/enqueue/auto', [DeerMusicQueueController::class, 'enqueueNextSong']);
+                $routeRegistrar->get('song-queue/update-current-song', [DeerMusicQueueController::class, 'updateCurrentSongId']);
+
+                $routeRegistrar->get('stream-chat/send-message', [DeerLivestreamChatController::class, 'sendMessage']);
+            });
     }
 
     /**
