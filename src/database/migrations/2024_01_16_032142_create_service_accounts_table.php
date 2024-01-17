@@ -18,18 +18,14 @@ return new class extends Migration
         Schema::create('service_accounts', function (Blueprint $table) {
             $table->id();
 
-            $table
-                ->foreign('user_id')
-                ->references('id')
-                ->on('users');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->string('account_name', 64)->index();
             $table->string('service_name', 64)->index();
 
-            $table
-                ->foreign('access_token_id')
-                ->references('id')
-                ->on('access_tokens');
+            $table->unsignedBigInteger('access_token_id');
+            $table->foreign('access_token_id')->references('id')->on('access_tokens');
 
             $table->boolean('is_active');
             $table->timestamps();

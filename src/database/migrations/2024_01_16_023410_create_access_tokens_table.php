@@ -15,7 +15,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('account_tokens', function (Blueprint $table) {
+        Schema::create('access_tokens', function (Blueprint $table) {
             $table->id();
             $table->string('service_name', 64)->index();
             $table->string('token_type', 64);
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_tokens');
+        Schema::dropIfExists('access_tokens');
     }
 };
