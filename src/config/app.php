@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Components\AccessToken\AccessTokenServiceProvider;
 use App\Components\Album\AlbumServiceProvider;
 use App\Components\Attachment\AttachmentServiceProvider;
 use App\Components\Author\AuthorServiceProvider;
@@ -11,6 +12,7 @@ use App\Components\DeerRadio\DeerRadioServiceProvider;
 use App\Components\ImageData\ImageDataServiceProvider;
 use App\Components\Label\LabelServiceProvider;
 use App\Components\LabelLink\LabelLinkServiceProvider;
+use App\Components\ServiceAccount\ServiceAccountServiceProvider;
 use App\Components\OrchidIntergration\OrchidIntegrationServiceProvider;
 use App\Components\Output\OutputServiceProvider;
 use App\Components\Photoban\PhotobanServiceProvider;
@@ -216,6 +218,8 @@ return [
         ComponentDataServiceProvider::class,
         SettingServiceProvider::class,
         OrchidIntegrationServiceProvider::class,
+        AccessTokenServiceProvider::class,
+        ServiceAccountServiceProvider::class,
         UnsplashClientServiceProvider::class,
         ImageDataServiceProvider::class,
         PhotobanServiceProvider::class,

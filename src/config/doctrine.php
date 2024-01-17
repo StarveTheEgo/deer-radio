@@ -43,6 +43,8 @@ return [
                 base_path('app/Components/Output/Entity'),
                 base_path('app/Components/Photoban/Entity'),
                 base_path('app/Components/Role/Entity'),
+                base_path('app/Components/AccessToken/Entity'),
+                base_path('app/Components/ServiceAccount/Entity'),
                 base_path('app/Components/Setting/Entity'),
                 base_path('app/Components/Song/Entity'),
                 base_path('app/Components/User/Entity'),
