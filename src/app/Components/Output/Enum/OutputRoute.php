@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Components\Output\Orchid\Enum;
+namespace App\Components\Output\Enum;
 
 enum OutputRoute: string
 {

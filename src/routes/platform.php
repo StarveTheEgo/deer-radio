@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Components\DoctrineOrchid\AbstractDomainObject;
-use App\Components\Output\Orchid\Enum\OutputRoute;
+use App\Components\Output\Enum\OutputRoute;
 use App\Components\Output\Orchid\Screen\OutputEditScreen;
 use App\Components\Output\Orchid\Screen\OutputIndexScreen;
 use App\Components\Setting\Orchid\Screen\SettingScreen;

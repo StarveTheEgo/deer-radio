@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Components\Output\Orchid\Screen;
 
 use App\Components\Output\Entity\Output;
+use App\Components\Output\Enum\OutputRoute;
 use App\Components\Output\Orchid\Enum\OutputPermission;
-use App\Components\Output\Orchid\Enum\OutputRoute;
 use App\Components\Output\Orchid\Layout\OutputListLayout;
 use App\Components\Output\Service\OutputDeleteService;
 use App\Components\Output\Service\OutputReadService;

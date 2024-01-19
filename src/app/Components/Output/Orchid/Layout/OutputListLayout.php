@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Components\Output\Orchid\Layout;
 
 use App\Components\Output\Entity\Output;
-use App\Components\Output\Orchid\Enum\OutputRoute;
+use App\Components\Output\Enum\OutputRoute;
 use App\Components\Output\Orchid\Screen\OutputIndexScreen;
 use App\Components\Output\Registry\OutputDriverRegistry;
 use Orchid\Screen\Actions\Button;
