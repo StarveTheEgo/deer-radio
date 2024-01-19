@@ -20,6 +20,7 @@ php artisan orchid:admin admin admin@admin.com password
 - Implement access token refreshing script and schedule it
 - Add validation that does not allow to create multiple access tokens for the same 3rd party account
 - Add new setting field types
+- Configure development and production settings for doctrine proxies
 - Migrate Youtube API feature
 - Implement a dashboard
 - Update readme
