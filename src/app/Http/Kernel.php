@@ -57,13 +57,15 @@ class Kernel extends HttpKernel
             StartSession::class,
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
-            SubstituteBindings::class,
+            LaravelSubstituteBindings::class,
+            DoctrineSubstituteBindings::class,
         ],
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
-            SubstituteBindings::class,
+            LaravelSubstituteBindings::class,
+            DoctrineSubstituteBindings::class,
         ],
     ];
 

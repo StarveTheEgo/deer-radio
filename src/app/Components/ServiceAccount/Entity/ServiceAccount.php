@@ -11,11 +11,12 @@ use App\Components\AccessToken\Entity\AccessToken;
 use App\Components\User\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use LaravelDoctrine\ORM\Contracts\UrlRoutable;
 
 #[Orm\Entity]
 #[Orm\Table(name: 'service_accounts')]
 #[Orm\UniqueConstraint(name: 'unique_account', columns: ['user_id', 'account_name'])]
-class ServiceAccount extends AbstractDomainObject implements TimestampableInterface
+class ServiceAccount extends AbstractDomainObject implements TimestampableInterface, UrlRoutable
 {
     use TimestampableEntityTrait;
 
@@ -34,10 +35,18 @@ class ServiceAccount extends AbstractDomainObject implements TimestampableInterf
 
     #[ORM\OneToOne(targetEntity: AccessToken::class)]
     #[ORM\JoinColumn(name: 'access_token_id', referencedColumnName: 'id')]
-    protected ?AccessToken $accessToken;
+    protected ?AccessToken $accessToken = null;
 
     #[ORM\Column(type: Types::BOOLEAN)]
-    protected bool $isActive;
+    protected bool $isActive = true;
+
+    /**
+     * @return string
+     */
+    public static function getRouteKeyName(): string
+    {
+        return 'id';
+    }
 
     /**
      * @return int|null

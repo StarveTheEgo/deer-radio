@@ -43,6 +43,7 @@ class AccessTokenFactory
         return $accessToken
             ->setAuthToken($oauthUser->token)
             ->setRefreshToken($oauthUser->refreshToken)
+            ->setScopes($oauthUser->approvedScopes)
             ->setExpiresAt($this->calculateExpirationDateTime($oauthUser));
     }
 

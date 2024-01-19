@@ -24,6 +24,9 @@ class AccessToken extends AbstractDomainObject implements TimestampableInterface
     #[ORM\Column(type: Types::STRING)]
     protected string $serviceName;
 
+    #[ORM\Column(type: Types::JSON)]
+    protected ?array $scopes;
+
     #[ORM\Column(type: Types::STRING)]
     protected string $tokenType;
 
@@ -59,6 +62,25 @@ class AccessToken extends AbstractDomainObject implements TimestampableInterface
     public function setServiceName(string $serviceName): AccessToken
     {
         $this->serviceName = $serviceName;
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getScopes(): ?array
+    {
+        return $this->scopes;
+    }
+
+    /**
+     * @param array<string>|null $scopes
+     * @return AccessToken
+     */
+    public function setScopes(?array $scopes): AccessToken
+    {
+        $this->scopes = $scopes;
+
         return $this;
     }
 

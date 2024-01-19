@@ -6,23 +6,26 @@ namespace App\Components\ServiceAccount\Http\Controllers;
 
 use App\Components\AccessToken\Factory\AccessTokenFactory;
 use App\Components\AccessToken\Service\AccessTokenCreateService;
+use App\Components\AccessToken\Service\AccessTokenDeleteService;
 use App\Components\AccessToken\Service\AccessTokenUpdateService;
 use App\Components\ServiceAccount\Entity\ServiceAccount;
+use App\Components\ServiceAccount\Enum\ServiceAccountRoute;
 use App\Components\ServiceAccount\Enum\ServiceName;
 use App\Components\ServiceAccount\Factory\OauthStateFactory;
 use App\Components\ServiceAccount\Model\OauthState;
+use App\Components\ServiceAccount\Resolver\ServiceScopeResolver;
 use App\Components\ServiceAccount\Service\ServiceAccountReadService;
 use App\Components\ServiceAccount\Service\ServiceAccountUpdateService;
 use App\Http\Controllers\Controller;
 use Exception;
-use Google\Service\YouTube;
 use Illuminate\Routing\ResponseFactory;
 use Illuminate\Session\Store as SessionStorage;
 use JsonException;
 use Laravel\Socialite\SocialiteManager;
 use Laravel\Socialite\Two\AbstractProvider;
+use Orchid\Support\Facades\Toast;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Webmozart\Assert\Assert;
 
 class ServiceAccountController extends Controller
@@ -41,11 +44,15 @@ class ServiceAccountController extends Controller
 
     private AccessTokenUpdateService $accessTokenUpdateService;
 
+    private AccessTokenDeleteService $accessTokenDeleteService;
+
     private OauthStateFactory $stateFactory;
 
     private AccessTokenFactory $accessTokenFactory;
 
     private SessionStorage $sessionStorage;
+
+    private ServiceScopeResolver $serviceScopeResolver;
 
     /**
      * @param ResponseFactory $responseFactory
@@ -54,9 +61,11 @@ class ServiceAccountController extends Controller
      * @param ServiceAccountReadService $serviceAccountReadService
      * @param AccessTokenCreateService $accessTokenCreateService
      * @param AccessTokenUpdateService $accessTokenUpdateService
+     * @param AccessTokenDeleteService $accessTokenDeleteService
      * @param OauthStateFactory $stateFactory
      * @param AccessTokenFactory $accessTokenFactory
      * @param SessionStorage $sessionStorage
+     * @param ServiceScopeResolver $serviceScopeResolver
      */
     public function __construct(
         ResponseFactory $responseFactory,
@@ -65,9 +74,11 @@ class ServiceAccountController extends Controller
         ServiceAccountReadService $serviceAccountReadService,
         AccessTokenCreateService $accessTokenCreateService,
         AccessTokenUpdateService $accessTokenUpdateService,
+        AccessTokenDeleteService $accessTokenDeleteService,
         OauthStateFactory $stateFactory,
         AccessTokenFactory $accessTokenFactory,
-        SessionStorage $sessionStorage
+        SessionStorage $sessionStorage,
+        ServiceScopeResolver $serviceScopeResolver
     )
     {
         $this->responseFactory = $responseFactory;
@@ -76,9 +87,11 @@ class ServiceAccountController extends Controller
         $this->serviceAccountUpdateService = $serviceAccountUpdateService;
         $this->accessTokenCreateService = $accessTokenCreateService;
         $this->accessTokenUpdateService = $accessTokenUpdateService;
+        $this->accessTokenDeleteService = $accessTokenDeleteService;
         $this->stateFactory = $stateFactory;
         $this->accessTokenFactory = $accessTokenFactory;
         $this->sessionStorage = $sessionStorage;
+        $this->serviceScopeResolver = $serviceScopeResolver;
     }
 
     /**
@@ -129,8 +142,12 @@ class ServiceAccountController extends Controller
         $state = $this->stateFactory->generateRandomState($serviceAccount);
         $this->storeSessionOauthState($serviceName, $state);
 
+        // resolve additional scopes
+        $additionalScopes = $this->serviceScopeResolver->resolve($serviceName);
+
         return $this
             ->getOauthProvider($serviceName)
+            ->stateless() // we will validate the state manually
             ->with([
                 'access_type' => 'offline',
                 'prompt' => implode(' ', [
@@ -139,21 +156,24 @@ class ServiceAccountController extends Controller
                 ]),
                 'state' => json_encode($state, flags: JSON_THROW_ON_ERROR),
             ])
-            ->scopes([
-                YouTube::YOUTUBE, // @todo scopes in the entity
-            ])
+            ->scopes($additionalScopes ?? [])
             ->redirect();
     }
 
     /**
-     * @param ServiceName $serviceName
-     * @return Response
+     * @param Request $request
+     * @param string $serviceNameValue
+     * @return RedirectResponse
      * @throws JsonException
      */
-    public function callback(ServiceName $serviceName) : Response
+    public function callback(Request $request, string $serviceNameValue) : RedirectResponse
     {
+        $serviceName = ServiceName::from($serviceNameValue);
+        $oauthProvider = $this
+            ->getOauthProvider($serviceName)
+            ->stateless();
+
         // get OauthV2 user
-        $oauthProvider = $this->getOauthProvider($serviceName);
         $oauthUser = $oauthProvider->user();
 
         // load and check stored state
@@ -162,7 +182,7 @@ class ServiceAccountController extends Controller
         $storedStateSerialized = json_encode($storedState, flags: JSON_THROW_ON_ERROR);
 
         // get input state from request
-        $inputStateSerialized = $oauthUser->getRaw()['state'] ?? null;
+        $inputStateSerialized = $request->get('state');
         Assert::notNull($inputStateSerialized);
 
         // validate input state
@@ -172,16 +192,43 @@ class ServiceAccountController extends Controller
         $serviceAccount = $this->serviceAccountReadService->getById($storedState->getServiceAccountId());
 
         $accessToken = $serviceAccount->getAccessToken();
-        if ($accessToken !== null) {
-            $accessToken = $this->accessTokenFactory->fillFromOauthV2User($accessToken, $oauthUser);
-            $this->accessTokenUpdateService->update($accessToken);
-        } else {
+        $isNewAccessToken = ($accessToken === null);
+
+        if ($isNewAccessToken) {
             $accessToken = $this->accessTokenFactory->createFromOauthV2User($serviceName, $oauthUser);
-            $this->accessTokenCreateService->create($accessToken);
+        } else {
+            $accessToken = $this->accessTokenFactory->fillFromOauthV2User($accessToken, $oauthUser);
         }
+        Assert::eq($accessToken->getServiceName(), $serviceAccount->getServiceName());
+
+        if ($isNewAccessToken) {
+            $this->accessTokenCreateService->create($accessToken);
+        } else {
+            $this->accessTokenUpdateService->update($accessToken);
+        }
+
+        $serviceAccount->setAccessToken($accessToken);
         $this->serviceAccountUpdateService->update($serviceAccount);
 
-        return $this->responseFactory->noContent();
+        return $this->responseFactory->redirectToRoute(ServiceAccountRoute::INDEX->value);
+    }
+
+    /**
+     * @param ServiceAccount $serviceAccount
+     * @return RedirectResponse
+     */
+    public function disconnect(ServiceAccount $serviceAccount) : RedirectResponse
+    {
+        $accessToken = $serviceAccount->getAccessToken();
+        Assert::notNull($accessToken);
+
+        $serviceAccount->setAccessToken(null);
+        $this->serviceAccountUpdateService->update($serviceAccount);
+        $this->accessTokenDeleteService->delete($accessToken);
+
+        Toast::info(__('Account was disconnected.'));
+
+        return $this->responseFactory->redirectToRoute(ServiceAccountRoute::INDEX->value);
     }
 
     /**

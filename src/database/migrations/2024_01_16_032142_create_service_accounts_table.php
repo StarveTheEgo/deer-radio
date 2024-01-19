@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('account_name', 64)->index();
             $table->string('service_name', 64)->index();
 
-            $table->unsignedBigInteger('access_token_id');
+            $table->unsignedBigInteger('access_token_id')->nullable();
             $table->foreign('access_token_id')->references('id')->on('access_tokens');
 
             $table->boolean('is_active');
