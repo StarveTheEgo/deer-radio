@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens;
 
+use App\Components\DoctrineOrchid\Filter\AbstractDoctrineFilter;
 use App\Components\OrchidIntergration\Resolvers\DoctrineAwareScreenDependencyResolver;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Orchid\Filters\Filter;
 use Orchid\Screen\Screen;
 use ReflectionException;
 
@@ -63,7 +63,7 @@ abstract class AbstractScreen extends Screen
     /**
      * Get the filters available for the resource.
      *
-     * @return array<Filter|class-string<Filter>>
+     * @return array<AbstractDoctrineFilter|class-string<AbstractDoctrineFilter>>
      */
     public function filters(): array
     {
