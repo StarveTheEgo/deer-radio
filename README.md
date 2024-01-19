@@ -15,22 +15,20 @@ php artisan orchid:admin admin admin@admin.com password
 * Run the Deer Radio! (deer radio script is not ready yet)
 
 # Todo list:
+- Implement edit/delete functionality for ServiceAccount screens
+- Configure Laravel cron task scheduler
+- Implement access token refreshing script and schedule it
+- Add validation that does not allow to create multiple access tokens for the same 3rd party account
 - Add new setting field types
-- Migrate song feature
 - Migrate Youtube API feature
-- Migrate console commands
-- Add liquidsoap container with its script
 - Implement a dashboard
 - Update readme
 - Implement tests of features that are missing it
 - Add fields validation in Setting's seeders
 - Merge LabelLink and AuthorLink into one entity
-- Validate Doctrine ORM mapping
-- Remove very specific code related to routing/menu elements from AbstractScreen
-- Migrate to PHP 8.2
-- Use JSON schema validator instead of manual validation&parsing
+- Actualize Doctrine ORM mapping and Database schema
+- Remove very specific code related to routing/menu elements from AbstractScreenFilter
 - Probably to restore auto-disover feature (currently it tries to access not-ready-yet hostname; Need to find out why it is not ready)
-- Remove 'custom' fieldOptions, let only fieldOptions without this over-engineering
 - Added authorization for both http servers (app and liquidsoap's harbor)
 - Actualize video encoders (let only ffmpeg)
 - Solve the mess around UnsplashSearchQueryBuilderInterface and service providers
