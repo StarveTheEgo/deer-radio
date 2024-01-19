@@ -49,7 +49,13 @@ class SettingServiceProvider extends ServiceProvider implements DeferrableProvid
                 $entityRepository
             );
         });
+    }
 
+    /**
+     * @return void
+     */
+    public function boot() : void
+    {
         $this->loadViewsFrom(__DIR__.'/resources/views', self::SERVICE_NS);
     }
 
