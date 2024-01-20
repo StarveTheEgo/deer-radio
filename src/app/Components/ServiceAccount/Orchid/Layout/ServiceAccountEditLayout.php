@@ -10,6 +10,7 @@ use App\Components\ServiceAccount\Enum\ServiceName;
 use App\Components\ServiceAccount\Orchid\Enum\ServiceAccountScreenTarget;
 use App\Components\ServiceAccount\ServiceAccountServiceProvider;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\Switcher;
 use Orchid\Screen\Fields\ViewField;
@@ -22,12 +23,7 @@ class ServiceAccountEditLayout extends Rows
      */
     protected function fields(): iterable
     {
-        $prefix = sprintf(
-            '%s.',
-            ServiceAccountScreenTarget::CURRENT_ACCOUNT->value
-        );
-
-        return PrefixHelper::addPrefixToFields($prefix, [
+        $fields = [
             Input::make('id')
                 ->type('hidden')
                 ->required(),
@@ -37,12 +33,25 @@ class ServiceAccountEditLayout extends Rows
                 ->placeholder('Account name')
                 ->help('Name of 3-rd party service account to be referred later')
                 ->required(),
+        ];
 
-            Select::make('serviceName')
+        if ($this->query[ServiceAccountScreenTarget::CURRENT_ACCOUNT->value] !== null) {
+            // read-only driver name in case of editing existing Output
+            $fields = array_merge($fields, [
+                Label::make('serviceName'),
+
+                Input::make('serviceName')
+                    ->type('hidden')
+                    ->required()
+            ]);
+        } else {
+            $fields[] = Select::make('serviceName')
                 ->title('Service')
                 ->options($this->getServiceNameSelectOptions())
-                ->required(),
+                ->required();
+        }
 
+        $fields = array_merge($fields, [
             // -*/*- Tyson's take
             ViewField::make('accessTokenInfo')
                 ->view(sprintf('%s::access-token-info', ServiceAccountServiceProvider::RESOURCE_NS))
@@ -54,6 +63,13 @@ class ServiceAccountEditLayout extends Rows
                 ->help(__('This account will be used in the project. Access tokens will be auto-updated.'))
                 ->value(1),
         ]);
+
+        $prefix = sprintf(
+            '%s.',
+            ServiceAccountScreenTarget::CURRENT_ACCOUNT->value
+        );
+
+        return PrefixHelper::addPrefixToFields($prefix, $fields);
     }
 
     /**
