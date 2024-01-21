@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Components\AccessToken\Factory;
 
 use App\Components\AccessToken\Entity\AccessToken;
+use App\Components\AccessToken\Helper\AccessTokenExpirationDateHelper;
 use App\Components\ServiceAccount\Enum\ServiceName;
-use DateTimeImmutable;
-use Webmozart\Assert\Assert;
 use Laravel\Socialite\Two\User as OauthV2User;
 
 class AccessTokenFactory
@@ -15,8 +14,15 @@ class AccessTokenFactory
     /** @var string Token type */
     private const TOKEN_TYPE = 'Bearer';
 
-    /** @var int Time window in seconds when we consider token invalid, before the actual expiration date */
-    private const TOKEN_EXPIRATION_WINDOW = 60;
+    private AccessTokenExpirationDateHelper $expirationDateHelper;
+
+    /**
+     * @param AccessTokenExpirationDateHelper $expirationDateHelper
+     */
+    public function __construct(AccessTokenExpirationDateHelper $expirationDateHelper)
+    {
+        $this->expirationDateHelper = $expirationDateHelper;
+    }
 
     /**
      * @param ServiceName $serviceName
@@ -31,7 +37,7 @@ class AccessTokenFactory
             ->setTokenType(self::TOKEN_TYPE)
             ->setAuthToken($oauthUser->token)
             ->setRefreshToken($oauthUser->refreshToken)
-            ->setExpiresAt($this->calculateExpirationDateTime($oauthUser));
+            ->setExpiresAt($this->expirationDateHelper->calculateExpirationDateTime($oauthUser->expiresIn));
     }
 
     /**
@@ -46,20 +52,6 @@ class AccessTokenFactory
             ->setAuthToken($oauthUser->token)
             ->setRefreshToken($oauthUser->refreshToken)
             ->setScopes($oauthUser->approvedScopes)
-            ->setExpiresAt($this->calculateExpirationDateTime($oauthUser));
-    }
-
-    /**
-     * @param OauthV2User $oauthUser
-     * @return DateTimeImmutable
-     */
-    private function calculateExpirationDateTime(OauthV2User $oauthUser) : DateTimeImmutable
-    {
-        $expiresIn = (int) ($oauthUser->expiresIn - self::TOKEN_EXPIRATION_WINDOW);
-        Assert::positiveInteger($expiresIn);
-
-        $currentDateTime = new DateTimeImmutable();
-        return $currentDateTime
-            ->modify(sprintf('+%d seconds', $expiresIn));
+            ->setExpiresAt($this->expirationDateHelper->calculateExpirationDateTime($oauthUser->expiresIn));
     }
 }
