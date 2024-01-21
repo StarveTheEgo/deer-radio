@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\Console\Commands\RefreshAccessTokens;
+use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    /**
+     * @var array<class-string<Command>>
+     */
+    protected $commands = [
+        RefreshAccessTokens::class,
+    ];
+
     /**
      * Define the application's command schedule.
      *

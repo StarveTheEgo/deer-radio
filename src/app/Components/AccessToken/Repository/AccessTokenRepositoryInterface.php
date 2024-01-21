@@ -14,4 +14,9 @@ interface AccessTokenRepositoryInterface extends RepositoryInterface
     public function update(AccessToken $AccessToken): void;
 
     public function delete(AccessToken $AccessToken): void;
+
+    /**
+     * @return iterable<AccessToken>
+     */
+    public function iterateExpiredRefreshableAccessTokens() : iterable;
 }

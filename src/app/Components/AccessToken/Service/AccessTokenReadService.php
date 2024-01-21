@@ -20,4 +20,12 @@ class AccessTokenReadService
     {
         return $this->repository->getObjectById($id);
     }
+
+    /**
+     * @return iterable<AccessToken>
+     */
+    public function iterateExpiredRefreshableAccessTokens(): iterable
+    {
+        return $this->repository->iterateExpiredRefreshableAccessTokens();
+    }
 }

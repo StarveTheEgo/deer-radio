@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Components\AccessToken;
 
 use App\Components\AccessToken\Entity\AccessToken;
+use App\Components\AccessToken\Helper\AccessTokenExpirationDateHelper;
 use App\Components\AccessToken\Repository\AccessTokenRepository;
 use App\Components\AccessToken\Repository\AccessTokenRepositoryInterface;
 use App\Components\AccessToken\Service\AccessTokenCreateService;
 use App\Components\AccessToken\Service\AccessTokenDeleteService;
 use App\Components\AccessToken\Service\AccessTokenReadService;
+use App\Components\AccessToken\Service\AccessTokenRefreshService;
 use App\Components\AccessToken\Service\AccessTokenUpdateService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -28,6 +30,8 @@ class AccessTokenServiceProvider extends ServiceProvider
         AccessTokenReadService::class,
         AccessTokenUpdateService::class,
         AccessTokenDeleteService::class,
+        AccessTokenRefreshService::class,
+        AccessTokenExpirationDateHelper::class,
     ];
 
     /**
@@ -60,7 +64,9 @@ class AccessTokenServiceProvider extends ServiceProvider
             AccessTokenReadService::class,
             AccessTokenUpdateService::class,
             AccessTokenDeleteService::class,
+            AccessTokenRefreshService::class,
             AccessTokenRepositoryInterface::class,
+            AccessTokenExpirationDateHelper::class,
         ];
     }
 }
