@@ -88,7 +88,7 @@ class ServiceAccountServiceProvider extends ServiceProvider
                     });
 
                 // edit route
-                Route::screen('service-accounts/{account}/edit', ServiceAccountEditScreen::class)
+                Route::screen('service-accounts/{serviceAccount}/edit', ServiceAccountEditScreen::class)
                     ->name(ServiceAccountRoute::EDIT->value)
                     ->breadcrumbs(function (Trail $trail, ?ServiceAccount $serviceAccount) {
                         return $trail
