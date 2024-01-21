@@ -195,7 +195,7 @@ class ServiceAccountEditScreen extends AbstractScreen
             $serviceAccount = $this->readService->getById((int) $serviceAccountData['id']);
 
             // account id should not be changed in this controller
-            Assert::notEq($serviceAccount->getUser()->getId(), $currentUser->getId());
+            Assert::eq($serviceAccount->getUser()->getId(), $currentUser->getId());
 
             // let's additionally check that driver is not changed
             if ($serviceAccount->getServiceName() !== $serviceAccountData['serviceName']) {
