@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Components\ServiceAccount\Orchid\Layout;
 
 use App\Components\ServiceAccount\Entity\ServiceAccount;
+use App\Components\ServiceAccount\Enum\ServiceAccountRoute;
 use App\Components\ServiceAccount\Orchid\Enum\ServiceAccountScreenTarget;
 use App\Components\ServiceAccount\ServiceAccountServiceProvider;
 use Illuminate\View\Factory as ViewFactory;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\DropDown;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
@@ -48,6 +52,28 @@ class ServiceAccountListLayout extends Table
                 ->sort()
                 ->cantHide()
                 ->filter(Input::make()),
+
+            TD::make(__('Actions'))
+                ->align(TD::ALIGN_CENTER)
+                ->width('100px')
+                ->render(function (ServiceAccount $serviceAccount) {
+                    return DropDown::make()
+                        ->icon('options-vertical')
+                        ->list([
+                            Link::make(__('Edit'))
+                                ->route(ServiceAccountRoute::EDIT->value, [
+                                    'serviceAccount' => $serviceAccount->getId(),
+                                ])
+                                ->icon('pencil'),
+
+                            Button::make(__('Delete'))
+                                ->icon('trash')
+                                ->confirm(__('Are you sure you want to delete this account?'))
+                                ->method('delete', [
+                                    'serviceAccount' => $serviceAccount->getId(),
+                                ]),
+                        ]);
+                }),
         ];
     }
 
