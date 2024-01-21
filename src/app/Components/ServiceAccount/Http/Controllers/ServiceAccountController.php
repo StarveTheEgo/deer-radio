@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\ServiceAccount\Http\Controllers;
 
+use App\Components\AccessToken\Entity\AccessToken;
 use App\Components\AccessToken\Factory\AccessTokenFactory;
 use App\Components\AccessToken\Service\AccessTokenCreateService;
 use App\Components\AccessToken\Service\AccessTokenDeleteService;
@@ -20,6 +21,8 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Routing\ResponseFactory;
 use Illuminate\Session\Store as SessionStorage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use JsonException;
 use Laravel\Socialite\SocialiteManager;
 use Laravel\Socialite\Two\AbstractProvider;
@@ -175,6 +178,7 @@ class ServiceAccountController extends Controller
 
         // get OauthV2 user
         $oauthUser = $oauthProvider->user();
+        Assert::notNull($oauthUser);
 
         // load and check stored state
         $storedState = $this->loadSessionOauthState($serviceName);
@@ -199,7 +203,8 @@ class ServiceAccountController extends Controller
         } else {
             $accessToken = $this->accessTokenFactory->fillFromOauthV2User($accessToken, $oauthUser);
         }
-        Assert::eq($accessToken->getServiceName(), $serviceAccount->getServiceName());
+
+        $this->validateAccessToken($serviceName, $accessToken);
 
         if ($isNewAccessToken) {
             $this->accessTokenCreateService->create($accessToken);
@@ -211,6 +216,34 @@ class ServiceAccountController extends Controller
         $this->serviceAccountUpdateService->update($serviceAccount);
 
         return $this->responseFactory->redirectToRoute(ServiceAccountRoute::INDEX->value);
+    }
+
+    /**
+     * @param ServiceName $serviceName
+     * @param AccessToken $accessToken
+     * @return void
+     */
+    private function validateAccessToken(ServiceName $serviceName, AccessToken $accessToken): void
+    {
+        $rules = [
+            'oauthIdentifier' => [
+                'required',
+                Rule::unique(AccessToken::class, 'oauthIdentifier')
+                    ->where('serviceName', $serviceName->value)
+                    ->ignore($accessToken->getId()),
+            ],
+            'serviceName' => [
+                'required',
+                Rule::in([$serviceName->value])
+            ],
+        ];
+
+        $validator = Validator::make([
+            'oauthIdentifier' => $accessToken->getOauthIdentifier(),
+            'serviceName' => $accessToken->getServiceName(),
+        ], $rules);
+
+        Assert::true($validator->passes(), 'Invalid access token');
     }
 
     /**
