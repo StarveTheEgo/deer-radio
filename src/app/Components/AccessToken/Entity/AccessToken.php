@@ -13,16 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[Orm\Entity]
 #[Orm\Table(name: 'access_tokens')]
+#[Orm\UniqueConstraint(name: 'unique_token', columns: ['service_name', 'oauth_identifier'])]
 class AccessToken extends AbstractDomainObject implements TimestampableInterface
 {
     use TimestampableEntityTrait;
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $serviceName;
+
+    #[ORM\Column(type: Types::STRING)]
+    protected string $oauthIdentifier;
 
     #[ORM\Column(type: Types::JSON)]
     protected ?array $scopes;
@@ -62,6 +66,25 @@ class AccessToken extends AbstractDomainObject implements TimestampableInterface
     public function setServiceName(string $serviceName): AccessToken
     {
         $this->serviceName = $serviceName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOauthIdentifier(): string
+    {
+        return $this->oauthIdentifier;
+    }
+
+    /**
+     * @param string $oauthIdentifier
+     * @return AccessToken
+     */
+    public function setOauthIdentifier(string $oauthIdentifier): AccessToken
+    {
+        $this->oauthIdentifier = $oauthIdentifier;
+
         return $this;
     }
 

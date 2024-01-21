@@ -67,10 +67,10 @@ class AccessToken extends \App\Components\AccessToken\Entity\AccessToken impleme
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'serviceName', 'scopes', 'tokenType', 'authToken', 'refreshToken', 'expiresAt', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'serviceName', 'oauthIdentifier', 'scopes', 'tokenType', 'authToken', 'refreshToken', 'expiresAt', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'serviceName', 'scopes', 'tokenType', 'authToken', 'refreshToken', 'expiresAt', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'serviceName', 'oauthIdentifier', 'scopes', 'tokenType', 'authToken', 'refreshToken', 'expiresAt', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -212,6 +212,28 @@ class AccessToken extends \App\Components\AccessToken\Entity\AccessToken impleme
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setServiceName', [$serviceName]);
 
         return parent::setServiceName($serviceName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOauthIdentifier(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOauthIdentifier', []);
+
+        return parent::getOauthIdentifier();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOauthIdentifier(string $oauthIdentifier): \App\Components\AccessToken\Entity\AccessToken
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOauthIdentifier', [$oauthIdentifier]);
+
+        return parent::setOauthIdentifier($oauthIdentifier);
     }
 
     /**

@@ -18,12 +18,16 @@ return new class extends Migration
         Schema::create('access_tokens', function (Blueprint $table) {
             $table->id();
             $table->string('service_name', 64)->index();
+            $table->string('oauth_identifier', 64)->index();
             $table->json('scopes')->nullable();
             $table->string('token_type', 64);
             $table->text('auth_token');
             $table->text('refresh_token')->nullable();
             $table->dateTime('expires_at')->nullable();
+
             $table->timestamps();
+
+            $table->unique(['service_name', 'oauth_identifier'], 'unique_token');
         });
     }
 

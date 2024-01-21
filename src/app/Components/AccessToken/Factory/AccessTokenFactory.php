@@ -27,6 +27,7 @@ class AccessTokenFactory
     {
         return (new AccessToken())
             ->setServiceName($serviceName->value)
+            ->setOauthIdentifier((string) $oauthUser->getId())
             ->setTokenType(self::TOKEN_TYPE)
             ->setAuthToken($oauthUser->token)
             ->setRefreshToken($oauthUser->refreshToken)
@@ -41,6 +42,7 @@ class AccessTokenFactory
     public function fillFromOauthV2User(AccessToken $accessToken, OauthV2User $oauthUser) : AccessToken
     {
         return $accessToken
+            ->setOauthIdentifier((string) $oauthUser->getId())
             ->setAuthToken($oauthUser->token)
             ->setRefreshToken($oauthUser->refreshToken)
             ->setScopes($oauthUser->approvedScopes)
