@@ -15,10 +15,8 @@ php artisan orchid:admin admin admin@admin.com password
 * Run the Deer Radio! (deer radio script is not ready yet)
 
 # Todo list:
-- Implement edit/delete functionality for ServiceAccount screens
 - Configure Laravel cron task scheduler
 - Implement access token refreshing script and schedule it
-- Add validation that does not allow to create multiple access tokens for the same 3rd party account
 - Secure connection (at least via nginx ip range check now) between app and liquidsoap
 - Actualize outputs due to recently added service accounts implementation
 - Implement a way of sharing outputs data to liquidsoap
