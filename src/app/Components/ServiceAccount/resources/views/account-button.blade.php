@@ -4,6 +4,11 @@
     use App\Components\ServiceAccount\ServiceAccountServiceProvider;
 
     /** @var ServiceAccount $serviceAccount */
+    if ($serviceAccount === null) {
+        return;
+    }
+
+    /** @var ServiceAccount $serviceAccount */
     $accessToken = $serviceAccount->getAccessToken();
 
     $tokenInfoViewName = sprintf('%s::access-token-info', ServiceAccountServiceProvider::RESOURCE_NS);

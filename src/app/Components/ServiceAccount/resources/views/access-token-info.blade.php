@@ -2,6 +2,9 @@
     use App\Components\ServiceAccount\Entity\ServiceAccount;
 
     /** @var ServiceAccount $serviceAccount */
+    if ($serviceAccount === null) {
+        return;
+    }
 
     $accessToken = $serviceAccount->getAccessToken();
 
