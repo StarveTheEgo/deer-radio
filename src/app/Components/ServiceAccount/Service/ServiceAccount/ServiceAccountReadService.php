@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Components\ServiceAccount\Service;
+namespace App\Components\ServiceAccount\Service\ServiceAccount;
 
 use App\Components\DoctrineOrchid\Filter\AbstractDoctrineFilter;
 use App\Components\ServiceAccount\Entity\ServiceAccount;

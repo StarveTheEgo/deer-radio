@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Components\ServiceAccount\Service;
+namespace App\Components\ServiceAccount\Service\ServiceAccount;
 
 use App\Components\ServiceAccount\Entity\ServiceAccount;
 use App\Components\ServiceAccount\Repository\ServiceAccountRepositoryInterface;
 
-class ServiceAccountCreateService
+class ServiceAccountUpdateService
 {
     private ServiceAccountRepositoryInterface $repository;
 
@@ -23,8 +23,8 @@ class ServiceAccountCreateService
      * @param ServiceAccount $serviceAccount
      * @return void
      */
-    public function create(ServiceAccount $serviceAccount): void
+    public function update(ServiceAccount $serviceAccount): void
     {
-        $this->repository->create($serviceAccount);
+        $this->repository->update($serviceAccount);
     }
 }
