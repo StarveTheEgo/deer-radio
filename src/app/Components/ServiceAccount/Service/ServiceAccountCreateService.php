@@ -11,13 +11,20 @@ class ServiceAccountCreateService
 {
     private ServiceAccountRepositoryInterface $repository;
 
+    /**
+     * @param ServiceAccountRepositoryInterface $repository
+     */
     public function __construct(ServiceAccountRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    public function create(ServiceAccount $ServiceAccount): void
+    /**
+     * @param ServiceAccount $serviceAccount
+     * @return void
+     */
+    public function create(ServiceAccount $serviceAccount): void
     {
-        $this->repository->create($ServiceAccount);
+        $this->repository->create($serviceAccount);
     }
 }

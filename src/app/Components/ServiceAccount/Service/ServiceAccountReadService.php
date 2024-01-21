@@ -12,11 +12,18 @@ class ServiceAccountReadService
 {
     private ServiceAccountRepositoryInterface $repository;
 
+    /**
+     * @param ServiceAccountRepositoryInterface $repository
+     */
     public function __construct(ServiceAccountRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
+    /**
+     * @param int $id
+     * @return ServiceAccount
+     */
     public function getById(int $id): ServiceAccount
     {
         return $this->repository->getObjectById($id);

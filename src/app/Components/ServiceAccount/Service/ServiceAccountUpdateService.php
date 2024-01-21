@@ -20,11 +20,11 @@ class ServiceAccountUpdateService
     }
 
     /**
-     * @param ServiceAccount $ServiceAccount
+     * @param ServiceAccount $serviceAccount
      * @return void
      */
-    public function update(ServiceAccount $ServiceAccount): void
+    public function update(ServiceAccount $serviceAccount): void
     {
-        $this->repository->update($ServiceAccount);
+        $this->repository->update($serviceAccount);
     }
 }
