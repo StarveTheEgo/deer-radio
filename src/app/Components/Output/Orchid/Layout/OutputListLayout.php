@@ -78,7 +78,7 @@ class OutputListLayout extends Table
                                 ->icon('trash')
                                 ->confirm(__('Are you sure you want to delete this output?'))
                                 ->method('delete', [
-                                    'id' => $output->getId(),
+                                    'output' => $output->getId(),
                                 ]),
                         ]);
                 }),
