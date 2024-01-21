@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
 class AccessTokenExpirationDateHelper
 {
     /** @var int Time window (in seconds) before the actual expiration date, when we will start refreshing tokens */
-    public const REFRESH_TIME_WINDOW_START = 60;
+    public const REFRESH_TIME_WINDOW_START = 5 * 60;
 
     /**
      * @param int $expiresIn
