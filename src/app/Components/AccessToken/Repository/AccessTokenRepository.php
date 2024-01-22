@@ -8,6 +8,7 @@ use App\Components\AccessToken\Helper\AccessTokenExpirationDateHelper;
 use App\Components\DoctrineOrchid\Repository\AbstractRepository;
 use App\Components\AccessToken\Entity\AccessToken;
 use DateTimeImmutable;
+use Doctrine\ORM\Query;
 
 class AccessTokenRepository extends AbstractRepository implements AccessTokenRepositoryInterface
 {
@@ -31,21 +32,34 @@ class AccessTokenRepository extends AbstractRepository implements AccessTokenRep
      */
     public function iterateExpiredRefreshableAccessTokens(): iterable
     {
-        $qb = $this->createQueryBuilder('accessToken');
-
-        $query = $this->createQueryBuilder('accessToken')
-            ->andWhere('accessToken.expiresAt <= :expirationStart')
-            ->andWhere($qb->expr()->isNotNull('accessToken.refreshToken'))
-            ->getQuery();
-
         $currentDateTime = new DateTimeImmutable();
         $expirationStart = ($currentDateTime->modify(sprintf(
             '-%d seconds',
             AccessTokenExpirationDateHelper::REFRESH_TIME_WINDOW_START
         )));
 
-        return $query->toIterable([
-            'expirationStart' => $expirationStart,
-        ]);
+        $em = $this->getEntityManager();
+        $query = $this->buildExpiredRefreshableAccessTokensQuery($expirationStart);
+        /** @var AccessToken $accessToken */
+        foreach ($query->toIterable() as $accessToken) {
+            yield $accessToken;
+
+            $em->detach($accessToken);
+        }
+    }
+
+    /**
+     * @param DateTimeImmutable $expirationStartDateTime
+     * @return Query
+     */
+    private function buildExpiredRefreshableAccessTokensQuery(DateTimeImmutable $expirationStartDateTime): Query
+    {
+        $qb = $this->createQueryBuilder('accessToken');
+
+        return $qb
+            ->andWhere('accessToken.expiresAt <= :expirationStart')
+            ->setParameter('expirationStart', $expirationStartDateTime)
+            ->andWhere($qb->expr()->isNotNull('accessToken.refreshToken'))
+            ->getQuery();
     }
 }
