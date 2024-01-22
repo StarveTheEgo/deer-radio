@@ -59,6 +59,4 @@ RUN chmod -R 775 ./storage && \
 
 EXPOSE 9000
 
-RUN which supervisord && echo "deer"
-
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
