@@ -1,8 +1,5 @@
 settings.init.force_start := true
 
-settings.log.file := true
-settings.log.file.path := "/var/radio-storage/logs/liquidsoap.log"
-
 settings.init.catch_exn := false
 settings.log.level := 5
 settings.log.stdout := true
