@@ -1,8 +1,6 @@
-# Setting up PHP
 FROM php:8.2-fpm-alpine
 
-COPY ./docker/php-fpm/conf/php.ini /usr/local/etc/php/conf.d/local.ini
-COPY ./docker/php-fpm/entrypoint.sh /var/www/entrypoint.sh
+COPY ./docker/php-fpm/filesystem/ /
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
@@ -31,20 +29,19 @@ RUN apk update && apk add --no-cache \
     git \
     oniguruma-dev \
     curl  \
-    composer && \
+    composer \
+    supercronic \
+    supervisor && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install gd pdo_mysql mbstring zip exif pcntl -j$(nproc) && \
     apk add --update nodejs npm && \
     npm install npm@latest -g && \
     npm install n -g && \
     n latest && \
-    git config --global user.email "deerfuldeeringdeer@gmail.com" && \
-    git config --global user.name "EvergreenDeer" && \
     addgroup -g 1000 deerdoor && adduser -u 1000 -G deerdoor -S deerdoor && \
     # configuring upcoming radio-storage shared volume
-    mkdir -p /var/radio-storage && \
-    chown deerdoor:deerdoor /var/radio-storage && \
-    chmod -R 755 /var/radio-storage
+    chown -R deerdoor:deerdoor /var/radio-storage && \
+    rm -rf /tmp/* /var/cache/apk/*
 
 COPY --chown=deerdoor:deerdoor ./src/. /var/www/app
 COPY --chown=deerdoor:deerdoor ./.env /var/www/.env
@@ -54,14 +51,14 @@ USER deerdoor
 WORKDIR /var/www/app
 
 RUN chmod -R 775 ./storage && \
+    chmod -R 775 /var/radio-storage && \
     mkdir -m 755 ./bootstrap/cache && \
-#    chmod -R 755 ./bootstrap/cache && \
-    mkdir -m 755 /var/radio-storage/deer-images && \
-    mkdir -m 755 /var/radio-storage/logs && \
     composer install && \
     npm ci && \
     npm run build
-#  --only=production
+
 EXPOSE 9000
 
-ENTRYPOINT ["/var/www/entrypoint.sh", "php-fpm", "-F"]
+RUN which supervisord && echo "deer"
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
