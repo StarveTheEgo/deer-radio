@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio;
 
+use App\Components\DeerRadio\Enum\DeerRadioUserAbility;
 use App\Components\DeerRadio\Http\Controllers\Api\Chat\DeerLivestreamChatController;
 use App\Components\DeerRadio\Http\Controllers\Api\DeerImage\DeerImageIndexController;
 use App\Components\DeerRadio\Http\Controllers\Api\DeerImage\DeerImageUpdateController;
@@ -29,7 +30,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
-class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProvider
+class DeerRadioServiceProvider extends ServiceProvider
 {
     public const COMPONENT_NAME = 'DeerRadio';
 
@@ -54,7 +55,11 @@ class DeerRadioServiceProvider extends ServiceProvider implements DeferrableProv
     public function boot(RouteRegistrar $routeRegistrar) : void
     {
         Route::prefix('api/internal')
-            ->middleware('api')
+            ->middleware([
+                'api',
+                'auth:sanctum',
+                'ability:'.DeerRadioUserAbility::MANAGE_LIQUIDSOAP->value
+            ])
             ->group(function() use ($routeRegistrar) {
                 $routeRegistrar->get('settings', [DeerRadioSettingsController::class, 'index']);
 

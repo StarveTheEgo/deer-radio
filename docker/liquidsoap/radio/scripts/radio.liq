@@ -13,6 +13,9 @@
 
 
 thread.when({30s}, update_deer_image)
+thread.when({15m}, update_api_token)
+
+ignore(update_api_token())
 
 # PERIODIC LINKS
 thread.when({10s}, update_current_shop_links)

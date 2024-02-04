@@ -1,3 +1,11 @@
+def getApiHeaders() =
+    [
+        ("Content-Type", "application/json"),
+        ("Accept", "application/json"),
+        ("Authorization", "Bearer #{api_access_token()}")
+    ]
+end
+
 # Sends specified message to the stream chat(s)
 def send_notification(message) =
     endpointUrl = control_api_url ^ '/stream-chat/send-message'
@@ -6,10 +14,7 @@ def send_notification(message) =
     payload.add('message', message)
 
     response = http.post(
-        headers=[
-            ("Content-Type","application/json"),
-            ("Accept","application/json")
-        ],
+        headers=getApiHeaders(),
         data=json.stringify(payload),
         endpointUrl
     )
@@ -25,9 +30,7 @@ end
 # Makes API request to specified endpoint
 def get_api_response(endpoint) =
     http.get(
-        headers=[
-            ("Accept","application/json")
-        ],
+        headers=getApiHeaders(),
         control_api_url ^ endpoint
     )
 end
@@ -102,4 +105,9 @@ def update_current_shop_links() =
         label_link_index := 0
     end
     label_website := list.nth(default='', label_links(), label_link_index())
+end
+
+# Updates personal access token from file
+def update_api_token() =
+    api_access_token := file.contents(personal_token_path)
 end

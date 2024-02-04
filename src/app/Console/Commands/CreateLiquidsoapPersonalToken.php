@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Components\DeerRadio\Enum\DeerRadioUserAbility;
 use App\Models\User;
+use DateTimeImmutable;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Console\Command;
 use ReflectionException;
@@ -45,7 +47,13 @@ class CreateLiquidsoapPersonalToken extends Command
         Assert::notNull($user, sprintf('User with email %s must exist', $email));
 
         // create new personal access token
-        $personalToken = $user->createToken($tokenName);
+        $personalToken = $user->createToken(
+            $tokenName,
+            [
+                DeerRadioUserAbility::MANAGE_LIQUIDSOAP->value,
+            ],
+            (new DateTimeImmutable())->modify('+1 hour')
+        );
 
         // save plaintext access token to a file
         $saveResult = file_put_contents($tokenFilePath, $personalToken->plainTextToken, LOCK_SH | LOCK_EX);

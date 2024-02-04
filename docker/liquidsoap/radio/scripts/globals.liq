@@ -3,11 +3,14 @@ video_width = 1920
 video_height = 1080
 video_samplerate = 25
 
+personal_token_path = '/var/radio-storage/apiToken.bin'
 control_host = 'deer-radio-nginx'
 control_protocol = 'http'
 control_api_url = control_protocol ^ '://' ^ control_host ^ '/api/internal'
 
 harbor_server_port = 8080
+
+api_access_token = ref ('')
 
 base_font_size = 28 # 22
 

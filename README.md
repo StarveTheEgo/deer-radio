@@ -21,6 +21,12 @@ docker exec -u 0 -it deer-radio-php-fpm /bin/sh
 chown -R deerdoor:deerdoor /var/radio-storage
 ```
 
+# Test API request from Liquidsoap container via Curl
+
+```bash
+curl -i --header "Accept: application/json" --header "Content-Type: application/json" --header "Authorization: Bearer `cat /var/radio-storage/apiToken.bin`" http://deer-radio-nginx/api/internal/settings
+```
+
 # Todo list:
 - Vault on production:
   - https://github.com/ahmetkaftan/docker-vault
