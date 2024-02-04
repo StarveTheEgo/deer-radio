@@ -15,7 +15,7 @@
         "justinrainbow/json-schema": "^5.2",
         "laravel-doctrine/orm": "~1.8",
         "laravel/framework": "^9.19",
-        "laravel/sanctum": "^3.0",
+        "laravel/sanctum": "^3.3",
         "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.7",
         "orchid/crud": "^3.8",
