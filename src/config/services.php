@@ -36,4 +36,12 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => '/admin/service-accounts/oauth-callback/google',
     ],
+
+    'liquidsoap' => [
+        'username' => env('LIQUIDSOAP_USERNAME'),
+        'email' => env('LIQUIDSOAP_EMAIL'),
+        'password' => env('LIQUIDSOAP_PASSWORD'),
+        'tokenFilePath' => env('LIQUIDSOAP_TOKEN_FILE_PATH'),
+        'tokenName' => 'apiToken',
+    ]
 ];

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\Console\Commands\CreateLiquidsoapPersonalToken;
+use App\Console\Commands\CreateLiquidsoapUser;
 use App\Console\Commands\RefreshAccessTokens;
 use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
@@ -16,6 +18,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         RefreshAccessTokens::class,
+        CreateLiquidsoapUser::class,
+        CreateLiquidsoapPersonalToken::class,
     ];
 
     /**
@@ -24,9 +28,14 @@ class Kernel extends ConsoleKernel
      * @param Schedule $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-         $schedule->command('access-token:refresh')->everyMinute();
+        // OAuth2 access tokens management
+        $schedule->command('access-token:refresh')->everyMinute();
+
+        // Sanctum personal access tokens management
+        $schedule->command('liquidsoap:personal-token')->hourly();
+        $schedule->command('sanctum:prune-expired --hours=2')->everyOddHour();
     }
 
     /**
