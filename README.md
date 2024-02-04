@@ -14,9 +14,17 @@ php artisan orchid:admin admin admin@admin.com password
 * Add your songs
 * Run the Deer Radio! (deer radio script is not ready yet)
 
+# Temporary fix of possible permission denied issue after re-deploying
+
+```bash
+docker exec -u 0 -it deer-radio-php-fpm /bin/sh
+chown -R deerdoor:deerdoor /var/radio-storage
+```
+
 # Todo list:
-- Configure Laravel cron task scheduler
-- Implement access token refreshing script and schedule it
+- Vault on production:
+  - https://github.com/ahmetkaftan/docker-vault
+  - https://developer.hashicorp.com/vault/tutorials/operations/production-hardening
 - Secure connection (at least via nginx ip range check now) between app and liquidsoap
 - Actualize outputs due to recently added service accounts implementation
 - Implement a way of sharing outputs data to liquidsoap
