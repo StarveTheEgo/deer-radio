@@ -12,4 +12,4 @@ WORKDIR /var/liquidsoap/radio
 
 USER deerdoor
 
-CMD ["/var/liquidsoap/radio/scripts/test.liq"]
+CMD ["/var/liquidsoap/radio/scripts/radio.liq"]
