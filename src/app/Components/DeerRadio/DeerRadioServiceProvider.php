@@ -83,7 +83,6 @@ class DeerRadioServiceProvider extends ServiceProvider
             SongPickService::class,
             SongQueueService::class,
 
-            DeerLivestreamChatController::class,
             DeerImageIndexController::class,
             DeerImageUpdateController::class,
             DeerMusicQueueController::class,
