@@ -9,6 +9,8 @@ use App\Components\OrchidIntergration\Field\Code\Factory\CodeFieldFactory;
 use App\Components\OrchidIntergration\Field\Code\Factory\CodeFieldOptionsFactory;
 use App\Components\OrchidIntergration\Field\Input\Factory\InputFieldFactory;
 use App\Components\OrchidIntergration\Field\Input\Factory\InputFieldOptionsFactory;
+use App\Components\OrchidIntergration\Field\Textarea\Factory\TextAreaFieldFactory;
+use App\Components\OrchidIntergration\Field\Textarea\Factory\TextAreaFieldOptionsFactory;
 use App\Components\OrchidIntergration\Field\Toggle\Factory\ToggleFieldFactory;
 use App\Components\OrchidIntergration\Field\Toggle\Factory\ToggleFieldOptionsFactory;
 use App\Components\OrchidIntergration\Registry\FieldFactoryRegistry;
@@ -22,11 +24,14 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
     /**
      * @var array<class-string>
      */
-    public $singletons = [
+    public array $singletons = [
         FieldFactoryRegistry::class,
 
         InputFieldFactory::class,
         InputFieldOptionsFactory::class,
+
+        TextAreaFieldFactory::class,
+        TextAreaFieldOptionsFactory::class,
 
         ToggleFieldFactory::class,
         ToggleFieldOptionsFactory::class,
@@ -66,6 +71,7 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
     {
         return [
             FieldType::INPUT->value => InputFieldFactory::class,
+            FieldType::TEXTAREA->value => TextAreaFieldFactory::class,
             FieldType::TOGGLE->value => ToggleFieldFactory::class,
             FieldType::CODE->value => CodeFieldFactory::class,
         ];
@@ -78,6 +84,7 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
     {
         return [
             FieldType::INPUT->value => InputFieldOptionsFactory::class,
+            FieldType::TEXTAREA->value => TextAreaFieldOptionsFactory::class,
             FieldType::TOGGLE->value => ToggleFieldOptionsFactory::class,
             FieldType::CODE->value => CodeFieldOptionsFactory::class,
         ];
@@ -95,6 +102,9 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
 
             InputFieldFactory::class,
             InputFieldOptionsFactory::class,
+
+            TextAreaFieldFactory::class,
+            TextAreaFieldOptionsFactory::class,
 
             ToggleFieldFactory::class,
             ToggleFieldOptionsFactory::class,
