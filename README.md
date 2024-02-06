@@ -27,10 +27,29 @@ chown -R deerdoor:deerdoor /var/radio-storage
 curl -i --header "Accept: application/json" --header "Content-Type: application/json" --header "Authorization: Bearer `cat /var/radio-storage/apiToken.bin`" http://deer-radio-nginx/api/internal/settings
 ```
 
+# Google output config example:
+
+Currently, we do not have dynamic UI to manage JSON configurations, but it will be added later.
+
+Currently, you are supposed to use this template:
+```json5
+{
+    "serviceAccountId": 1,
+    "chatEnabled": true,
+    "privacyStatus": "public"
+}
+```
+
+* **serviceAccountId** - ID of service account. You need to create and connect own service account here: [host]/admin/service-accounts
+
 # Todo list:
 - Vault on production:
   - https://github.com/ahmetkaftan/docker-vault
   - https://developer.hashicorp.com/vault/tutorials/operations/production-hardening
+- Output driver config encryption
+- Add Icecast2 output driver
+- Handle YouTube's "no longer live" situation
+- Validate output config on save
 - Secure connection (at least via nginx ip range check now) between app and liquidsoap
 - Actualize outputs due to recently added service accounts implementation
 - Implement a way of sharing outputs data to liquidsoap
