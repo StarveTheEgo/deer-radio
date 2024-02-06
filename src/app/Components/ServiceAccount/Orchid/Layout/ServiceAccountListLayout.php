@@ -36,6 +36,10 @@ class ServiceAccountListLayout extends Table
     public function columns(): array
     {
         return [
+            TD::make('id', __('ID'))
+                ->sort()
+                ->filter(Input::make()),
+
             TD::make('accountName', __('Account name'))
                 ->sort()
                 ->cantHide()
