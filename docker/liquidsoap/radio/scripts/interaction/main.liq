@@ -8,7 +8,7 @@ end
 
 # Sends specified message to the stream chat(s)
 def send_notification(message) =
-    endpointUrl = control_api_url ^ '/stream-chat/send-message'
+    endpointUrl = control_api_url ^ '/livestream/send-chat-message'
 
     payload = json()
     payload.add('message', message)
@@ -19,7 +19,7 @@ def send_notification(message) =
         endpointUrl
     )
 
-    is_sent = response.status_code == 200
+    is_sent = (response.status_code == 200 or response.status_code == 204)
     if (is_sent) then
         log('Successfully sent notification: ' ^ message)
     else
