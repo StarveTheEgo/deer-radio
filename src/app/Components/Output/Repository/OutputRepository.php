@@ -23,4 +23,14 @@ class OutputRepository extends AbstractRepository implements OutputRepositoryInt
     {
         parent::deleteObject($Output);
     }
+
+    /**
+     * @return array<Output>
+     */
+    public function getAllActiveOutputs(): array
+    {
+        return $this->getEntityRepository()->findBy([
+            'isActive' => true,
+        ]);
+    }
 }

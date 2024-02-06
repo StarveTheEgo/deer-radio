@@ -37,4 +37,12 @@ class OutputReadService
         return $this->repository->filteredFindAll($filters);
     }
 
+    /**
+     * @return array<Output>
+     */
+    public function getAllActiveOutputs(): array
+    {
+        return $this->repository->getAllActiveOutputs();
+    }
+
 }

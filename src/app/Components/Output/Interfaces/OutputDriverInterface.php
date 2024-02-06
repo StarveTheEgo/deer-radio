@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Components\Output\Interfaces;
 
+use App\Components\Output\Entity\Output;
+
 interface OutputDriverInterface
 {
     /**
@@ -19,8 +21,15 @@ interface OutputDriverInterface
     public static function getTitle() : string;
 
     /**
+     * Prepares livestream for specified output
+     * @param Output $output
+     * @return void
+     */
+    public function prepareLiveStream(Output $output) : void;
+
+    /**
      * Configuration of output for Liquidsoap
      * @return array<string, mixed>
      */
-    public function getLiquidsoapPayload() : array;
+    public function getLiquidsoapPayload(Output $output) : array;
 }

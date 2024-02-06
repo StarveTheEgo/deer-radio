@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\Output\Driver;
 
+use App\Components\Output\Entity\Output;
 use App\Components\Output\Interfaces\OutputDriverInterface;
 
 class DummyOutputDriver implements OutputDriverInterface
@@ -18,7 +19,18 @@ class DummyOutputDriver implements OutputDriverInterface
         return 'Dummy output';
     }
 
-    public function getLiquidsoapPayload(): array
+    /**
+     * @inheritDoc
+     */
+    public function prepareLiveStream(Output $output): void
+    {
+        // do nothing
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getLiquidsoapPayload(Output $output): array
     {
         return [];
     }

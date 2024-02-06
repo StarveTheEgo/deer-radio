@@ -14,4 +14,10 @@ interface OutputRepositoryInterface extends RepositoryInterface
     public function update(Output $Output): void;
 
     public function delete(Output $Output): void;
+
+    /**
+     * Gets all the active outputs
+     * @return array<Output>
+     */
+    public function getAllActiveOutputs() : array;
 }
