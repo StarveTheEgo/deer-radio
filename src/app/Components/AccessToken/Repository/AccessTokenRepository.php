@@ -32,11 +32,12 @@ class AccessTokenRepository extends AbstractRepository implements AccessTokenRep
      */
     public function iterateExpiredRefreshableAccessTokens(): iterable
     {
-        $currentDateTime = new DateTimeImmutable();
-        $expirationStart = ($currentDateTime->modify(sprintf(
-            '-%d seconds',
-            AccessTokenExpirationDateHelper::REFRESH_TIME_WINDOW_START
-        )));
+        // pick the date when we will consider tokens invalid
+        $expirationStart = (new DateTimeImmutable())
+            ->modify(sprintf(
+                '+%d seconds',
+                AccessTokenExpirationDateHelper::REFRESH_TIME_WINDOW_START
+            ));
 
         $em = $this->getEntityManager();
         $query = $this->buildExpiredRefreshableAccessTokensQuery($expirationStart);
