@@ -19,19 +19,20 @@ class DeerImageDeleteService
 
     public function removeOldImages(): void
     {
-        $deerImageDirectory = $this->radioStorage->path(DeerRadioPath::DEER_IMAGES_DIR->value);
+        $deerImagesDirectoryName = DeerRadioPath::DEER_IMAGES_DIR->value;
+        $deerImageDirectoryPath = $this->radioStorage->path($deerImagesDirectoryName);
 
         $finder = new Finder();
         $finder
             ->files()
-            ->in($deerImageDirectory)
+            ->in($deerImageDirectoryPath)
             ->depth('== 0')
             ->name(DeerImageUpdateService::DEER_IMAGE_PREFIX.'*.jpg')
             ->date('< 5 minute ago')
             ->sortByAccessedTime();
 
         foreach ($finder as $file) {
-            $this->radioStorage->delete($file->getPath());
+            $this->radioStorage->delete($deerImagesDirectoryName.DIRECTORY_SEPARATOR.$file->getFilename());
         }
     }
 }
