@@ -1,0 +1,17 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "serviceAccountId": {
+            "type": "integer"
+        },
+        "chatEnabled": {
+            "type": "boolean",
+            "default" : true
+        },
+        "privacyStatus": {
+            "type": "string",
+            "enum": ["public", "private", "unlisted"],
+            "default": "public"
+        }
+    }
+}
