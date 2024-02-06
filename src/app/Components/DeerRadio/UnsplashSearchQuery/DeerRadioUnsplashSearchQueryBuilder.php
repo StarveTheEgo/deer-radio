@@ -15,7 +15,6 @@ use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryType;
  */
 class DeerRadioUnsplashSearchQueryBuilder implements UnsplashSearchQueryBuilderInterface
 {
-    public const SETTING_IMAGE_LIST_COUNT = 'unsplash-query.image_list_count';
 
     private SettingReadService $settingReadService;
 
