@@ -12,9 +12,9 @@ use JsonSchema\Validator;
 final class SchemaBasedDataParser
 {
     /**
-     * @param array<mixed> $input
+     * @param array<string, mixed> $input
      * @param string $pathToSchema
-     * @return array<mixed>
+     * @return array<string, mixed>
      * @throws JsonException
      * @throws ValidationException
      */
@@ -36,7 +36,7 @@ final class SchemaBasedDataParser
     /**
      * @param string $json
      * @param string $pathToSchema
-     * @return array<mixed>
+     * @return array<string, mixed>
      * @throws ValidationException
      * @throws JsonException
      */
