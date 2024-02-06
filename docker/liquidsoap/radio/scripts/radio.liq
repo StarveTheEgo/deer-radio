@@ -11,6 +11,16 @@
 
 %include "outputs/main.liq"
 
+# Deer Radio LiveStream data
+
+settingsJson = requestPreparedStreamSettings()
+let json.parse ( settings :
+    {
+        outputs: [{
+            rtmpUrl: string
+        }]
+    }
+) = settingsJson
 
 thread.when({30s}, update_deer_image)
 thread.when({15m}, update_api_token)
@@ -22,46 +32,22 @@ thread.when({10s}, update_current_shop_links)
 
 # enable_replaygain_metadata()
 
-
-
-
-
-
 # Combinate :-D
 
 
 deer_video = fallback([deer_video, blank()])
+deer_audio = mksafe(audio)
 
-combined_stream = mux_video(video=deer_video, mksafe(audio))
+deer_audio_raw = ffmpeg.raw.encode.audio(%ffmpeg(%audio.raw), deer_audio)
+deer_video_raw = ffmpeg.raw.encode.video(%ffmpeg(%video.raw), deer_video)
 
-#combined_stream = mux_video(video=blank(), noise())
+# deer_video_raw = applyVideoFilter(deer_video_raw)
 
-output.dummy(combined_stream, fallible = true)
+deer_video_decoded = ffmpeg.raw.decode.video(deer_video_raw)
+deer_audio_decoded = ffmpeg.raw.decode.audio(deer_audio_raw)
 
+combined_stream = mux_video(video=deer_video_decoded, deer_audio_decoded)
 
-
-
-
-
-#output_instance = output.youtube.live(
-#    livestream_url,
-#    # url = restream_host,
-#    # key = restream_key,
-#    combined_stream
-#)
-
-# output_instance.start();
-
-#output.restream.live(
-#    audio_encoder = "avenc_aac",
-    #audio_encoder = "fdkaacenc",
-    #audio_encoder = "mfaacenc",
-    #audio_encoder = "voaacenc",
-#    video_bitrate = 4500,
-#    audio_bitrate= 320000,
-#    url = restream_host,
-#    key = restream_key,
-#    combined_stream
-#)
-
-
+list.iter(fun(output) -> (
+    createOutput(output, combined_stream)
+), settings.outputs)

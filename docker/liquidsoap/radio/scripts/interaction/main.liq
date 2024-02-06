@@ -69,7 +69,7 @@ end
 
 # Actualizes currently playing song id for API
 def update_now_playing_id(song_id) =
-    ignore(get_api_response('/song-queue/update-current-song' ^ string(song_id)))
+    ignore(get_api_response('/song-queue/update-current-song/' ^ string(song_id)))
 end
 
 # Requests API to update current deer image to a new one
@@ -110,4 +110,8 @@ end
 # Updates personal access token from file
 def update_api_token() =
     api_access_token := file.contents(personal_token_path)
+end
+
+def requestPreparedStreamSettings() =
+    get_api_response('/livestream/prepare')
 end
