@@ -1,14 +1,10 @@
-
 # VIDEO BASE
-# deer_video = blank()
+deer_video = blank()
 
 # DEER IMAGE
-# deer_image = request.dynamic(id="deer_image", timeout=15.0, get_deer_image)
-# deer_image = on_track(apply_deer_image, deer_image)
-# deer_video = add([deer_video, deer_image])
-
-deer_video = request.dynamic(id="deer_image", timeout=15.0, get_deer_image)
-deer_video.on_track(apply_deer_image)
+deer_image = request.dynamic(id="deer_image", timeout=15.0, get_deer_image)
+deer_image.on_track(apply_deer_image)
+deer_video = add([deer_video, deer_image])
 
 # TOP BACKGROUND
 # top_background = blank()
@@ -26,7 +22,7 @@ deer_video.on_track(apply_deer_image)
 
 # DEER BOTTOM SCREEN PART
 # TOP INFO TEXT
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size, # - 2,
     speed = 45,
@@ -56,7 +52,7 @@ deer_video = video.add_text(
 #
 
 # SONG NAME (AUTHOR - TITLE)
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size + 4,
     speed = 0,
@@ -67,7 +63,7 @@ deer_video = video.add_text(
 )
 
 # AUTHOR'S SHOP LINK
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size + 4,
     speed = 0,
@@ -78,7 +74,7 @@ deer_video = video.add_text(
 )
 
 # SONG ALBUM
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size + 4,
     speed = 0,
@@ -89,7 +85,7 @@ deer_video = video.add_text(
 )
 
 # SONG LABEL
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size + 4,
     speed = 0,
@@ -99,7 +95,7 @@ deer_video = video.add_text(
     deer_video
 )
 
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size + 4,
     speed = 0,
@@ -110,7 +106,7 @@ deer_video = video.add_text(
 )
 
 # DEER IMAGE ANNOTATION
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size + 4,
     speed = 0,
@@ -121,7 +117,7 @@ deer_video = video.add_text(
 )
 
 # DEER IMAGE DESCRIPTION
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size,
     speed = 0,
@@ -133,7 +129,7 @@ deer_video = video.add_text(
 
 
 # DEER IMAGE LINK
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size + 4,
     speed = 0,
@@ -145,7 +141,7 @@ deer_video = video.add_text(
 
 
 # DEER IMAGE PROFILE LINK
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     font = main_font_path,
     size = base_font_size + 4,
     speed = 0,
@@ -158,7 +154,7 @@ deer_video = video.add_text(
 #
 # INFORMATION TEXT
 #
-deer_video = video.add_text(
+deer_video = video.add_text.native(
     color = 16777215,
     font = main_font_path,
     size = base_font_size + 4,
