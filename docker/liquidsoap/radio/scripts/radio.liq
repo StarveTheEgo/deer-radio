@@ -36,7 +36,6 @@ thread.when({10s}, update_current_shop_links)
 
 
 deer_video = fallback([deer_video, blank()])
-deer_audio = mksafe(audio)
 
 deer_audio_raw = ffmpeg.raw.encode.audio(%ffmpeg(%audio.raw), deer_audio)
 deer_video_raw = ffmpeg.raw.encode.video(%ffmpeg(%video.raw), deer_video)
