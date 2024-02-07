@@ -14,10 +14,19 @@ use Psr\Log\LoggerInterface;
 
 class CurrentSongUpdateService
 {
+    /** @var DeerRadioDataAccessor */
     private DeerRadioDataAccessor $dataAccessor;
+
+    /** @var SongUpdateService */
     private SongUpdateService $songUpdateService;
+
+    /** @var SongReadService */
     private SongReadService $songReadService;
+
+    /** @var AuthorUpdateService */
     private AuthorUpdateService $authorUpdateService;
+
+    /** @var LoggerInterface */
     private LoggerInterface $logger;
 
     public function __construct(
