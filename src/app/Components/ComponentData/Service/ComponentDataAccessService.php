@@ -26,9 +26,4 @@ class ComponentDataAccessService
     {
         return $this->repository->setValue($component, $field, $value);
     }
-
-    public function buildAccessor(string $component): ComponentDataAccessor
-    {
-        return new ComponentDataAccessor($this, $component);
-    }
 }
