@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             UnsplashClientSettingSeeder::class,
             UnsplashQuerySettingSeeder::class,
             DeerRadioSettingSeeder::class,
-            GoogleOutputSettingSeeder::class,
         ]);
     }
 }
