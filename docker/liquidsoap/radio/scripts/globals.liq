@@ -1,7 +1,7 @@
 audio_samplerate = 44100 # 48000
 video_width = 1920
 video_height = 1080
-video_samplerate = 25
+video_framerate = 25
 
 personal_token_path = '/var/radio-storage/apiToken.bin'
 control_host = 'deer-radio-nginx'
