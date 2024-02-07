@@ -46,7 +46,7 @@ deer_video_raw = ffmpeg.raw.encode.video(%ffmpeg(%video.raw), deer_video)
 deer_video_decoded = ffmpeg.raw.decode.video(deer_video_raw)
 deer_audio_decoded = ffmpeg.raw.decode.audio(deer_audio_raw)
 
-combined_stream = mux_video(video=deer_video_decoded, deer_audio_decoded)
+combined_stream = source.mux.video(video=deer_video_decoded, deer_audio_decoded)
 
 list.iter(fun(output) -> (
     createOutput(output, combined_stream)
