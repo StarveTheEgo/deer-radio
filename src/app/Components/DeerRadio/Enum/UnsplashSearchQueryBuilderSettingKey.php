@@ -9,4 +9,6 @@ enum UnsplashSearchQueryBuilderSettingKey: string
     case DEFAULT_SEARCH_PROMPT = 'unsplash-query.default_search_prompt';
 
     case IMAGE_LIST_COUNT = 'unsplash-query.image_list_count';
+
+    case CUSTOM_PROMPT_ENABLED = 'unsplash-query.custom_prompt_enabled';
 }

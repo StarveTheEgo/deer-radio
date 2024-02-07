@@ -20,6 +20,7 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
             $this->createDefaultSearchPromptSetting(),
             $this->createImageListCountSetting(),
             $this->createDownloadQueryParamsSetting(),
+            $this->createCustomPromptEnabledSetting(),
         ]);
     }
 
@@ -75,6 +76,22 @@ class UnsplashQuerySettingSeeder extends AbstractSettingSeeder
             ->setDescription('Additional download parameters')
             ->setValue('&h=1080&q=100')
             ->setFieldType((FieldType::INPUT)->value)
+            ->setFieldOptions($fieldOptions->toArray())
+            ->setIsEncrypted(false);
+    }
+
+    private function createCustomPromptEnabledSetting(): Setting
+    {
+        $fieldOptions = (new ToggleOptions())
+            ->setTitle('Enable custom Unsplash image prompt')
+            ->setDescription('When enabled, Deer Radio will use custom search prompt for authors and tracks')
+            ->setValidation(null);
+
+        return (new Setting())
+            ->setKey(UnsplashSearchQueryBuilderSettingKey::CUSTOM_PROMPT_ENABLED->value)
+            ->setDescription('Custom query prompt')
+            ->setValue('1')
+            ->setFieldType((FieldType::TOGGLE)->value)
             ->setFieldOptions($fieldOptions->toArray())
             ->setIsEncrypted(false);
     }
