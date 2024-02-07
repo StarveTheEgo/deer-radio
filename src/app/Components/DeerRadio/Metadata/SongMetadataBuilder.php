@@ -21,7 +21,7 @@ class SongMetadataBuilder
 
         $authorLinks = [];
         foreach ($author->getLinks() as $authorLink) {
-            $authorLink[] = $authorLink->getUrl();
+            $authorLinks[] = $authorLink->getUrl();
         }
 
         $labelLinks = [];
