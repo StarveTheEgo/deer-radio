@@ -1,31 +1,35 @@
 %include "formatters.liq"
 
 def apply_song(m) =
-  track_id = m["id"]
-  song_author := m["artist"]
+  if (not list.is_empty(m)) then
+      track_id = m["id"]
+      song_author := m["artist"]
 
-  log(m["author_links"])
-  author_links := of_json(default=[""], m["author_links"])
-  log(m["label_links"])
-  label_links := of_json(default=[""], m["label_links"])
-  update_current_shop_links()
+      let json.parse (authorLinksParsed: [string]) = m["author_links"]
+      author_links := authorLinksParsed
 
-  song_title := m["title"]
-  song_album := m["album"]
-  song_album_year := m["album_year"]
-  song_label := m["label"]
+      let json.parse (labelLinksParsed: [string]) = m["label_links"]
+      label_links := labelLinksParsed
 
-  #song_length := int_of_float(file.duration(m["filename"]))
-  #log("Now playing: #{song_author()} by #{song_title()}")
-  log("Now playing $(title) by $(artist)" % [("artist", song_author()), ("title", song_title())])
+      update_current_shop_links()
 
-  update_now_playing_id(track_id)
-  log("actually playing")
-  update_deer_image()
-  send_notification(get_formatted_song_notification())
+      song_title := m["title"]
+      song_album := m["album"]
+      song_album_year := m["album_year"]
+      song_label := m["label"]
 
-  if (string.length(song_label()) > 0) then
-    send_notification(get_formatted_label_notification())
+      #song_length := int_of_float(file.duration(m["filename"]))
+      #log("Now playing: #{song_author()} by #{song_title()}")
+      log("Now playing $(title) by $(artist)" % [("artist", song_author()), ("title", song_title())])
+
+      update_now_playing_id(track_id)
+      log("actually playing")
+      update_deer_image()
+      send_notification(get_formatted_song_notification())
+
+      if (string.length(song_label()) > 0) then
+        send_notification(get_formatted_label_notification())
+      end
   end
 end
 
