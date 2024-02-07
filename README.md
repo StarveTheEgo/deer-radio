@@ -51,22 +51,16 @@ Currently, you are supposed to use this template:
 - Handle YouTube's "no longer live" situation
 - Validate output config on save
 - Secure connection (at least via nginx ip range check now) between app and liquidsoap
-- Actualize outputs due to recently added service accounts implementation
-- Implement a way of sharing outputs data to liquidsoap
 - Run the Deer Radio! Wow!
 - Add new setting field types
 - Configure development and production settings for doctrine proxies
-- Migrate Youtube API feature
 - Implement a dashboard
-- Update readme
 - Implement tests of features that are missing it
 - Add fields validation in Setting's seeders
 - Merge LabelLink and AuthorLink into one entity
 - Actualize Doctrine ORM mapping and Database schema
-- Remove very specific code related to routing/menu elements from AbstractScreenFilter
 - Probably to restore auto-disover feature (currently it tries to access not-ready-yet hostname; Need to find out why it is not ready)
 - Added authorization for both http servers (app and liquidsoap's harbor)
-- Actualize video encoders (let only ffmpeg)
 - Solve the mess around UnsplashSearchQueryBuilderInterface and service providers
 
 # Roadmap:
