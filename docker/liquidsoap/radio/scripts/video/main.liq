@@ -1,167 +1,204 @@
 # VIDEO BASE
-deer_video = blank()
+overlay = blank()
+
+def applyVideoFilter(s) =
+    def filterFunction(graph) =
+        video_track = source.tracks(s).video
+
+        filter_video = ffmpeg.filter.video.input(graph, video_track)
+
+        # TOP BACKGROUND
+        # top_background = blank()
+        # top_background = video.opacity(0.4, top_background)
+        # top_background = video.fill(top_background)
+        # #top_background = video.scale(xscale=1.0, yscale=0.04,x=0,y=0,top_background)
+        # top_background = video.resize(
+        #     width = video_width,
+        #     height = 51, # @todo fix magic number here
+        #     x = 0,
+        #     y = 0,
+        #     top_background
+        # )
+        # overlay = add([overlay, top_background])
+
+        # DEER BOTTOM SCREEN PART
+        # TOP INFO TEXT
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size, # - 2,
+            speed = 45,
+            x = 10,
+            y = 10,
+            graph = graph,
+            "This is Deer Radio find your favorite music while having unique visual deer experience :) ",
+        #    "This is Moose Radio - find your favorite music while having unique visual moose experience :)",
+            filter_video
+        )
+
+        # BOTTOM BACKGROUND
+        # bottom_background = blank()
+        # bottom_background = video.opacity(0.5, bottom_background)
+        # bottom_background = video.fill(bottom_background)
+        # bottom_background = video.resize(
+        #     width = video_width,
+        #     height = video_height / 2,
+        #     x = 0,
+        #     y = 825,
+        #     bottom_background
+        # )
+        # overlay = add([overlay, bottom_background])
+
+        #
+        # SONG INFO
+        #
+
+        # SONG NAME (AUTHOR - TITLE)
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size + 4,
+            speed = 0,
+            x = 30,
+            y = 833,
+            graph = graph,
+            get_formatted_track_name_text,
+            filter_video
+        )
+
+        # AUTHOR'S SHOP LINK
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size + 4,
+            speed = 0,
+            x = 30,
+            y = 893,
+            graph = graph,
+            get_formatted_track_album_text,
+            filter_video
+        )
+
+        # SONG ALBUM
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size + 4,
+            speed = 0,
+            x = 30,
+            y = 945,
+            graph = graph,
+            get_formatted_shop_link_text,
+            filter_video
+        )
+
+        # SONG LABEL
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size + 4,
+            speed = 0,
+            x = 30,
+            y = 990,
+            graph = graph,
+            get_formatted_track_label_text,
+            filter_video
+        )
+
+        # SONG LABEL LINK
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size + 4,
+            speed = 0,
+            x = 30,
+            y = 1028,
+            graph = graph,
+            get_formatted_track_label_link,
+            filter_video
+        )
+
+        # DEER IMAGE ANNOTATION
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size + 4,
+            speed = 0,
+            x = 1095,
+            y = 833,
+            graph = graph,
+            get_formatted_deer_image_author,
+            filter_video
+        )
+
+        # DEER IMAGE DESCRIPTION
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size,
+            speed = 0,
+            x = 1095,
+            y = 878,
+            graph = graph,
+            get_formatted_deer_image_description,
+            filter_video
+        )
+
+        # DEER IMAGE LINK
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size + 4,
+            speed = 0,
+            x = 1095,
+            y = 923,
+            graph = graph,
+            get_formatted_deer_image_link,
+            filter_video
+        )
+
+        # DEER IMAGE PROFILE LINK
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            font = main_font_path,
+            color = 0xFFFFFF,
+            size = base_font_size + 4,
+            speed = 0,
+            x = 1095,
+            y = 968,
+            graph = graph,
+            get_formatted_deer_image_profile_link,
+            filter_video
+        )
+
+        #
+        # INFORMATION TEXT
+        #
+        filter_video = video.add_text.ffmpeg.raw.filter(
+            color = 0xFFFFFF,
+            font = main_font_path,
+            size = base_font_size + 4,
+            speed = 0,
+            x = 1095,
+            y = 1028,
+            graph = graph,
+            "Deer situations: deerfuldeeringdeer@gmail.com",
+            #"For any questions write here: deerfuldeeringdeer@gmail.com",
+            filter_video
+        )
+
+        source({
+          video = ffmpeg.filter.video.output(graph, filter_video)
+       })
+    end
+
+    ffmpeg.filter.create(filterFunction)
+end
+
 
 # DEER IMAGE
 deer_image = request.dynamic(id="deer_image", timeout=15.0, get_deer_image)
 deer_image.on_track(apply_deer_image)
-deer_video = add([deer_video, deer_image])
 
-# TOP BACKGROUND
-# top_background = blank()
-# top_background = video.opacity(0.4, top_background)
-# top_background = video.fill(top_background)
-# #top_background = video.scale(xscale=1.0, yscale=0.04,x=0,y=0,top_background)
-# top_background = video.resize(
-#     width = video_width,
-#     height = 51, # @todo fix magic number here
-#     x = 0,
-#     y = 0,
-#     top_background
-# )
-# deer_video = add([deer_video, top_background])
+overlay = buffer(overlay)
 
-# DEER BOTTOM SCREEN PART
-# TOP INFO TEXT
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size, # - 2,
-    speed = 45,
-    x = 10,
-    y = 10,
-    "This is Deer Radio - find your favorite music while having unique visual deer experience :) ",
-#    "This is Moose Radio - find your favorite music while having unique visual moose experience :)",
-    deer_video
-)
-
-
-# BOTTOM BACKGROUND
-# bottom_background = blank()
-# bottom_background = video.opacity(0.5, bottom_background)
-# bottom_background = video.fill(bottom_background)
-# bottom_background = video.resize(
-#     width = video_width,
-#     height = video_height / 2,
-#     x = 0,
-#     y = 825,
-#     bottom_background
-# )
-# deer_video = add([deer_video, bottom_background])
-
-#
-# SONG INFO
-#
-
-# SONG NAME (AUTHOR - TITLE)
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size + 4,
-    speed = 0,
-    x = 30,
-    y = 833,
-    get_formatted_track_name_text,
-    deer_video
-)
-
-# AUTHOR'S SHOP LINK
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size + 4,
-    speed = 0,
-    x = 30,
-    y = 893,
-    get_formatted_track_album_text,
-    deer_video
-)
-
-# SONG ALBUM
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size + 4,
-    speed = 0,
-    x = 30,
-    y = 945,
-    get_formatted_shop_link_text,
-    deer_video
-)
-
-# SONG LABEL
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size + 4,
-    speed = 0,
-    x = 30,
-    y = 990,
-    get_formatted_track_label_text,
-    deer_video
-)
-
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size + 4,
-    speed = 0,
-    x = 30,
-    y = 1028,
-    get_formatted_track_label_link,
-    deer_video
-)
-
-# DEER IMAGE ANNOTATION
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size + 4,
-    speed = 0,
-    x = 1095,
-    y = 833,
-    get_formatted_deer_image_author,
-    deer_video
-)
-
-# DEER IMAGE DESCRIPTION
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size,
-    speed = 0,
-    x = 1095,
-    y = 878,
-    get_formatted_deer_image_description,
-    deer_video
-)
-
-
-# DEER IMAGE LINK
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size + 4,
-    speed = 0,
-    x = 1095,
-    y = 923,
-    get_formatted_deer_image_link,
-    deer_video
-)
-
-
-# DEER IMAGE PROFILE LINK
-deer_video = video.add_text.native(
-    font = main_font_path,
-    size = base_font_size + 4,
-    speed = 0,
-    x = 1095,
-    y = 968,
-    get_formatted_deer_image_profile_link,
-    deer_video
-)
-
-#
-# INFORMATION TEXT
-#
-deer_video = video.add_text.native(
-    color = 16777215,
-    font = main_font_path,
-    size = base_font_size + 4,
-    speed = 0,
-    x = 1095,
-    y = 1028,
-    "Deer situations: deerfuldeeringdeer@gmail.com",
-    #"For any questions write here: deerfuldeeringdeer@gmail.com",
-    deer_video
-)
+deer_video = add([overlay, deer_image])
