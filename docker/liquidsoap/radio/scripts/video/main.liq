@@ -200,4 +200,4 @@ deer_image.on_track(apply_deer_image)
 
 overlay = buffer(overlay)
 
-deer_video = add([overlay, deer_image])
+deer_video = add([deer_image, overlay])
