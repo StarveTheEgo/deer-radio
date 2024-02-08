@@ -13,6 +13,7 @@ use App\Components\ServiceAccount\Service\ServiceAccountDeleteService;
 use App\Components\ServiceAccount\Service\ServiceAccountReadService;
 use App\Orchid\Screens\AbstractScreen;
 use App\Orchid\Screens\IconAwareInterface;
+use DateTimeImmutable;
 use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Toast;
 
@@ -62,7 +63,10 @@ class ServiceAccountIndexScreen extends AbstractScreen implements IconAwareInter
 
     public function description(): ?string
     {
-        return __('Accounts with access to 3rd party services');
+        return sprintf(
+            __('Accounts with access to 3rd party services. Current time: %s'),
+            (new DateTimeImmutable())->format('d.m.Y H:i:s')
+        );
     }
 
     public function commandBar(): iterable
