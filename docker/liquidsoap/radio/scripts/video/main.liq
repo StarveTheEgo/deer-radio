@@ -198,6 +198,7 @@ end
 deer_image = request.dynamic(id="deer_image", timeout=15.0, get_deer_image)
 deer_image.on_track(apply_deer_image)
 
-overlay = buffer(overlay)
+overlay = buffer(buffer=2.0, overlay)
+deer_image = buffer(buffer=2.0, deer_image)
 
 deer_video = add([deer_image, overlay])
