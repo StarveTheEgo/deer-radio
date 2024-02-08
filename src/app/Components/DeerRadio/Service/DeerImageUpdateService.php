@@ -130,11 +130,10 @@ class DeerImageUpdateService
         $newImagePath = $this->radioStorage->path("$imagesDir/$uniqueId.jpg");
         if ($imageData->getIsRemote()) {
             $tempImagePath = $this->tempStorage->path("$uniqueId.tmp.jpg");
-            $this->downloadRemoteImageTo($imageData, $tempImagePath);
-            $this->renderAndSaveDeerImageScene($tempImagePath, $newImagePath);
+            $this->downloadRemoteImageTo($imageData, $newImagePath);
             $this->tempStorage->delete($tempImagePath);
         } else {
-            $this->renderAndSaveDeerImageScene($imageData->getPath(), $newImagePath);
+            $this->radioStorage->put($newImagePath, file_get_contents($imageData->getPath()));
         }
 
         // we will store the local image data
@@ -146,29 +145,6 @@ class DeerImageUpdateService
             ->setDescription(str_replace(["\r", "\n"], ['', ' '], $imageData->getDescription() ?? ''));
 
         $this->componentDataAccessor->setValue(DeerRadioDataKey::CURRENT_IMAGE_DATA->value, $localImageData);
-    }
-
-    /**
-     * @param string $originalImagePath
-     * @param string $newImagePath
-     * @return void
-     */
-    private function renderAndSaveDeerImageScene(string $originalImagePath, string $newImagePath): void
-    {
-        $image_object = $this->imageManagerLib->make($originalImagePath);
-        // @todo vary
-        $width = 1920;
-        $height = 1080;
-        $image_object->resizeCanvas($width, $height, 'center', false, '#000000');
-        # TOP BACKGROUND
-        $image_object->rectangle(0, 0, $width, 50, function ($draw) {
-            $draw->background('rgba(0, 0, 0, 0.3)');
-        });
-        # BOTTOM BACKGROUND
-        $image_object->rectangle(0, 825, $width, $height, function ($draw) {
-            $draw->background('rgba(0, 0, 0, 0.3)');
-        });
-        $image_object->save($newImagePath, 100);
     }
 
     /**
