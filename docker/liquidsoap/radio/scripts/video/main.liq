@@ -8,18 +8,17 @@ def applyVideoFilter(s) =
         filter_video = ffmpeg.filter.video.input(graph, video_track)
 
         # TOP BACKGROUND
-        # top_background = blank()
-        # top_background = video.opacity(0.4, top_background)
-        # top_background = video.fill(top_background)
-        # #top_background = video.scale(xscale=1.0, yscale=0.04,x=0,y=0,top_background)
-        # top_background = video.resize(
-        #     width = video_width,
-        #     height = 51, # @todo fix magic number here
-        #     x = 0,
-        #     y = 0,
-        #     top_background
-        # )
-        # overlay = add([overlay, top_background])
+        filter_video = ffmpeg.filter.drawbox(
+            x = "0",
+            y = "0",
+            width = string(video_width),
+            height = "51", # @todo fix magic number here
+            color = "black@0.4",
+            thickness = "fill",
+            replace = true,
+            graph,
+            filter_video
+        )
 
         # DEER BOTTOM SCREEN PART
         # TOP INFO TEXT
@@ -37,17 +36,17 @@ def applyVideoFilter(s) =
         )
 
         # BOTTOM BACKGROUND
-        # bottom_background = blank()
-        # bottom_background = video.opacity(0.5, bottom_background)
-        # bottom_background = video.fill(bottom_background)
-        # bottom_background = video.resize(
-        #     width = video_width,
-        #     height = video_height / 2,
-        #     x = 0,
-        #     y = 825,
-        #     bottom_background
-        # )
-        # overlay = add([overlay, bottom_background])
+        filter_video = ffmpeg.filter.drawbox(
+            x = "0",
+            y = "825",
+            width = string(video_width),
+            height = string(video_height / 2),
+            color = "black@0.5",
+            thickness = "fill",
+            replace = true,
+            graph,
+            filter_video
+        )
 
         #
         # SONG INFO
