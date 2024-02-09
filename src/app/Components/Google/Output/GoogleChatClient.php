@@ -96,7 +96,7 @@ class GoogleChatClient implements ChatClientInterface
         $lengthLimit = self::MESSAGE_LENGTH_LIMIT;
         $delimiter = self::MESSAGE_PARTS_DELIMITER;
 
-        $extraLength = $lengthLimit - mb_strlen($message);
+        $extraLength =  mb_strlen($message) - $lengthLimit;
         if ($extraLength > 0) {
             // the text length exceeds the limit, let's split it into strings of specified limit
             $wordWrappedText = $this->multibyteWordWrap($message, $lengthLimit);
