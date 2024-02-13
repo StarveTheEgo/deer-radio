@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio;
 
+use App\Components\DeerRadio\Enum\DeerRadioUserAbility;
 use App\Components\DeerRadio\Http\Controllers\Api\DeerImage\DeerImageIndexController;
 use App\Components\DeerRadio\Http\Controllers\Api\DeerImage\DeerImageUpdateController;
 use App\Components\DeerRadio\Http\Controllers\Api\DeerMusic\DeerMusicQueueController;
