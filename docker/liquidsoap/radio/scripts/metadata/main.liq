@@ -47,4 +47,3 @@ def apply_deer_image(m) =
       #   send_notification(get_formatted_photo_notification())
       #end
 end
-
