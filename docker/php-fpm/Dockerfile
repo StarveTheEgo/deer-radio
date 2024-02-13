@@ -52,7 +52,7 @@ WORKDIR /var/www/app
 
 RUN chmod -R 775 ./storage && \
     chmod -R 775 /var/radio-storage && \
-    mkdir -m 755 ./bootstrap/cache && \
+    mkdir -m 775 ./bootstrap/cache && \
     composer install && \
     npm ci && \
     npm run build
