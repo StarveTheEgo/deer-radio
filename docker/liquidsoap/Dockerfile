@@ -4,7 +4,7 @@ USER root
 
 RUN apk update && \
     apk add --no-cache curl && \
-    addgroup -g 1000 deerdoor && adduser -u 1000 -G deerdoor -S deerdoor
+    addgroup -g 0 deerdoor && adduser -u 0 -G deerdoor -S deerdoor
 
 COPY --chmod=755 --chown=deerdoor:deerdoor ./docker/liquidsoap/radio/. /var/liquidsoap/radio
 

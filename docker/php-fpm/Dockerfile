@@ -38,7 +38,7 @@ RUN apk update && apk add --no-cache \
     npm install npm@latest -g && \
     npm install n -g && \
     n latest && \
-    addgroup -g 1000 deerdoor && adduser -u 1000 -G deerdoor -S deerdoor && \
+    addgroup -g 0 deerdoor && adduser -u 0 -G deerdoor -S deerdoor && \
     # configuring upcoming radio-storage shared volume
     chown -R deerdoor:deerdoor /var/radio-storage && \
     rm -rf /tmp/* /var/cache/apk/*
