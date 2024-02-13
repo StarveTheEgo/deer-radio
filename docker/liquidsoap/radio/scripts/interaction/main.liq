@@ -105,6 +105,8 @@ def update_current_shop_links() =
         label_link_index := 0
     end
     label_website := list.nth(default='', label_links(), label_link_index())
+
+    ()
 end
 
 # Updates personal access token from file
