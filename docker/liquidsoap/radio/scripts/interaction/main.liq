@@ -47,7 +47,7 @@ def get_deer_image() =
 
         request.create(annotatedPath)
     catch err: [error.json] do
-        error.raise(error.json, "Failed at requesting the current deer image, status is #{response.status_code}, error: #{err}")
+        error.raise(error.json, "Failed at requesting the current deer image, status is #{response.status_code}, error: #{err}, message: #{response.status_message}")
     end
 end
 
@@ -63,7 +63,7 @@ def get_next_track() =
 
         request.create(annotatedPath)
     catch err: [error.json] do
-        error.raise(error.json, "Failed at requesting the next song, status is #{response.status_code}, error: #{err}")
+        error.raise(error.json, "Failed at requesting the next song, status is #{response.status_code}, error: #{err}, message: #{response.status_message}")
     end
 end
 
