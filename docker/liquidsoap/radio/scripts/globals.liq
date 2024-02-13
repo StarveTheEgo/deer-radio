@@ -37,7 +37,7 @@ deer_image_profile_link = ref('')
 deer_image_author = ref('')
 deer_image_desc = ref('')
 
-main_font_path = "/var/liquidsoap/radio/font/RobotoSlab-Regular.ttf"
+main_font_path = "/var/liquidsoap/radio/font/MesloLGS NF Regular.ttf"
 
 streams = ref([])
 streamsCounter = ref(0)
