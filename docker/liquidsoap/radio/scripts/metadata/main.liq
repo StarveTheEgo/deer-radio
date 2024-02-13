@@ -25,7 +25,10 @@ def apply_song(m) =
       ignore(update_now_playing_id(track_id))
 
       log("actually playing")
-      update_deer_image()
+      thread.run({
+        update_deer_image()
+      })
+
       send_notification(get_formatted_song_notification())
 
       if (string.length(song_label()) > 0) then
