@@ -11,8 +11,6 @@ def apply_song(m) =
       let json.parse (labelLinksParsed: [string]) = m["label_links"]
       label_links := labelLinksParsed
 
-      update_current_shop_links()
-
       song_title := m["title"]
       song_album := m["album"]
       song_album_year := m["album_year"]
@@ -22,7 +20,10 @@ def apply_song(m) =
       #log("Now playing: #{song_author()} by #{song_title()}")
       log("Now playing $(title) by $(artist)" % [("artist", song_author()), ("title", song_title())])
 
-      update_now_playing_id(track_id)
+      update_current_shop_links()
+
+      ignore(update_now_playing_id(track_id))
+
       log("actually playing")
       update_deer_image()
       send_notification(get_formatted_song_notification())
