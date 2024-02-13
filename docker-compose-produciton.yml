@@ -1,0 +1,102 @@
+version: '2.4'
+
+services:
+  deer-radio-mysql:
+    container_name: deer-radio-mysql
+    image: mysql:8.0
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_ROOT_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+    volumes:
+      - deer-radio-mysql-data:/var/lib/mysql
+    networks:
+      - deer-radio-network
+    healthcheck:
+        test: out=$$(mysqladmin ping -h 127.0.0.1 -u $DB_USERNAME --password=$DB_PASSWORD 2>&1); echo $$out | grep 'mysqld is alive' || { echo $$out; exit 1; }
+        interval: 5s
+        timeout: 5s
+        retries: 55
+    restart: unless-stopped
+
+  deer-radio-php-fpm:
+    container_name: deer-radio-php-fpm
+    build:
+      context: ./
+      dockerfile: ./docker/php-fpm/Dockerfile
+    volumes:
+      - deer-radio-app:/var/www/app
+      - deer-radio-storage:/var/radio-storage
+    networks:
+      - deer-radio-network
+    depends_on:
+      deer-radio-mysql:
+          condition: service_healthy
+    healthcheck:
+        test: php artisan db:show | grep -c "deer-radio-mysql" > /dev/null
+        interval: 5s
+        timeout: 5s
+        retries: 55
+    restart: unless-stopped
+
+  deer-radio-nginx:
+    container_name: deer-radio-nginx
+    build:
+      context: ./
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - '8080:80'
+    volumes:
+      - deer-radio-app:/var/www/app
+      - deer-radio-storage:/var/radio-storage
+    networks:
+      - deer-radio-network
+    depends_on:
+      deer-radio-php-fpm:
+          condition: service_healthy
+      deer-radio-mysql:
+          condition: service_healthy
+    healthcheck:
+        test: [ "CMD", "nc", "-vz", "-w1", "localhost", "80" ]
+        interval: 10s
+        timeout: 1s
+        retries: 30
+    restart: unless-stopped
+
+  deer-radio-liquidsoap:
+      container_name: deer-radio-liquidsoap
+      build:
+          context: ./
+          dockerfile: ./docker/liquidsoap/Dockerfile
+      volumes:
+          - ./docker/liquidsoap/radio:/var/liquidsoap/radio:cached
+          - deer-radio-storage:/var/radio-storage
+      networks:
+          - deer-radio-network
+      depends_on:
+          deer-radio-php-fpm:
+              condition: service_healthy
+          deer-radio-nginx:
+              condition: service_healthy
+      healthcheck:
+          test: curl -sS http://deer-radio-liquidsoap:8080/healthcheck | grep -c '"status":"ok"' > /dev/null
+          interval: 5s
+          timeout: 5s
+          retries: 55
+      restart: unless-stopped
+# 0 Tyson's addition
+
+networks:
+  deer-radio-network:
+    driver: bridge
+
+volumes:
+  deer-radio-app:
+    driver: local
+  deer-radio-mysql-data:
+    driver: local
+  deer-radio-storage:
+    driver: local
+# 000000 Tyson's touch
