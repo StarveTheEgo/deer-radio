@@ -38,9 +38,9 @@ def apply_song(m) =
 end
 
 def apply_deer_image(m) =
-      deer_image_link := m["image_link"]
-      deer_image_profile_link := m["profile_link"]
-      deer_image_author := m["author"]
+      deer_image_link := m["imageUrl"]
+      deer_image_profile_link := m["profileUrl"]
+      deer_image_author := m["authorName"]
       deer_image_desc := m["description"]
       log("Got new deer image: $(annotation)" % [("annotation", deer_image_author())])
       #if (string.length(deer_image_link()) > 0) then
