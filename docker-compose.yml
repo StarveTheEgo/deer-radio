@@ -21,6 +21,7 @@ services:
         interval: 5s
         timeout: 5s
         retries: 55
+    restart: unless-stopped
 
   deer-radio-php-fpm:
     container_name: deer-radio-php-fpm
@@ -44,6 +45,7 @@ services:
         interval: 5s
         timeout: 5s
         retries: 55
+    restart: unless-stopped
 
   deer-radio-nginx:
     container_name: deer-radio-nginx
@@ -69,6 +71,7 @@ services:
         interval: 10s
         timeout: 1s
         retries: 30
+    restart: unless-stopped
 
   deer-radio-liquidsoap:
       container_name: deer-radio-liquidsoap
@@ -90,6 +93,7 @@ services:
           interval: 5s
           timeout: 5s
           retries: 55
+      restart: unless-stopped
 # 0 Tyson's addition
 
 networks:
