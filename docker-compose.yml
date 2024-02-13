@@ -10,8 +10,6 @@ services:
             MYSQL_DATABASE: '${DB_DATABASE}'
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
-        ports:
-            - '3301:3306'
         volumes:
             - deer-radio-mysql-data:/var/lib/mysql
         networks:
@@ -28,8 +26,6 @@ services:
         build:
             context: ./
             dockerfile: ./docker/php-fpm/Dockerfile
-        ports:
-            - '9000:9000'
         volumes:
             - ./src/:/var/www/app:cached
             - deer-radio-storage:/var/radio-storage
@@ -53,7 +49,7 @@ services:
             context: ./
             dockerfile: ./docker/nginx/Dockerfile
         ports:
-            - '81:80'
+            - '8080:80'
         volumes:
             - ./src/:/var/www/app:cached
             - deer-radio-storage:/var/radio-storage
