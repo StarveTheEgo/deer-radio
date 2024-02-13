@@ -1,7 +1,7 @@
 %include "formatters.liq"
 
 def apply_song(m) =
-  if (not list.is_empty(m)) then
+  if (list.assoc.mem("id", m)) then
       track_id = m["id"]
       song_author := m["artist"]
 
