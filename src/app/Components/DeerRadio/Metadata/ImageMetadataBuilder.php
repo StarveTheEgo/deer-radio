@@ -8,7 +8,7 @@ use App\Components\ImageData\ImageData;
 
 class ImageMetadataBuilder
 {
-    public const IMAGE_DURATION = 30;
+    public const IMAGE_DURATION = 5;
 
     public const IMAGE_DESCRIPTION_LIMIT = 60;
 
