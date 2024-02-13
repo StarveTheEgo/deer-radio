@@ -3,7 +3,7 @@
 * Copy **.env.example** file to **.env**
 * Run docker compose
 ```bash
-docker-compose up -d -f docker-compose-production.yml
+docker-compose -f docker-compose-production.yml up -d
 ```
 * Add an admin user:
 ```bash
