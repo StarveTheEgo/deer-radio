@@ -69,7 +69,7 @@ end
 
 # Actualizes currently playing song id for API
 def update_now_playing_id(song_id) =
-    ignore(get_api_response('/song-queue/update-current-song/' ^ string(song_id)))
+    get_api_response('/song-queue/update-current-song/' ^ string(song_id))
 end
 
 # Requests API to update current deer image to a new one
