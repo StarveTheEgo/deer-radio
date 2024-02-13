@@ -1,6 +1,26 @@
 # The Deer Radio !
 
+## Prerequisites
+
+* Required packages:
+  * docker 
+  * docker-compose
+
+Docker BuildKit must be enabled.
+
+## Installation
+
 * Copy **.env.example** file to **.env**
+* Fill .env file, set your values for at least these variables (to make things more secure, put some different credentials):
+  * LIQUIDSOAP_USERNAME
+  * LIQUIDSOAP_EMAIL
+  * LIQUIDSOAP_PASSWORD
+  * DB_USERNAME
+  * DB_PASSWORD
+  * DB_ROOT_PASSWORD
+* Also in the same .env file fill the following variables (you can use this guide - https://avflow.io/help/3844071-how-to-get-your-youtube-client-id-and-client-secret):
+  * GOOGLE_CLIENT_ID
+  * GOOGLE_CLIENT_SECRET
 * Run docker compose
 ```bash
 docker-compose -f docker-compose-production.yml up -d
@@ -9,10 +29,12 @@ docker-compose -f docker-compose-production.yml up -d
 ```bash
 php artisan orchid:admin admin admin@admin.com password
 ```
-* Open the Deer Radio admin panel: http://localhost:81/admin/login
-* Enter desired settings here: http://localhost:81/admin/settings
+* Open the Deer Radio admin panel: http://localhost:8080/admin/login (where instead of localhost it can be the host of your VPS)
+* Enter desired settings here: http://localhost:8080/admin/settings
+* Add a service account (currently - Google for YouTube livestreams)
 * Add your songs
-* Run the Deer Radio! (deer radio script is not ready yet)
+* Run the Deer Radio!
+    * Currently, after the first configuration you will most likely need to restart docker application
 
 # Temporary fix of possible permission denied issue after re-deploying
 
