@@ -1,7 +1,7 @@
 FROM savonet/liquidsoap-alpine:v2.2.4
 
-ARG USER_UID=1000
-ARG USER_GID=1000
+ARG USER_UID
+ARG USER_GID
 
 USER root
 

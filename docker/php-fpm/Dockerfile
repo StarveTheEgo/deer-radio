@@ -1,7 +1,7 @@
 FROM php:8.2-fpm-alpine
 
-ARG USER_UID=1000
-ARG USER_GID=1000
+ARG USER_UID
+ARG USER_GID
 
 COPY ./docker/php-fpm/filesystem/ /
 COPY ./src/. /var/www/app
