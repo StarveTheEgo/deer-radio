@@ -4,6 +4,8 @@ ARG USER_UID=1000
 ARG USER_GID=1000
 
 COPY ./docker/php-fpm/filesystem/ /
+COPY ./src/. /var/www/app
+COPY ./.env /var/www/.env
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
@@ -42,12 +44,11 @@ RUN apk update && apk add --no-cache \
     npm install n -g && \
     n latest && \
     addgroup -g "${USER_GID}" deerdoor && adduser -u "${USER_UID}" -G deerdoor -S deerdoor && \
+    chown -R deerdoor:deerdoor /var/www/app && \
+    chown -R deerdoor:deerdoor /var/www/.env && \
     # configuring upcoming radio-storage shared volume
     chown -R deerdoor:deerdoor /var/radio-storage && \
     rm -rf /tmp/* /var/cache/apk/*
-
-COPY --chown=deerdoor:deerdoor ./src/. /var/www/app
-COPY --chown=deerdoor:deerdoor ./.env /var/www/.env
 
 USER deerdoor
 
