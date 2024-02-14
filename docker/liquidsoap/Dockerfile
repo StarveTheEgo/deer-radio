@@ -1,10 +1,13 @@
 FROM savonet/liquidsoap-alpine:v2.2.4
 
+ARG USER_UID=1000
+ARG USER_GID=1000
+
 USER root
 
 RUN apk update && \
     apk add --no-cache curl && \
-    addgroup -g 0 deerdoor && adduser -u 0 -G deerdoor -S deerdoor
+    addgroup -g "${USER_GID}" deerdoor && adduser -u "${USER_UID}" -G deerdoor -S deerdoor
 
 COPY ./docker/liquidsoap/radio/. /var/liquidsoap/radio
 

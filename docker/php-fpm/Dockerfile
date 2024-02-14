@@ -1,5 +1,8 @@
 FROM php:8.2-fpm-alpine
 
+ARG USER_UID=1000
+ARG USER_GID=1000
+
 COPY ./docker/php-fpm/filesystem/ /
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
@@ -38,7 +41,7 @@ RUN apk update && apk add --no-cache \
     npm install npm@latest -g && \
     npm install n -g && \
     n latest && \
-    addgroup -g 0 deerdoor && adduser -u 0 -G deerdoor -S deerdoor && \
+    addgroup -g "${USER_GID}" deerdoor && adduser -u "${USER_UID}" -G deerdoor -S deerdoor && \
     # configuring upcoming radio-storage shared volume
     chown -R deerdoor:deerdoor /var/radio-storage && \
     rm -rf /tmp/* /var/cache/apk/*

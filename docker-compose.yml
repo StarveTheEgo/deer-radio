@@ -26,6 +26,9 @@ services:
         build:
             context: ./
             dockerfile: ./docker/php-fpm/Dockerfile
+            args:
+                - "USER_UID=${USER_UID:-1000}"
+                - "USER_GID=${USER_GID:-1000}"
         volumes:
             - ./src/:/var/www/app:cached
             - deer-radio-storage:/var/radio-storage
@@ -48,6 +51,9 @@ services:
         build:
             context: ./
             dockerfile: ./docker/nginx/Dockerfile
+            args:
+                - "USER_UID=${USER_UID:-1000}"
+                - "USER_GID=${USER_GID:-1000}"
         ports:
             - '8080:80'
         volumes:

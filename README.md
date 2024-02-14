@@ -12,6 +12,8 @@ Docker BuildKit must be enabled.
 
 * Copy **.env.example** file to **.env**
 * Fill .env file, set your values for at least these variables (to make things more secure, put some different credentials):
+  * USER_UID (you can use `id -u` command to get value for this variable)
+  * USER_GID (you can use `id -g` command to get value for this variable)
   * LIQUIDSOAP_USERNAME
   * LIQUIDSOAP_EMAIL
   * LIQUIDSOAP_PASSWORD
@@ -23,7 +25,7 @@ Docker BuildKit must be enabled.
   * GOOGLE_CLIENT_SECRET
 * Run docker compose
 ```bash
-docker-compose -f docker-compose-production.yml up -d
+docker-compose up -d
 ```
 * Add an admin user:
 ```bash
@@ -33,7 +35,7 @@ php artisan orchid:admin admin admin@admin.com password
 * Enter desired settings here: http://localhost:8080/admin/settings
 * Add a service account (currently - Google for YouTube livestreams)
 * Add your songs
-* Run the Deer Radio!
+* Run, Deer Radio!
     * Currently, after the first configuration you will most likely need to restart docker application
 
 # Temporary fix of possible permission denied issue after re-deploying
