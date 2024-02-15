@@ -77,7 +77,7 @@ services:
             - "USER_UID=${USER_UID:-1000}"
             - "USER_GID=${USER_GID:-1000}"
       volumes:
-          - ./docker/liquidsoap/radio:/var/liquidsoap/radio:cached
+          - deer-radio-liquidsoap:/var/liquidsoap/radio
           - deer-radio-storage:/var/radio-storage
       networks:
           - deer-radio-network
@@ -104,5 +104,7 @@ volumes:
   deer-radio-mysql-data:
     driver: local
   deer-radio-storage:
+    driver: local
+  deer-radio-liquidsoap:
     driver: local
 # 000000 Tyson's touch
