@@ -12,6 +12,7 @@ Docker BuildKit must be enabled.
 
 * Copy **.env.example** file to **.env**
 * Fill .env file, set your values for at least these variables (to make things more secure, put some different credentials):
+  * APP_KEY (fill only once; you can use https://generate-random.org/laravel-key-generator to get a key) 
   * USER_UID (you can use `id -u` command to get value for this variable)
   * USER_GID (you can use `id -g` command to get value for this variable)
   * APP_ENV (set 'local' for development, and 'production' for... production)
