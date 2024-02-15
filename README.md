@@ -14,6 +14,8 @@ Docker BuildKit must be enabled.
 * Fill .env file, set your values for at least these variables (to make things more secure, put some different credentials):
   * USER_UID (you can use `id -u` command to get value for this variable)
   * USER_GID (you can use `id -g` command to get value for this variable)
+  * APP_ENV (set 'local' for development, and 'production' for... production)
+  * APP_DEBUG (set true for development, and false for production)
   * LIQUIDSOAP_USERNAME
   * LIQUIDSOAP_EMAIL
   * LIQUIDSOAP_PASSWORD
