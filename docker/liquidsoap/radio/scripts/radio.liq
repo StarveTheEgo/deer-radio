@@ -13,6 +13,8 @@
 
 # Deer Radio LiveStream data
 
+ignore(update_api_token())
+
 settingsJson = requestPreparedStreamSettings()
 let json.parse ( settings :
     {
@@ -24,8 +26,6 @@ let json.parse ( settings :
 
 thread.when({30s}, update_deer_image)
 thread.when({15m}, update_api_token)
-
-ignore(update_api_token())
 
 # PERIODIC LINKS
 thread.when({10s}, update_current_shop_links)
