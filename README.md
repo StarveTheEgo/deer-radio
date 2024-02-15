@@ -26,6 +26,12 @@ Docker BuildKit must be enabled.
 * Also in the same .env file fill the following variables (you can use this guide - https://avflow.io/help/3844071-how-to-get-your-youtube-client-id-and-client-secret):
   * GOOGLE_CLIENT_ID
   * GOOGLE_CLIENT_SECRET
+  * While creating Google Console Application, you will need to specify redirect URL:
+```
+https://[YOUR_DOMAIN]/admin/service-accounts/oauth-callback/google
+```
+Where [YOUR_DOMAIN] is... your domain! If running locally then you can use 'localhost' as domain
+
 * Run docker compose
 ```bash
 docker-compose up -d
