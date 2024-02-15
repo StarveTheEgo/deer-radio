@@ -48,7 +48,6 @@ RUN apk update && apk add --no-cache \
     chown -R deerdoor:deerdoor /var/www/.env && \
     chown -R deerdoor:deerdoor /var/www/run-php-fpm.sh && \
     chmod +x /var/www/run-php-fpm.sh && \
-    chmod 755 /etc/supervisor/supervisord.conf && \
     # configuring upcoming radio-storage shared volume
     chown -R deerdoor:deerdoor /var/radio-storage && \
     rm -rf /tmp/* /var/cache/apk/*
@@ -66,4 +65,4 @@ RUN chmod -R 775 ./storage && \
 
 EXPOSE 9000
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/usr/local/etc/supervisor/supervisord.conf"]
