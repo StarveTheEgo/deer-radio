@@ -10,6 +10,8 @@ services:
             MYSQL_DATABASE: '${DB_DATABASE}'
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
+        ports:
+            - '3301:3306'
         volumes:
             - deer-radio-mysql-data:/var/lib/mysql
         networks:
