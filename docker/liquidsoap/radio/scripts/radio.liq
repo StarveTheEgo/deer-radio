@@ -25,7 +25,7 @@ let json.parse ( settings :
 ) = settingsJson
 
 thread.when({30s}, update_deer_image)
-thread.when({15m}, update_api_token)
+thread.when({10s}, update_api_token)
 
 # PERIODIC LINKS
 thread.when({10s}, update_current_shop_links)
