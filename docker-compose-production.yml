@@ -10,6 +10,11 @@ services:
       MYSQL_DATABASE: '${DB_DATABASE}'
       MYSQL_USER: '${DB_USERNAME}'
       MYSQL_PASSWORD: '${DB_PASSWORD}'
+    logging:
+      driver: "local"
+      options:
+        max-size: "10m"
+        max-file: "10"
     volumes:
       - deer-radio-mysql-data:/var/lib/mysql
     networks:
@@ -29,6 +34,11 @@ services:
       args:
         - "USER_UID=${USER_UID:-1000}"
         - "USER_GID=${USER_GID:-1000}"
+    logging:
+      driver: "local"
+      options:
+        max-size: "10m"
+        max-file: "10"
     volumes:
       - deer-radio-app:/var/www/app
       - deer-radio-storage:/var/radio-storage
@@ -51,6 +61,11 @@ services:
       dockerfile: ./docker/nginx/Dockerfile
     ports:
       - '8080:80'
+    logging:
+      driver: "local"
+      options:
+        max-size: "10m"
+        max-file: "10"
     volumes:
       - deer-radio-app:/var/www/app
       - deer-radio-storage:/var/radio-storage
@@ -76,6 +91,11 @@ services:
           args:
             - "USER_UID=${USER_UID:-1000}"
             - "USER_GID=${USER_GID:-1000}"
+      logging:
+        driver: "local"
+        options:
+          max-size: "10m"
+          max-file: "10"
       volumes:
           - deer-radio-liquidsoap:/var/liquidsoap/radio
           - deer-radio-storage:/var/radio-storage
