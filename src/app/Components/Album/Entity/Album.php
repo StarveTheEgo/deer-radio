@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\Album\Entity;
 
+use App\Components\Author\Entity\Author;
 use App\Components\DoctrineOrchid\AbstractDomainObject;
 use App\Components\DoctrineOrchid\TimestampableEntityTrait;
 use App\Components\DoctrineOrchid\TimestampableInterface;
@@ -24,6 +25,9 @@ class Album extends AbstractDomainObject implements TimestampableInterface
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id;
 
+    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'songs')]
+    protected Author $author;
+
     #[ORM\Column(type: Types::STRING)]
     protected string $title;
 
@@ -35,6 +39,24 @@ class Album extends AbstractDomainObject implements TimestampableInterface
 
     public function __construct() {
         $this->songs = new ArrayCollection();
+    }
+
+    /**
+     * @return Author
+     */
+    public function getAuthor(): Author
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param Author $author
+     * @return Album
+     */
+    public function setAuthor(Author $author): Album
+    {
+        $this->author = $author;
+        return $this;
     }
 
     /**
