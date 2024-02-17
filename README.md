@@ -34,7 +34,7 @@ Where [YOUR_DOMAIN] is... your domain! If running locally then you can use 'loca
 
 * Run docker compose
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 * Add an admin user:
 ```bash
