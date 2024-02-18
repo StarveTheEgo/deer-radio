@@ -1,7 +1,6 @@
 # MUSIC
 deer_audio = request.dynamic(id="deer_audio_stream", timeout=15.0, get_next_track)
 deer_audio.on_track(apply_song)
-deer_audio = buffer(buffer = 2.0, deer_audio)
 
 deer_audio = blank.skip(deer_audio)
 deer_audio = replaygain(deer_audio)
