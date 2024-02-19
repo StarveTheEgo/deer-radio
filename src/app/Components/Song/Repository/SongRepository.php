@@ -32,6 +32,7 @@ class SongRepository extends AbstractRepository implements SongRepositoryInterfa
             ->select('song.id')
             ->leftJoin('song.author', 'author')
             ->andWhere('song.isActive = 1')
+            ->andWhere('author.isActive = 1')
             ->orderBy('song.finishedAt', 'ASC');
 
         $avoidableSongIds = $criteria->getAvoidableSongIds();
