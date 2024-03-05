@@ -38,6 +38,7 @@ return [
     ],
 
     'liquidsoap' => [
+        'url' => env('LIQUIDSOAP_URL'),
         'username' => env('LIQUIDSOAP_USERNAME'),
         'email' => env('LIQUIDSOAP_EMAIL'),
         'password' => env('LIQUIDSOAP_PASSWORD'),

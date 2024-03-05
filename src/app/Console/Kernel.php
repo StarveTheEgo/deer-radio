@@ -36,6 +36,9 @@ class Kernel extends ConsoleKernel
         // Sanctum personal access tokens management
         $schedule->command('liquidsoap:personal-token')->hourly();
         $schedule->command('sanctum:prune-expired --hours=2')->everyOddHour();
+
+        // Liquidsoap diagnosis
+        $schedule->command('liquidsoap:keep-alive')->everyTwoMinutes();
     }
 
     /**

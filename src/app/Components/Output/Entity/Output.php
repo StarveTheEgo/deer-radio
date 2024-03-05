@@ -7,6 +7,8 @@ namespace App\Components\Output\Entity;
 use App\Components\DoctrineOrchid\AbstractDomainObject;
 use App\Components\DoctrineOrchid\TimestampableEntityTrait;
 use App\Components\DoctrineOrchid\TimestampableInterface;
+use App\Components\Output\Enum\OutputStreamState;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use LaravelDoctrine\ORM\Contracts\UrlRoutable;
@@ -33,6 +35,12 @@ class Output extends AbstractDomainObject implements TimestampableInterface, Url
 
     #[ORM\Column(type: Types::BOOLEAN)]
     protected bool $isActive;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    protected ?DateTimeImmutable $preparedAt;
+
+    #[ORM\Column(type: Types::STRING)]
+    protected string $streamState = OutputStreamState::UNKNOWN->value;
 
     /**
      * @return string
@@ -124,9 +132,47 @@ class Output extends AbstractDomainObject implements TimestampableInterface, Url
 
     /**
      * @param bool $isActive
+     * @return Output
      */
-    public function setIsActive(bool $isActive): void
+    public function setIsActive(bool $isActive): Output
     {
         $this->isActive = $isActive;
+        return $this;
+    }
+
+    /**
+     * @return DateTimeImmutable|null
+     */
+    public function getPreparedAt(): ?DateTimeImmutable
+    {
+        return $this->preparedAt;
+    }
+
+    /**
+     * @param DateTimeImmutable|null $preparedAt
+     * @return Output
+     */
+    public function setPreparedAt(?DateTimeImmutable $preparedAt): Output
+    {
+        $this->preparedAt = $preparedAt;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreamState(): string
+    {
+        return $this->streamState;
+    }
+
+    /**
+     * @param string $streamState
+     * @return Output
+     */
+    public function setStreamState(string $streamState): Output
+    {
+        $this->streamState = $streamState;
+        return $this;
     }
 }

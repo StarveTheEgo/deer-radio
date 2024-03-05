@@ -9,7 +9,9 @@ use App\Components\Output\Interfaces\ChatClientAwareInterface;
 use App\Components\Output\Interfaces\ChatClientInterface;
 use App\Components\Output\Registry\OutputDriverRegistry;
 use App\Components\Output\Service\OutputReadService;
+use App\Components\Output\Service\OutputUpdateService;
 use App\Http\Controllers\Controller;
+use DateTimeImmutable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
@@ -24,6 +26,8 @@ class DeerRadioLivestreamController extends Controller
 
     private OutputReadService $outputReadService;
 
+    private OutputUpdateService $outputUpdateService;
+
     private OutputDriverFactory $driverFactory;
 
     private OutputDriverRegistry $driverRegistry;
@@ -33,6 +37,7 @@ class DeerRadioLivestreamController extends Controller
     /**
      * @param ResponseFactory $responseFactory
      * @param OutputReadService $outputReadService
+     * @param OutputUpdateService $outputUpdateService
      * @param OutputDriverFactory $driverFactory
      * @param OutputDriverRegistry $driverRegistry
      * @param LoggerInterface $logger
@@ -40,6 +45,7 @@ class DeerRadioLivestreamController extends Controller
     public function __construct(
         ResponseFactory $responseFactory,
         OutputReadService $outputReadService,
+        OutputUpdateService $outputUpdateService,
         OutputDriverFactory $driverFactory,
         OutputDriverRegistry $driverRegistry,
         LoggerInterface $logger
@@ -47,6 +53,7 @@ class DeerRadioLivestreamController extends Controller
     {
         $this->responseFactory = $responseFactory;
         $this->outputReadService = $outputReadService;
+        $this->outputUpdateService = $outputUpdateService;
         $this->driverFactory = $driverFactory;
         $this->driverRegistry = $driverRegistry;
         $this->logger = $logger;
@@ -60,21 +67,17 @@ class DeerRadioLivestreamController extends Controller
     {
         $outputSettings = [];
         foreach ($this->outputReadService->getAllActiveOutputs() as $activeOutput) {
-            try {
-                $driverName = $activeOutput->getDriverName();
-                $driver = $this->driverFactory->createDriver($driverName);
+            $driverName = $activeOutput->getDriverName();
+            $driver = $this->driverFactory->createDriver($driverName);
 
-                $driver->prepareLiveStream($activeOutput);
-                $payload = $driver->getLiquidsoapPayload($activeOutput);
-            } catch (Throwable $throwable) {
-                // skip failed output
-                $this->logger->error(sprintf(
-                    'Error while preparing livestream for Output#%d : %s',
-                    $activeOutput->getId(),
-                    $throwable
-                ));
-                $payload = null;
-            }
+            $driver->prepareLiveStream($activeOutput);
+
+            // store the data of preparation
+            $currentTime = new DateTimeImmutable();
+            $activeOutput->setPreparedAt($currentTime);
+            $this->outputUpdateService->update($activeOutput);
+
+            $payload = $driver->getLiquidsoapPayload($activeOutput);
 
             $outputSettings[] = $payload;
         }

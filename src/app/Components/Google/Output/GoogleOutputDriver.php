@@ -9,7 +9,9 @@ use App\Components\Google\GoogleDataAccessor;
 use App\Components\Google\Service\BindLiveBroadcastService;
 use App\Components\Google\Service\CreateOrUpdateLiveBroadcastService;
 use App\Components\Google\Service\CreateOrUpdateLiveStreamService;
+use App\Components\Google\Service\ReadLiveBroadcastService;
 use App\Components\Output\Entity\Output;
+use App\Components\Output\Enum\OutputStreamState;
 use App\Components\Output\Interfaces\ChatClientAwareInterface;
 use App\Components\Output\Interfaces\OutputDriverInterface;
 use Google\Service\YouTube\LiveStream;
@@ -22,7 +24,11 @@ class GoogleOutputDriver implements OutputDriverInterface, ChatClientAwareInterf
     private CreateOrUpdateLiveStreamService $createOrUpdateLiveStreamService;
 
     private CreateOrUpdateLiveBroadcastService $createOrUpdateLiveBroadcastService;
+
+    private ReadLiveBroadcastService $readLiveBroadcastService;
+
     private BindLiveBroadcastService $bindLiveBroadcastService;
+
     private GoogleDataAccessor $dataAccessor;
 
     /**
@@ -52,18 +58,21 @@ class GoogleOutputDriver implements OutputDriverInterface, ChatClientAwareInterf
     /**
      * @param CreateOrUpdateLiveStreamService $createOrUpdateLiveStreamService
      * @param CreateOrUpdateLiveBroadcastService $createOrUpdateLiveBroadcastService
+     * @param ReadLiveBroadcastService $readLiveBroadcastService
      * @param BindLiveBroadcastService $bindLiveBroadcastService
      * @param GoogleDataAccessor $dataAccessor
      */
     public function __construct(
-        CreateOrUpdateLiveStreamService    $createOrUpdateLiveStreamService,
+        CreateOrUpdateLiveStreamService $createOrUpdateLiveStreamService,
         CreateOrUpdateLiveBroadcastService $createOrUpdateLiveBroadcastService,
-        BindLiveBroadcastService           $bindLiveBroadcastService,
-        GoogleDataAccessor                 $dataAccessor
+        ReadLiveBroadcastService $readLiveBroadcastService,
+        BindLiveBroadcastService $bindLiveBroadcastService,
+        GoogleDataAccessor $dataAccessor
     )
     {
         $this->createOrUpdateLiveStreamService = $createOrUpdateLiveStreamService;
         $this->createOrUpdateLiveBroadcastService = $createOrUpdateLiveBroadcastService;
+        $this->readLiveBroadcastService = $readLiveBroadcastService;
         $this->bindLiveBroadcastService = $bindLiveBroadcastService;
         $this->dataAccessor = $dataAccessor;
     }
@@ -125,5 +134,33 @@ class GoogleOutputDriver implements OutputDriverInterface, ChatClientAwareInterf
         $ingestionInfo = $liveStream->getCdn()->getIngestionInfo();
 
         return $ingestionInfo->getIngestionAddress().'/'.$ingestionInfo->getStreamName();
+    }
+
+    /**
+     * @param Output $output
+     * @return OutputStreamState
+     * @throws JsonException
+     * @throws ValidationException
+     */
+    public function getStreamState(Output $output) : OutputStreamState
+    {
+        $savedLiveBroadcast = $this->dataAccessor->getYoutubeLiveBroadcast($output);
+        if ($savedLiveBroadcast === null) {
+            return OutputStreamState::NOT_READY;
+        }
+
+        $liveBroadcast = $this
+            ->readLiveBroadcastService
+            ->findLiveBroadcastById($output, $savedLiveBroadcast->getId(), ['status']);
+
+        $lifeCycleStatus = $liveBroadcast->getStatus()->getLifeCycleStatus();
+
+        // remap the LifecycleStatus to StreamState
+        return match ($lifeCycleStatus) {
+            'complete', 'revoked' => OutputStreamState::FINISHED,
+            'created', 'ready', 'testStarting', 'liveStarting' => OutputStreamState::CREATED,
+            'live', 'testing' => OutputStreamState::LIVE,
+            default => OutputStreamState::UNKNOWN,
+        };
     }
 }

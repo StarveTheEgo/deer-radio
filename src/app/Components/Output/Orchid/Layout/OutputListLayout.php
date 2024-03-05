@@ -58,6 +58,16 @@ class OutputListLayout extends Table
                     return $driverClass::getTitle();
                 }),
 
+            TD::make('streamState', __('Stream state'))
+                ->render(function (Output $output) {
+                    return $output->getStreamState();
+                }),
+
+            TD::make('preparedAt', __('Prepared at'))
+                ->render(function (Output $output) {
+                    return $output->getPreparedAt()?->format('d.m.Y H:i:s');
+                }),
+
             TD::make('isActive', __('Is active'))
                 ->sort(),
 

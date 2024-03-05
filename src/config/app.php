@@ -13,6 +13,7 @@ use App\Components\Google\GoogleServiceProvider;
 use App\Components\ImageData\ImageDataServiceProvider;
 use App\Components\Label\LabelServiceProvider;
 use App\Components\LabelLink\LabelLinkServiceProvider;
+use App\Components\Liquidsoap\LiquidsoapServiceProvider;
 use App\Components\ServiceAccount\ServiceAccountServiceProvider;
 use App\Components\OrchidIntergration\OrchidIntegrationServiceProvider;
 use App\Components\Output\OutputServiceProvider;
@@ -235,8 +236,8 @@ return [
         LabelLinkServiceProvider::class,
         SongServiceProvider::class,
         OutputServiceProvider::class,
-
         GoogleServiceProvider::class,
+        LiquidsoapServiceProvider::class,
     ],
 
     /*

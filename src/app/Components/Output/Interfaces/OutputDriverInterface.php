@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Components\Output\Interfaces;
 
 use App\Components\Output\Entity\Output;
+use App\Components\Output\Enum\OutputStreamState;
 
 interface OutputDriverInterface
 {
@@ -32,4 +33,10 @@ interface OutputDriverInterface
      * @return array<string, mixed>
      */
     public function getLiquidsoapPayload(Output $output) : array;
+
+    /**
+     * @param Output $output
+     * @return OutputStreamState
+     */
+    public function getStreamState(Output $output) : OutputStreamState;
 }
