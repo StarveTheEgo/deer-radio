@@ -81,7 +81,7 @@ class YoutubeApi
      * @param array<string> $parts
      * @return LiveBroadcast|null
      */
-    public function getLiveBroadcastById(string $id, array $parts): ?LiveBroadcast
+    public function findLiveBroadcastById(string $id, array $parts): ?LiveBroadcast
     {
         $liveBroadcasts = $this->youtubeService->liveBroadcasts->listLiveBroadcasts(
             implode(',', $parts),

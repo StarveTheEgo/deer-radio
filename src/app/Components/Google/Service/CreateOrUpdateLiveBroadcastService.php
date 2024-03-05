@@ -59,7 +59,7 @@ class CreateOrUpdateLiveBroadcastService
         $isNewBroadcast = false;
         if ($savedLiveBroadcastId !== null) {
             // try to load existing broadcast data
-            $currentLiveBroadcast = $youtubeApi->getLiveBroadcastById($savedLiveBroadcastId, YoutubeApi::DEFAULT_BROADCAST_PARTS);
+            $currentLiveBroadcast = $youtubeApi->findLiveBroadcastById($savedLiveBroadcastId, YoutubeApi::DEFAULT_BROADCAST_PARTS);
         } else {
             $currentLiveBroadcast = null;
         }
