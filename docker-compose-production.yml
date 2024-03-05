@@ -107,7 +107,7 @@ services:
           deer-radio-nginx:
               condition: service_healthy
       healthcheck:
-          test: curl -sS http://deer-radio-liquidsoap:8080/healthcheck | grep -c '"status":"ok"' > /dev/null
+          test: curl -sS http://deer-radio-liquidsoap:8080/api/healthcheck | grep -c '"status":"ok"' > /dev/null
           interval: 5s
           timeout: 5s
           retries: 55
