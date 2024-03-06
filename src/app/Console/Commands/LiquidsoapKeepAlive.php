@@ -83,7 +83,7 @@ class LiquidsoapKeepAlive extends Command
             if (
                 $lastPreparationTime === null
                 ||
-                ($currentTime->diff($lastPreparationTime)->s) >= $maxInactiveStreamDuration
+                ($currentTime->getTimestamp() - $lastPreparationTime->getTimestamp()) >= $maxInactiveStreamDuration
             ) {
                 $logger->warning(sprintf(
                     'Output#%s\'s stream state is "%s". Too much time passed since the last preparation, scheduling restart',
