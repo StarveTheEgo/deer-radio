@@ -153,6 +153,11 @@ class GoogleOutputDriver implements OutputDriverInterface, ChatClientAwareInterf
             ->readLiveBroadcastService
             ->findLiveBroadcastById($output, $savedLiveBroadcast->getId(), ['status']);
 
+        if ($liveBroadcast === null) {
+            // @todo more specific status here
+            return OutputStreamState::FINISHED;
+        }
+
         $lifeCycleStatus = $liveBroadcast->getStatus()->getLifeCycleStatus();
 
         // remap the LifecycleStatus to StreamState
