@@ -9,7 +9,7 @@ def createOutput(outputName, outputData) =
             out = output.dummy(combined_stream, fallible = true)
         }
         streams := [...streams(), (outputName, streamData)]
-    elsif _driverName == 'google' then
+    elsif _driverName == 'youtube' then
         # YouTube LiveStream
         rtmpUrl = outputData.config.rtmpUrl
 
