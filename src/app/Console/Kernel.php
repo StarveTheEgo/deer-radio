@@ -37,8 +37,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('liquidsoap:personal-token')->hourly();
         $schedule->command('sanctum:prune-expired --hours=2')->everyOddHour();
 
-        // Liquidsoap diagnosis
-        $schedule->command('liquidsoap:keep-alive')->everyTwoMinutes();
+        // Livestream diagnosis
+        $schedule->command('livestream:keep-alive')->everyTwoMinutes();
     }
 
     /**
