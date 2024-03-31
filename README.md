@@ -80,6 +80,7 @@ Currently, you are supposed to use this template:
   - https://github.com/ahmetkaftan/docker-vault
   - https://developer.hashicorp.com/vault/tutorials/operations/production-hardening
 - Output driver config encryption
+- Output driver common payload format (for liquidsoap)
 - Add Icecast2 output driver
 - Handle YouTube's "no longer live" situation
 - Validate output config on save
