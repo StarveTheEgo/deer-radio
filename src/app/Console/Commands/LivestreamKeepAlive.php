@@ -18,7 +18,7 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 /**
  * Ensures livestream is alive within some restrictions
  */
-class LiquidsoapKeepAlive extends Command
+class LivestreamKeepAlive extends Command
 {
     use WithoutOverlapping;
 
