@@ -67,10 +67,10 @@ class Album extends \App\Components\Album\Entity\Album implements \Doctrine\ORM\
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'title', 'year', 'songs', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'author', 'title', 'year', 'songs', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'title', 'year', 'songs', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'author', 'title', 'year', 'songs', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -177,6 +177,28 @@ class Album extends \App\Components\Album\Entity\Album implements \Doctrine\ORM\
     }
 
     
+    /**
+     * {@inheritDoc}
+     */
+    public function getAuthor(): \App\Components\Author\Entity\Author
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAuthor', []);
+
+        return parent::getAuthor();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setAuthor(\App\Components\Author\Entity\Author $author): \App\Components\Album\Entity\Album
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAuthor', [$author]);
+
+        return parent::setAuthor($author);
+    }
+
     /**
      * {@inheritDoc}
      */
