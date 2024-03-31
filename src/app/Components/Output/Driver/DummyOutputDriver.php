@@ -44,6 +44,6 @@ class DummyOutputDriver implements OutputDriverInterface
      */
     public function getStreamState(Output $output) : OutputStreamState
     {
-        return OutputStreamState::CREATED;
+        return OutputStreamState::LIVE;
     }
 }
