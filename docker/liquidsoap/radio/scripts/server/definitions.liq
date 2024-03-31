@@ -21,7 +21,6 @@ def srv_outputs_states(request, response) =
 
     result = json()
     streamsCount = list.length(streams())
-    log(string(streamsCount))
     for i = 0 to (streamsCount - 1) do
         let (outputName, streamData) = list.nth(streams(), i)
         ignore(streamData)
