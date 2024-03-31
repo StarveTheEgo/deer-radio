@@ -10,6 +10,7 @@ use App\Components\Liquidsoap\Enum\LiquidsoapSettingKey;
 use App\Components\Output\Entity\Output;
 use App\Components\Output\Enum\OutputStreamState;
 use App\Components\Output\Factory\OutputDriverFactory;
+use App\Components\Output\Service\OutputReadService;
 use App\Components\Output\Service\OutputUpdateService;
 use App\Components\Setting\Service\SettingReadService;
 use DateTimeImmutable;
@@ -21,6 +22,8 @@ class LivestreamHealthChecker
 {
     private LiquidsoapApi $liquidsoapApi;
 
+    private OutputReadService $outputReadService;
+
     private OutputUpdateService $outputUpdateService;
 
     private OutputDriverFactory $driverFactory;
@@ -29,6 +32,7 @@ class LivestreamHealthChecker
 
     public function __construct(
         LiquidsoapApi $liquidsoapApi,
+        OutputReadService $outputReadService,
         OutputUpdateService $outputUpdateService,
         OutputDriverFactory $driverFactory,
         SettingReadService $settingReadService,
@@ -37,6 +41,7 @@ class LivestreamHealthChecker
     {
 
         $this->liquidsoapApi = $liquidsoapApi;
+        $this->outputReadService = $outputReadService;
         $this->outputUpdateService = $outputUpdateService;
         $this->driverFactory = $driverFactory;
         $this->settingReadService = $settingReadService;
@@ -100,6 +105,13 @@ class LivestreamHealthChecker
     public function checkLiquidsoapOutputsStates(): void
     {
         $states = $this->liquidsoapApi->outputsStates();
+        if (empty($states)) {
+            $activeOutputs = $this->outputReadService->getAllActiveOutputs();
+            if (!empty($activeOutputs)) {
+                throw new BadOutputStateException('Application has active outputs, while liquidsoap does not have any');
+            }
+        }
+
         foreach ($states as $streamName => $streamState) {
             // @todo probably should handle null-values too
             $isActive = $streamState['is_active'] ?? false;
