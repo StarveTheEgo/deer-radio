@@ -1,19 +1,25 @@
 %include "youtube.liq"
 
 def createOutput(outputName, outputData) =
-    driverName = outputData.driverName
+    _driverName = outputData.driverName
 
-    if driverName == 'dummy' then
+    if _driverName == 'dummy' then
         # Dummy output (streams nowhere)
-        out = output.dummy(combined_stream, fallible = true)
-        streams := [...streams(), (outputName, out.shutdown)]
-    elsif driverName == 'google' then
+        streamData = {
+            out = output.dummy(combined_stream, fallible = true)
+        }
+        streams := [...streams(), (outputName, streamData)]
+    elsif _driverName == 'google' then
         # YouTube LiveStream
         rtmpUrl = outputData.config.rtmpUrl
-        out = output.youtube.live(id="output-#{outputName}", rtmpUrl, combined_stream)
-        streams := [...streams(), (outputName, out.shutdown)]
+
+        streamData = {
+            driverName = _driverName,
+            out = output.youtube.live(id="output-#{outputName}", rtmpUrl, combined_stream)
+        }
+        streams := [...streams(), (outputName, streamData)]
     else
-        error.raise(radioError, "Driver #{driverName} is not supported")
+        error.raise(radioError, "Driver #{_driverName} is not supported")
     end
 end
 
@@ -21,8 +27,9 @@ def deleteOutput(outputName) =
   if not list.assoc.mem(outputName, streams()) then
     error.raise(radioError, "Stream #{outputName} does not exists!")
   else
-    shutdown = list.assoc(outputName, streams())
-    shutdown()
+    streamData = list.assoc(outputName, streams())
+    streamData.out.shutdown()
+
     streams := list.filter((fun (el) -> fst(el) != outputName), streams())
   end
 end
@@ -61,4 +68,26 @@ def initializeOutputs() =
     ) = settingsJson
 
     list.iter(createOutputFromSettingTuple, settings.outputs)
+end
+
+# Gets formatted information about output status
+def getOutputState(outputName) =
+     if not list.assoc.mem(outputName, streams()) then
+        {
+            is_active = null,
+            is_ready = null,
+            is_started = null,
+            is_up = null
+        }
+     else
+        streamData = list.assoc(outputName, streams())
+        out = streamData.out
+
+        {
+            is_active = out.is_active(),
+            is_ready = out.is_ready(),
+            is_started = out.is_started(),
+            is_up = out.is_up()
+        }
+     end
 end
