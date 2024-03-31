@@ -29,6 +29,7 @@ use Tabuna\Breadcrumbs\Trail;
 
 class ServiceAccountServiceProvider extends ServiceProvider
 {
+    /** @var string */
     public const RESOURCE_NS = 'service-account';
 
     /**

@@ -8,8 +8,6 @@
 %include "audio/main.liq"
 %include "video/main.liq"
 
-%include "outputs/main.liq"
-
 # Deer Radio LiveStream data
 
 ignore(update_api_token())
@@ -26,4 +24,5 @@ thread.when({10s}, update_current_shop_links)
 
 combined_stream = source.mux.video(video=deer_video, deer_audio)
 
+%include "outputs/main.liq"
 %include "server/main.liq"

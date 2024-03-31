@@ -79,7 +79,11 @@ class DeerRadioLivestreamController extends Controller
 
             $payload = $driver->getLiquidsoapPayload($activeOutput);
 
-            $outputSettings[] = $payload;
+            // @todo the name is unique only per-user
+            $outputSettings[$activeOutput->getOutputName()] = [
+                'driverName' => $driverName,
+                'config' => $payload,
+            ];
         }
 
         return $this->responseFactory->json([

@@ -33,7 +33,9 @@ class DummyOutputDriver implements OutputDriverInterface
      */
     public function getLiquidsoapPayload(Output $output): array
     {
-        return [];
+        return [
+            'rtmpUrl' => '',
+        ];
     }
 
     /**

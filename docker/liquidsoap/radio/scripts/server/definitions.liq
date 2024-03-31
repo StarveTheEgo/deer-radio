@@ -11,7 +11,7 @@ def srv_outputs_stop(request, response) =
 end
 
 def srv_outputs_init(request, response) =
-    initializeOutputs(combined_stream)
+    initializeOutputs()
     ignore(request)
     response.json({status = "ok"})
 end

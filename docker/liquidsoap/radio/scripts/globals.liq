@@ -40,4 +40,3 @@ deer_image_desc = ref('')
 main_font_path = "/var/liquidsoap/radio/font/Roboto_Slab/static/RobotoSlab-Regular.ttf"
 
 streams = ref([])
-streamsCounter = ref(0)

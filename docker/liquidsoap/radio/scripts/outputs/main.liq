@@ -1,24 +1,29 @@
 %include "youtube.liq"
 
-def createOutput(outputData, outputSource) =
-    url = outputData.rtmpUrl
-    if list.assoc.mem(url, streams()) then
-        error.raise(radioError, "Stream for url #{url} already exists!")
+def createOutput(outputName, outputData) =
+    driverName = outputData.driverName
+
+    if driverName == 'dummy' then
+        # Dummy output (streams nowhere)
+        out = output.dummy(combined_stream, fallible = true)
+        streams := [...streams(), (outputName, out.shutdown)]
+    elsif driverName == 'google' then
+        # YouTube LiveStream
+        rtmpUrl = outputData.config.rtmpUrl
+        out = output.youtube.live(id="output-#{outputName}", rtmpUrl, combined_stream)
+        streams := [...streams(), (outputName, out.shutdown)]
     else
-        # Registering new output
-        out = output.youtube.live(id="output-#{streamsCounter()}", url, outputSource)
-        streamsCounter := streamsCounter() + 1
-        streams := [...streams(), (url, out.shutdown)]
+        error.raise(radioError, "Driver #{driverName} is not supported")
     end
 end
 
-def deleteOutput(url) =
-  if not list.assoc.mem(url, streams()) then
-    error.raise(radioError, "Stream for url #{url} does not exists!")
+def deleteOutput(outputName) =
+  if not list.assoc.mem(outputName, streams()) then
+    error.raise(radioError, "Stream #{outputName} does not exists!")
   else
-    shutdown = list.assoc(url, streams())
+    shutdown = list.assoc(outputName, streams())
     shutdown()
-    streams := list.filter((fun (el) -> fst(el) != url), streams())
+    streams := list.filter((fun (el) -> fst(el) != outputName), streams())
   end
 end
 
@@ -32,19 +37,28 @@ def resetOutputs() =
     list.iter(resetOutputTuple, streams())
 end
 
-def initializeOutputs(outputStream) =
+def createOutputFromSettingTuple(outputSettingTuple) =
+    let (outputName, outputSettings) = outputSettingTuple
+
+    createOutput(outputName, outputSettings)
+end
+
+def initializeOutputs() =
     resetOutputs()
 
     settingsJson = requestPreparedStreamSettings()
     let json.parse ( settings :
         {
-            outputs: [{
-                rtmpUrl: string
-            }]
+            outputs: [
+                (string * {
+                    driverName: string,
+                    config: {
+                        rtmpUrl: string
+                    }
+                })
+            ] as json.object
         }
     ) = settingsJson
 
-    list.iter(fun(output) -> (
-        createOutput(output, outputStream)
-    ), settings.outputs)
+    list.iter(createOutputFromSettingTuple, settings.outputs)
 end
