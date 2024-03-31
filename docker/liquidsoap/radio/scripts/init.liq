@@ -1,7 +1,7 @@
 settings.init.force_start := true
 
 settings.init.catch_exn := false
-settings.log.level := 5
+settings.log.level := 4
 settings.log.stdout := true
 settings.sandbox := false
 settings.sandbox.rw := ['/var/radio-storage']
