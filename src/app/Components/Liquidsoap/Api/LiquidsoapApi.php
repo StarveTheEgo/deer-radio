@@ -57,6 +57,17 @@ class LiquidsoapApi
     }
 
     /**
+     * @return array<string, array<string, mixed>>
+     * @throws GuzzleException
+     * @throws JsonException
+     */
+    public function outputsStates(): array
+    {
+        $responseData = $this->sendApiRequestWithAssertion('GET', '/api/outputs/states');
+        return $responseData['states'] ?? [];
+    }
+
+    /**
      * @param string $method
      * @param string $uri
      * @return array<string, mixed>

@@ -12,6 +12,7 @@ use App\Components\DeerRadio\Http\Controllers\Api\LiveStream\DeerRadioLivestream
 use App\Components\DeerRadio\Service\CurrentSongUpdateService;
 use App\Components\DeerRadio\Service\DeerImageDeleteService;
 use App\Components\DeerRadio\Service\DeerImageUpdateService;
+use App\Components\DeerRadio\Service\LivestreamHealthChecker;
 use App\Components\DeerRadio\Service\SongPickService;
 use App\Components\DeerRadio\Service\SongQueueService;
 use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
@@ -37,6 +38,7 @@ class DeerRadioServiceProvider extends ServiceProvider
      */
     public array $singletons = [
         UnsplashSearchQueryBuilderInterface::class => DeerRadioUnsplashSearchQueryBuilder::class,
+        LivestreamHealthChecker::class,
     ];
 
     /**
@@ -88,6 +90,8 @@ class DeerRadioServiceProvider extends ServiceProvider
             DeerImageUpdateController::class,
             DeerMusicQueueController::class,
             DeerRadioLivestreamController::class,
+
+            LivestreamHealthChecker::class,
         ];
     }
 
