@@ -29,6 +29,7 @@ class LiquidsoapHttpClientFactory
             'headers' => [
                 'content-type' => 'application/json'
             ],
+            'timeout' => 30,
         ]);
     }
 }
