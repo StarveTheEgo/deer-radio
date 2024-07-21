@@ -1,4 +1,4 @@
-version: '2.4'
+version: '3.3'
 
 services:
   deer-radio-mysql:
@@ -60,7 +60,10 @@ services:
       context: ./
       dockerfile: ./docker/nginx/Dockerfile
     ports:
-      - '8080:80'
+      - '80:80'
+      - '443:443'
+    labels:
+      - "sh.acme.autoload.domain=${APP_HOST}"
     logging:
       driver: "local"
       options:
@@ -82,6 +85,22 @@ services:
         timeout: 1s
         retries: 30
     restart: unless-stopped
+
+  acme.sh:
+    image: neilpang/acme.sh
+    container_name: acme.sh
+    command: daemon
+    volumes:
+      - deer-radio-app:/var/www/app
+      - deer-radio-acme:/acme.sh
+      - /run/user/${USER_UID:-1000}/docker.sock:/var/run/docker.sock
+    environment:
+      - DEPLOY_DOCKER_CONTAINER_LABEL=sh.acme.autoload.domain=${APP_HOST}
+      - DEPLOY_DOCKER_CONTAINER_KEY_FILE=/etc/ssl/certs/deer-radio/privkey.pem
+      - DEPLOY_DOCKER_CONTAINER_CERT_FILE="/etc/ssl/certs/deer-radio/cert.pem"
+      - DEPLOY_DOCKER_CONTAINER_CA_FILE="/etc/ssl/certs/deer-radio/ca.pem"
+      - DEPLOY_DOCKER_CONTAINER_FULLCHAIN_FILE="/etc/ssl/certs/deer-radio/fullchain.pem"
+      - DEPLOY_DOCKER_CONTAINER_RELOAD_CMD="nginx -s reload"
 
   deer-radio-liquidsoap:
       container_name: deer-radio-liquidsoap
@@ -120,6 +139,8 @@ networks:
 
 volumes:
   deer-radio-app:
+    driver: local
+  deer-radio-acme:
     driver: local
   deer-radio-mysql-data:
     driver: local
