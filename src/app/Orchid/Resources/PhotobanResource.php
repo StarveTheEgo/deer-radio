@@ -84,7 +84,7 @@ class PhotobanResource extends AbstractResource
         return [
             'image_url' => [
                 'required',
-                'url',
+//                'url',
                 Rule::unique(DoctrinePhotoban::class, 'imageUrl')->ignore($model->id),
             ],
 

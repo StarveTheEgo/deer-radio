@@ -18,12 +18,13 @@ class UnsplashImageDataFactory
             throw new LogicException('Deer photo has no source URL');
         }
 
-        $imageUrl = $unsplashImageInfo['links']['html'] ?? null;
-        $photobanUrl = ($imageUrl !== null) ? strtok($imageUrl, '?') : null;
+//        $imageUrl = $unsplashImageInfo['links']['html'] ?? null;
+        $imageUrl = 'https://unsplash.com/photos/'.$unsplashImageInfo['id'];
+//        $photobanUrl = ($imageUrl !== null) ? strtok($imageUrl, '?') : null;
 
         return (new ImageData($unsplashImageInfo['urls']['raw'], true))
             ->setImageUrl($imageUrl)
-            ->setPhotobanUrl($photobanUrl)
+            ->setPhotobanUrl($unsplashImageInfo['id'])
             ->setDescription($unsplashImageInfo['description'] ?? null)
             ->setAuthorName($unsplashImageInfo['user']['name'] ?? null)
             ->setProfileUrl($unsplashImageInfo['user']['links']['html'] ?? null);
