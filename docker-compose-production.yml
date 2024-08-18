@@ -71,6 +71,7 @@ services:
         max-file: "10"
     volumes:
       - deer-radio-app:/var/www/app
+      - deer-radio-certs:/etc/ssl/certs/deer-radio
       - deer-radio-storage:/var/radio-storage
     networks:
       - deer-radio-network
@@ -101,6 +102,9 @@ services:
       - DEPLOY_DOCKER_CONTAINER_CA_FILE="/etc/ssl/certs/deer-radio/ca.pem"
       - DEPLOY_DOCKER_CONTAINER_FULLCHAIN_FILE="/etc/ssl/certs/deer-radio/fullchain.pem"
       - DEPLOY_DOCKER_CONTAINER_RELOAD_CMD="nginx -s reload"
+    depends_on:
+      deer-radio-nginx:
+        condition: service_healthy
 
   deer-radio-liquidsoap:
       container_name: deer-radio-liquidsoap
@@ -139,6 +143,8 @@ networks:
 
 volumes:
   deer-radio-app:
+    driver: local
+  deer-radio-certs:
     driver: local
   deer-radio-acme:
     driver: local
