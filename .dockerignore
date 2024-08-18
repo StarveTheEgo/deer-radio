@@ -17,4 +17,5 @@ src/node_modules/
 README.md
 
 Dockerfile
-docker-compose.yml
+docker-compose-dev.yml
+docker-compose-production.yml
