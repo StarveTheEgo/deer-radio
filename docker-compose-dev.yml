@@ -72,6 +72,8 @@ services:
                 max-file: "10"
         volumes:
             - ./src/:/var/www/app:cached
+            - ./docker/dev-certs/deer-radio/server.crt:/etc/ssl/certs/deer-radio/fullchain.pem
+            - ./docker/dev-certs/deer-radio/server.key:/etc/ssl/certs/deer-radio/privkey.pem
             - deer-radio-storage:/var/radio-storage
             - deer-radio-php-vendor:/var/www/app/vendor/
             - deer-radio-js-vendor:/var/www/app/node_modules/

@@ -32,6 +32,13 @@ https://[YOUR_DOMAIN]/admin/service-accounts/oauth-callback/google
 ```
 Where [YOUR_DOMAIN] is... your domain! If running locally then you can use 'localhost' as domain
 
+* Generate certificates
+
+If you do not have certificates, you can generate development ones this way:
+```bash
+source .env
+docker run -v ./docker/certs/deer-radio:/certs -e SERVER_HOSTNAMES="${APP_HOST}" -it nmasse/mkcert:latest
+```
 * Run docker compose
 ```bash
 docker compose up -d
