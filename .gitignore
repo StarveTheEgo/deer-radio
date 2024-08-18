@@ -18,3 +18,5 @@ src/npm-debug.log
 src/yarn-error.log
 /.idea
 /.vscode
+
+docker/dev-certs/*
