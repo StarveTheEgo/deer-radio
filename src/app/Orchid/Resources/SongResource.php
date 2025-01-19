@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Orchid\Resources;
 
 use App\Components\Storage\Enum\StorageName;
@@ -188,7 +190,7 @@ class SongResource extends AbstractResource
     }
 
     /**
-     * @param Model|Song $model
+     * @param Model<Song> $model
      * @return array<string, mixed>
      */
     public function rules(Model $model): array
@@ -211,10 +213,12 @@ class SongResource extends AbstractResource
             ],
 
             'album_id' => [
+                'nullable',
                 'exists:'.DoctrineAlbum::class.',id',
             ],
 
             'label_id' => [
+                'nullable',
                 'exists:'.DoctrineLabel::class.',id',
             ],
 
