@@ -49,7 +49,7 @@ class RegisterExistingSongs extends Command
                 throw new LogicException('No file for '.$song->title);
             }
 
-            $outputRelativeDir = '/songs/'.date('Y-m-d', filemtime($sourceFilePath)).'/';
+            $outputRelativeDir = config('deer-radio.songs-directory').date('Y-m-d', filemtime($sourceFilePath)).'/';
 
             $file = new UploadedFile($sourceFilePath, $source->original_name);
 
