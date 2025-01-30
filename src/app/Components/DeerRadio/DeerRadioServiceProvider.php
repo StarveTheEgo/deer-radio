@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\DeerRadio;
 
+use App\Components\DeerRadio\Enum\DeerRadioRoute;
 use App\Components\DeerRadio\Enum\DeerRadioUserAbility;
 use App\Components\DeerRadio\Http\Controllers\Api\DeerImage\DeerImageIndexController;
 use App\Components\DeerRadio\Http\Controllers\Api\DeerImage\DeerImageUpdateController;
@@ -16,18 +17,14 @@ use App\Components\DeerRadio\Service\LivestreamHealthChecker;
 use App\Components\DeerRadio\Service\SongPickService;
 use App\Components\DeerRadio\Service\SongQueueService;
 use App\Components\DeerRadio\UnsplashSearchQuery\DeerRadioUnsplashSearchQueryBuilder;
-use App\Components\ImageData\ImageDataListProviderDriverRegistry;
-use App\Components\Photoban\Service\PhotobanReadService;
 use App\Components\Storage\Enum\StorageName;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Intervention\Image\ImageManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Psr\Log\LoggerInterface;
 
 class DeerRadioServiceProvider extends ServiceProvider
 {
@@ -68,6 +65,7 @@ class DeerRadioServiceProvider extends ServiceProvider
                 $routeRegistrar->get('deer-image/update', [DeerImageUpdateController::class, 'update']);
 
                 $routeRegistrar->get('song-queue/enqueue/auto', [DeerMusicQueueController::class, 'enqueueNextSong']);
+                $routeRegistrar->get('song/download/{songId}', [DeerMusicQueueController::class, 'downloadSong'])->name(DeerRadioRoute::DOWNLOAD_SONG->value);
                 $routeRegistrar->get('song-queue/update-current-song/{songId}', [DeerMusicQueueController::class, 'updateCurrentSongId']);
             });
     }

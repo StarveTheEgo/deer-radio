@@ -76,7 +76,7 @@ class SongResource extends AbstractResource
                 ->required(),
 
             Upload::make('song_attachment_id')
-                ->storage(StorageName::RADIO_STORAGE->value)
+                ->storage(StorageName::SONGS_STORAGE->value)
                 ->path(config('deer-radio.songs-directory').'/'.date('Y-m-d').'/')
                 ->title('Song file')
                 ->maxFiles(1),

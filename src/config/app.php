@@ -20,6 +20,7 @@ use App\Components\Output\OutputServiceProvider;
 use App\Components\Photoban\PhotobanServiceProvider;
 use App\Components\Setting\SettingServiceProvider;
 use App\Components\Song\SongServiceProvider;
+use App\Components\Storage\ServiceProvider\StorageServiceProvider;
 use App\Components\UnsplashClient\UnsplashClientServiceProvider;
 use App\Components\User\UserServiceProvider;
 use Illuminate\Support\Facades\Facade;
@@ -219,6 +220,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         ComponentDataServiceProvider::class,
+        StorageServiceProvider::class,
         UserServiceProvider::class,
         SettingServiceProvider::class,
         OrchidIntegrationServiceProvider::class,

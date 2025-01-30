@@ -44,6 +44,13 @@ return [
             'throw' => false,
         ],
 
+        'songs-storage' => [
+            'driver' => 'webdav',
+            'baseUri' => env('WEBDAV_BASE_URI'),
+            'user' => env('WEBDAV_USER'),
+            'password' => env('WEBDAV_PASSWORD'),
+        ],
+
         'radio-storage' => [
             'driver' => 'local',
             'root' => env('RADIO_STORAGE_PATH'),

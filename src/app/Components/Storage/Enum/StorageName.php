@@ -8,6 +8,8 @@ enum StorageName: string
 {
     case PUBLIC_STORAGE = 'public';
 
+    case SONGS_STORAGE = 'songs-storage';
+
     case RADIO_STORAGE = 'radio-storage';
 
     case TEMP_STORAGE = 'temp';
