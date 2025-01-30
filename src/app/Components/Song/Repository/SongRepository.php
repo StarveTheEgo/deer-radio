@@ -67,7 +67,7 @@ class SongRepository extends AbstractRepository implements SongRepositoryInterfa
         }
 
         $limit = $criteria->getLimit();
-        if ($limit !== null) {
+        if ($limit !== null && $limit > 0) {
             $queryBuilder->setMaxResults($limit);
         }
 
