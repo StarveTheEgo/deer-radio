@@ -7,6 +7,7 @@ namespace App\Components\DeerRadio\Service;
 use App\Components\DeerRadio\Enum\SongManagerSettingKey;
 use App\Components\DeerRadio\SongCriteria\DeerRadioSongCriteriaBuilder;
 use App\Components\Setting\Service\SettingReadService;
+use App\Components\Song\Criteria\DeerRadioSongCriteria;
 use App\Components\Song\Entity\Song;
 use App\Components\Song\Service\SongReadService;
 use DateTimeImmutable;
@@ -75,8 +76,8 @@ class SongPickService
 
         if ($criteria->getMaxSongFinishTime() !== null) {
             $this->logger->error('Had to fallback in order to get next song');
-            $criteria->setMaxSongFinishTime(null);
-            return $this->songReadService->findIdsByCriteria($criteria);
+
+            return $this->songReadService->findIdsByCriteria(new DeerRadioSongCriteria());
         }
 
         return [];
