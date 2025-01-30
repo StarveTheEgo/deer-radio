@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\Setting\Repository;
 
+use App\Components\DoctrineOrchid\AbstractDomainObject;
 use App\Components\DoctrineOrchid\Repository\AbstractRepository;
 use App\Components\OrchidIntergration\Enum\FieldType;
 use App\Components\OrchidIntergration\Registry\FieldFactoryRegistry;
@@ -14,10 +15,10 @@ use Illuminate\Validation\ValidationException;
 class SettingRepository extends AbstractRepository implements SettingRepositoryInterface
 {
     /**
-     * @param Setting $object
+     * @param AbstractDomainObject $object
      * @return string
      */
-    protected function getEntityReadableName($object): string
+    protected function getEntityReadableName(AbstractDomainObject $object): string
     {
         return "Setting {$object->getKey()}";
     }
