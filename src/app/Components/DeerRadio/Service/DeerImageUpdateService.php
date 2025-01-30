@@ -86,7 +86,7 @@ class DeerImageUpdateService
      */
     private function pickImageDataFromList(array $imageDataList) : ?ImageData {
         // let's filter images via amazing photoban feature
-        array_filter($imageDataList, function (ImageData $imageData) {
+        $imageDataList = array_filter($imageDataList, function (ImageData $imageData) {
             $photobanUrl = $imageData->getPhotobanUrl();
             if ($photobanUrl !== null) {
                 $photoban = $this->photobanReadService->findByUrl($imageData->getPhotobanUrl());
