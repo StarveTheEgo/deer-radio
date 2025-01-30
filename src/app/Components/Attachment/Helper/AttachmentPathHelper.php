@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Components\Attachment\Helper;
 
 use App\Components\Attachment\Entity\Attachment;
-use App\Components\Liquidsoap\AnnotationBuilder;
 use Illuminate\Filesystem\FilesystemManager;
 use LogicException;
 
@@ -15,15 +14,10 @@ class AttachmentPathHelper
 
     /**
      * @param FilesystemManager $filesystemManager
-     * @param AnnotationBuilder $annotationBuilder
      */
-    public function __construct(
-        FilesystemManager $filesystemManager,
-        AnnotationBuilder $annotationBuilder
-    )
+    public function __construct(FilesystemManager $filesystemManager)
     {
         $this->filesystemManager = $filesystemManager;
-        $this->annotationBuilder = $annotationBuilder;
     }
 
     /**
