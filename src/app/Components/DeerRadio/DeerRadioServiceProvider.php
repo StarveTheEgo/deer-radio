@@ -39,7 +39,7 @@ class DeerRadioServiceProvider extends ServiceProvider
     public array $singletons = [
         DeerImageUpdateService::class => DeerImageUpdateService::class,
         UnsplashSearchQueryBuilderInterface::class => DeerRadioUnsplashSearchQueryBuilder::class,
-        LivestreamHealthChecker::class,
+        LivestreamHealthChecker::class => LivestreamHealthChecker::class,
     ];
 
     /**
