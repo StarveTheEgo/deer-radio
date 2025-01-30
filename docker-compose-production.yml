@@ -1,5 +1,3 @@
-version: '3.3'
-
 services:
   deer-radio-mysql:
     container_name: deer-radio-mysql
@@ -81,7 +79,7 @@ services:
       deer-radio-mysql:
           condition: service_healthy
     healthcheck:
-        test: [ "CMD", "nc", "-vz", "-w1", "localhost", "80" ]
+        test: [ "CMD", "curl", "--fail", "http://localhost"]
         interval: 10s
         timeout: 1s
         retries: 30
