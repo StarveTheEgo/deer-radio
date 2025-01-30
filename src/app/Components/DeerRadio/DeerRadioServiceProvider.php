@@ -37,6 +37,7 @@ class DeerRadioServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     public array $singletons = [
+        DeerImageUpdateService::class => DeerImageUpdateService::class,
         UnsplashSearchQueryBuilderInterface::class => DeerRadioUnsplashSearchQueryBuilder::class,
         LivestreamHealthChecker::class,
     ];
@@ -48,7 +49,6 @@ class DeerRadioServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->registerDeerImageUpdateService();
         $this->registerDeerImageDeleteService();
     }
 
@@ -93,34 +93,6 @@ class DeerRadioServiceProvider extends ServiceProvider
 
             LivestreamHealthChecker::class,
         ];
-    }
-
-    /**
-     * @return void
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    private function registerDeerImageUpdateService() : void
-    {
-        $app = $this->app;
-
-        /** @var FilesystemManager $filesystemManager */
-        $filesystemManager = $app->get(FilesystemManager::class);
-
-        $app->singleton(DeerImageUpdateService::class, function () use ($app, $filesystemManager) {
-            $radioStorage = $filesystemManager->disk(StorageName::RADIO_STORAGE->value);
-            $tempStorage = $filesystemManager->disk(StorageName::TEMP_STORAGE->value);
-
-            return new DeerImageUpdateService(
-                $app->get(ImageDataListProviderDriverRegistry::class),
-                $radioStorage,
-                $tempStorage,
-                $app->get(ImageManager::class),
-                $app->get(PhotobanReadService::class),
-                $app->get(DeerRadioDataAccessor::class),
-                $app->get(LoggerInterface::class),
-            );
-        });
     }
 
     /**

@@ -10,8 +10,9 @@ use App\Components\DeerRadio\Enum\DeerRadioPath;
 use App\Components\ImageData\ImageData;
 use App\Components\ImageData\ImageDataListProviderDriverRegistry;
 use App\Components\Photoban\Service\PhotobanReadService;
+use App\Components\Storage\Enum\StorageName;
 use Exception;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemManager;
 use Intervention\Image\ImageManager;
 use LogicException;
 use Psr\Log\LoggerInterface;
@@ -23,11 +24,7 @@ class DeerImageUpdateService
 
     private ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry;
 
-    private Filesystem $radioStorage;
-
-    private Filesystem $tempStorage;
-
-    private ImageManager $imageManagerLib;
+    private FilesystemManager $filesystemManager;
 
     private PhotobanReadService $photobanReadService;
 
@@ -37,8 +34,7 @@ class DeerImageUpdateService
 
     /**
      * @param ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry
-     * @param Filesystem $radioStorage
-     * @param Filesystem $tempStorage
+     * @param FilesystemManager $filesystemManager
      * @param ImageManager $imageManager
      * @param PhotobanReadService $photobanReadService
      * @param DeerRadioDataAccessor $componentDataAccessor
@@ -46,8 +42,7 @@ class DeerImageUpdateService
      */
     public function __construct(
         ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry,
-        Filesystem $radioStorage,
-        Filesystem $tempStorage,
+        FilesystemManager $filesystemManager,
         ImageManager $imageManager,
         PhotobanReadService $photobanReadService,
         DeerRadioDataAccessor $componentDataAccessor,
@@ -55,8 +50,7 @@ class DeerImageUpdateService
     )
     {
         $this->imageDataListProviderDriverRegistry = $imageDataListProviderDriverRegistry;
-        $this->radioStorage = $radioStorage;
-        $this->tempStorage = $tempStorage;
+        $this->filesystemManager = $filesystemManager;
         $this->imageManagerLib = $imageManager;
         $this->photobanReadService = $photobanReadService;
         $this->componentDataAccessor = $componentDataAccessor;
@@ -127,13 +121,12 @@ class DeerImageUpdateService
         // @todo check if filename is unique?
         $uniqueId = uniqid(self::DEER_IMAGE_PREFIX, true);
 
-        $newImagePath = $this->radioStorage->path("$imagesDir/$uniqueId.jpg");
+        $radioStorage = $this->filesystemManager->disk(StorageName::RADIO_STORAGE->value);
+        $newImagePath = $radioStorage->path("$imagesDir/$uniqueId.jpg");
         if ($imageData->getIsRemote()) {
-            $tempImagePath = $this->tempStorage->path("$uniqueId.tmp.jpg");
             $this->downloadRemoteImageTo($imageData, $newImagePath);
-            $this->tempStorage->delete($tempImagePath);
         } else {
-            $this->radioStorage->put($newImagePath, file_get_contents($imageData->getPath()));
+            $radioStorage->put($newImagePath, file_get_contents($imageData->getPath()));
         }
 
         // we will store the local image data
