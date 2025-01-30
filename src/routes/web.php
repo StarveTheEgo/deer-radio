@@ -1,5 +1,6 @@
 <?php
 
+use App\Components\DeerRadio\Enum\DeerRadioRoute;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/ping', function () {
+    return response()->noContent();
+})->name(DeerRadioRoute::PING->value);
