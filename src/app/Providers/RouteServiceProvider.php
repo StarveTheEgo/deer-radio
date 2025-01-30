@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->app['url'];
+        $urlGenerator->forceRootUrl(config('app.url'));
+        if ($this->app->environment('production')) {
+            $urlGenerator->forceScheme('https');
+        }
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
