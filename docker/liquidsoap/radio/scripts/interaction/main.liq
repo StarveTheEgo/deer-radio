@@ -72,12 +72,6 @@ def update_now_playing_id(song_id) =
     get_api_response('/song-queue/update-current-song/' ^ string(song_id))
 end
 
-# Requests API to update current deer image to a new one
-def update_deer_image() =
-    log('updating deer image')
-    ignore(get_api_response('/deer-image/update/'))
-end
-
 # Actualizes variables with links to stores
 def update_current_shop_links() =
     # AUTHOR LINK

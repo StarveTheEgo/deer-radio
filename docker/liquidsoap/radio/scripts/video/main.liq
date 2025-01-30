@@ -1,5 +1,7 @@
-deer_video = request.dynamic(id="deer_image", timeout=15.0, get_deer_image)
-deer_video.on_track(apply_deer_image)
+deer_image = request.dynamic(id="deer_image", timeout=15.0, get_deer_image)
+deer_image.on_track(apply_deer_image)
+
+deer_video = deer_image
 
 deer_video = video.add_rectangle(
     color = 0x000000,

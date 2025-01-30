@@ -12,6 +12,12 @@
 
 ignore(update_api_token())
 
+# Requests API to update current deer image to a new one
+def update_deer_image() =
+    log('updating deer image')
+    ignore(get_api_response('/deer-image/update/'))
+    deer_image.skip()
+end
 thread.when({30s}, update_deer_image)
 thread.when({10s}, update_api_token)
 
