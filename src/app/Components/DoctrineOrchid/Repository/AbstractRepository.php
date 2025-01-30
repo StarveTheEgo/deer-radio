@@ -59,8 +59,8 @@ abstract class AbstractRepository implements RepositoryInterface
         $object = $this->findObjectById($id);
 
         if ($object === null) {
-            $objectName = $this->getEntityReadableName($object);
-            throw new LogicException("Object '{$objectName}' is already persisted");
+            $objectClassName = $this->entityRepository->getClassName();
+            throw new LogicException("Could not find $objectClassName#$id in the repository");
         }
 
         return $object;
@@ -70,7 +70,7 @@ abstract class AbstractRepository implements RepositoryInterface
      * @param AbstractDomainObject $object
      * @return string
      */
-    protected function getEntityReadableName($object): string
+    protected function getEntityReadableName(AbstractDomainObject $object): string
     {
         $objectName = $object::class;
 
