@@ -18,7 +18,7 @@ thread.when({10s}, update_api_token)
 # PERIODIC LINKS
 thread.when({10s}, update_current_shop_links)
 
-# enable_replaygain_metadata()
+enable_replaygain_metadata()
 
 # Combinate :-D
 

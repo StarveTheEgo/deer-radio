@@ -148,8 +148,8 @@ deer_video = video.add_text(
     size = (base_font_size + 4),
     x = 1095,
     y = 1028,
-    "Deer situations: deerfuldeeringdeer@gmail.com",
-    #"For any questions write here: deerfuldeeringdeer@gmail.com",
+    "Deer situations: evergreendeer@deer-radio.net",
+    #"For any questions write here: evergreendeer@deer-radio.net",
     deer_video
 )
 
