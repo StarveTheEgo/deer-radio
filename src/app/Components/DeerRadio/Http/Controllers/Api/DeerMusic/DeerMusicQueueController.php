@@ -20,6 +20,7 @@ use Illuminate\Routing\ResponseFactory;
 use Illuminate\Routing\UrlGenerator;
 use JsonException;
 use LogicException;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -90,6 +91,8 @@ class DeerMusicQueueController extends Controller
      */
     public function enqueueNextSong() : JsonResponse
     {
+        $this->removeOldSongFiles();
+
         $nextSong = $this->songPickService->pickNextSong();
         if ($nextSong === null) {
             throw new HttpException(500, 'Did not pick any song');
@@ -102,7 +105,7 @@ class DeerMusicQueueController extends Controller
         $radioFs = $this->filesystemManager->disk(StorageName::RADIO_STORAGE->value);
 
         $tmpFileName = UuidV4::v4();
-        $tmpFilePath = '/songs/'.$tmpFileName.'.bin';
+        $tmpFilePath = '/tmp-songs/'.$tmpFileName.'.bin';
         $isFileWritten = $radioFs->writeStream($tmpFilePath, $songStream);
         if (!$isFileWritten) {
             throw new LogicException("Could not write song file to $tmpFilePath");
@@ -170,6 +173,31 @@ class DeerMusicQueueController extends Controller
         }
 
         return $songStream;
+    }
+
+    private function removeOldSongFiles()
+    {
+        $radioFs = $this->filesystemManager->disk(StorageName::RADIO_STORAGE->value);
+        $songsDirectoryPath = $radioFs->path('/tmp-songs/');
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in($songsDirectoryPath)
+            ->depth('== 0')
+            ->name('*.bin')
+            ->sortByAccessedTime()
+            ->reverseSorting();
+
+        $i = 0;
+        foreach ($finder as $file) {
+            $i++;
+            if ($i < 2) {
+                continue;
+            }
+
+            $radioFs->delete('/tmp-songs/'.$file->getFilename());
+        }
     }
 
     /**
