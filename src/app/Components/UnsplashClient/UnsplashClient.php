@@ -13,15 +13,9 @@ use Unsplash\Photo;
 class UnsplashClient
 {
     private bool $isInitiated = false;
-    private string $appId;
-    private string $appName;
-    private string $appSecret;
 
-    public function __construct(string $appId, string $appName, string $appSecret)
+    public function __construct(private readonly string $appId, private readonly string $appName, private readonly string $appSecret)
     {
-        $this->appId = $appId;
-        $this->appName = $appName;
-        $this->appSecret = $appSecret;
     }
 
     /**

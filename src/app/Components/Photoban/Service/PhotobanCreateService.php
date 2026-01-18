@@ -9,11 +9,8 @@ use App\Components\Photoban\Repository\PhotobanRepositoryInterface;
 
 class PhotobanCreateService
 {
-    private PhotobanRepositoryInterface $repository;
-
-    public function __construct(PhotobanRepositoryInterface $repository)
+    public function __construct(private readonly PhotobanRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function create(Photoban $photoban): void

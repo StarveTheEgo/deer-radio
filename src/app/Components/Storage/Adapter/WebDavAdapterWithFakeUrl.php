@@ -14,14 +14,8 @@ use League\Flysystem\WebDAV\WebDAVAdapter;
 
 class WebDavAdapterWithFakeUrl implements FilesystemAdapter, PublicUrlGenerator
 {
-    private WebDAVAdapter $originalAdapter;
-
-    private UrlGenerator $urlGenerator;
-
-    public function __construct(WebDAVAdapter $originalAdapter, UrlGenerator $urlGenerator)
+    public function __construct(private readonly WebDAVAdapter $originalAdapter, private readonly UrlGenerator $urlGenerator)
     {
-        $this->originalAdapter = $originalAdapter;
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**

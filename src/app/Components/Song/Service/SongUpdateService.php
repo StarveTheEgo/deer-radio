@@ -9,11 +9,8 @@ use App\Components\Song\Repository\SongRepositoryInterface;
 
 class SongUpdateService
 {
-    private SongRepositoryInterface $repository;
-
-    public function __construct(SongRepositoryInterface $repository)
+    public function __construct(private readonly SongRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function update(Song $song): void

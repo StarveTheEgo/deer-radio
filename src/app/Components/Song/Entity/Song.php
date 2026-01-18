@@ -24,7 +24,7 @@ class Song extends AbstractDomainObject implements TimestampableInterface
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $title;
@@ -33,10 +33,10 @@ class Song extends AbstractDomainObject implements TimestampableInterface
     protected Author $author;
 
     #[ORM\ManyToOne(targetEntity: Album::class, inversedBy: 'songs')]
-    protected ?Album $album;
+    protected ?Album $album = null;
 
     #[ORM\ManyToOne(targetEntity: Label::class, inversedBy: 'songs')]
-    protected ?Label $label;
+    protected ?Label $label = null;
 
     #[ORM\Column(type: Types::INTEGER)]
     protected int $year;
@@ -52,10 +52,10 @@ class Song extends AbstractDomainObject implements TimestampableInterface
     protected int $tempo = 0;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    protected ?DateTimeImmutable $playedAt;
+    protected ?DateTimeImmutable $playedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    protected ?DateTimeImmutable $finishedAt;
+    protected ?DateTimeImmutable $finishedAt = null;
 
     #[ORM\Column(type: Types::BIGINT)]
     protected string $playedCount = '0';
@@ -67,7 +67,7 @@ class Song extends AbstractDomainObject implements TimestampableInterface
     protected int $volume = 100;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    protected ?string $unsplashSearchQuery;
+    protected ?string $unsplashSearchQuery = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $songAttachmentData = null;

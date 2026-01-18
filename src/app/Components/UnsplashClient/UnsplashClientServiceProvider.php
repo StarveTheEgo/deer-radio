@@ -11,6 +11,7 @@ use Illuminate\Support\ServiceProvider;
 
 class UnsplashClientServiceProvider extends ServiceProvider implements DeferrableProvider
 {
+    #[\Override]
     public function register()
     {
         $this->app->singleton(UnsplashClient::class, function () {
@@ -25,6 +26,7 @@ class UnsplashClientServiceProvider extends ServiceProvider implements Deferrabl
         });
     }
 
+    #[\Override]
     public function provides(): array
     {
         return [

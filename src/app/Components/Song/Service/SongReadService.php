@@ -11,11 +11,8 @@ use App\Components\Song\Repository\SongRepositoryInterface;
 
 class SongReadService
 {
-    private SongRepositoryInterface $repository;
-
-    public function __construct(SongRepositoryInterface $repository)
+    public function __construct(private readonly SongRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function getCount() : int

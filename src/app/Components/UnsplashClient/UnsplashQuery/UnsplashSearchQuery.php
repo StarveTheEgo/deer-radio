@@ -6,21 +6,12 @@ namespace App\Components\UnsplashClient\UnsplashQuery;
 
 class UnsplashSearchQuery
 {
-    private UnsplashSearchQueryType $queryType;
-
-    /**
-     * @var array<string, mixed>|null
-     */
-    private ?array $parameters;
-
     /**
      * @param UnsplashSearchQueryType $queryType
      * @param array<string, mixed>|null $parameters
      */
-    public function __construct(UnsplashSearchQueryType $queryType, ?array $parameters = null)
+    public function __construct(private readonly UnsplashSearchQueryType $queryType, private readonly ?array $parameters = null)
     {
-        $this->queryType = $queryType;
-        $this->parameters = $parameters;
     }
 
     /**
