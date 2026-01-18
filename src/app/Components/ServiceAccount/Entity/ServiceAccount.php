@@ -22,7 +22,7 @@ class ServiceAccount extends AbstractDomainObject implements TimestampableInterf
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     protected User $user;

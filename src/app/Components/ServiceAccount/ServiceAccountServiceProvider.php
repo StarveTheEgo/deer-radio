@@ -47,6 +47,7 @@ class ServiceAccountServiceProvider extends ServiceProvider
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(ServiceAccountRepositoryInterface::class, function (Application $app) {
@@ -82,29 +83,23 @@ class ServiceAccountServiceProvider extends ServiceProvider
                 // index route
                 Route::screen('admin/service-accounts', ServiceAccountIndexScreen::class)
                     ->name(ServiceAccountRoute::INDEX->value)
-                    ->breadcrumbs(function (Trail $trail) {
-                        return $trail
-                            ->parent(PlatformRoute::INDEX->value)
-                            ->push(__('Service Accounts'), route(ServiceAccountRoute::INDEX->value));
-                    });
+                    ->breadcrumbs(fn(Trail $trail) => $trail
+                        ->parent(PlatformRoute::INDEX->value)
+                        ->push(__('Service Accounts'), route(ServiceAccountRoute::INDEX->value)));
 
                 // edit route
                 Route::screen('service-accounts/{serviceAccount}/edit', ServiceAccountEditScreen::class)
                     ->name(ServiceAccountRoute::EDIT->value)
-                    ->breadcrumbs(function (Trail $trail, ?ServiceAccount $serviceAccount) {
-                        return $trail
-                            ->parent(ServiceAccountRoute::INDEX->value)
-                            ->push(__('Edit account'), route(ServiceAccountRoute::EDIT->value, $serviceAccount?->getId()));
-                    });
+                    ->breadcrumbs(fn(Trail $trail, ?ServiceAccount $serviceAccount) => $trail
+                        ->parent(ServiceAccountRoute::INDEX->value)
+                        ->push(__('Edit account'), route(ServiceAccountRoute::EDIT->value, $serviceAccount?->getId())));
 
                 // create route
                 Route::screen('admin/service-accounts/create', ServiceAccountEditScreen::class)
                     ->name(ServiceAccountRoute::CREATE->value)
-                    ->breadcrumbs(function (Trail $trail) {
-                        return $trail
-                            ->parent(ServiceAccountRoute::INDEX->value)
-                            ->push(__('Create account'), route(ServiceAccountRoute::CREATE->value));
-                    });
+                    ->breadcrumbs(fn(Trail $trail) => $trail
+                        ->parent(ServiceAccountRoute::INDEX->value)
+                        ->push(__('Create account'), route(ServiceAccountRoute::CREATE->value)));
             });
 
         $this->loadViewsFrom(__DIR__.'/resources/views', self::RESOURCE_NS);
@@ -115,6 +110,7 @@ class ServiceAccountServiceProvider extends ServiceProvider
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

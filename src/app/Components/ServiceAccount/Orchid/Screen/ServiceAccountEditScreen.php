@@ -30,15 +30,6 @@ use Webmozart\Assert\Assert;
 
 class ServiceAccountEditScreen extends AbstractScreen
 {
-    private ServiceAccountFiller $serviceAccountFiller;
-
-    private ServiceAccountCreateService $createService;
-
-    private ServiceAccountReadService $readService;
-
-    private ServiceAccountUpdateService $updateService;
-    private UserReadService $userReadService;
-
     /**
      * @return string|null
      */
@@ -58,6 +49,7 @@ class ServiceAccountEditScreen extends AbstractScreen
     /**
      * @return array<string>|null
      */
+    #[\Override]
     public static function getPermissions(): ?array
     {
         return [
@@ -73,22 +65,19 @@ class ServiceAccountEditScreen extends AbstractScreen
      * @param UserReadService $userReadService
      */
     public function __construct(
-        ServiceAccountFiller $serviceAccountFiller,
-        ServiceAccountCreateService $createService,
-        ServiceAccountReadService $readService,
-        ServiceAccountUpdateService $updateService,
-        UserReadService $userReadService
-    ) {
-        $this->serviceAccountFiller = $serviceAccountFiller;
-        $this->createService = $createService;
-        $this->readService = $readService;
-        $this->updateService = $updateService;
-        $this->userReadService = $userReadService;
+        private readonly ServiceAccountFiller $serviceAccountFiller,
+        private readonly ServiceAccountCreateService $createService,
+        private readonly ServiceAccountReadService $readService,
+        private readonly ServiceAccountUpdateService $updateService,
+        private readonly UserReadService $userReadService
+    )
+    {
     }
 
     /**
      * @return string|null
      */
+    #[\Override]
     public function description(): ?string
     {
         return __('Service account management');

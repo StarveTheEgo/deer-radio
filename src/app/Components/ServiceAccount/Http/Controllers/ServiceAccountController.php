@@ -33,29 +33,7 @@ use Webmozart\Assert\Assert;
 
 class ServiceAccountController extends Controller
 {
-    private const OAUTH_STATE_SESSION_KEY_PREFIX = 'ServiceAccountOauthState';
-
-    private ResponseFactory $responseFactory;
-
-    private SocialiteManager $socialiteManager;
-
-    private ServiceAccountReadService $serviceAccountReadService;
-
-    private ServiceAccountUpdateService $serviceAccountUpdateService;
-
-    private AccessTokenCreateService $accessTokenCreateService;
-
-    private AccessTokenUpdateService $accessTokenUpdateService;
-
-    private AccessTokenDeleteService $accessTokenDeleteService;
-
-    private OauthStateFactory $stateFactory;
-
-    private AccessTokenFactory $accessTokenFactory;
-
-    private SessionStorage $sessionStorage;
-
-    private ServiceScopeResolver $serviceScopeResolver;
+    private const string OAUTH_STATE_SESSION_KEY_PREFIX = 'ServiceAccountOauthState';
 
     /**
      * @param ResponseFactory $responseFactory
@@ -71,30 +49,19 @@ class ServiceAccountController extends Controller
      * @param ServiceScopeResolver $serviceScopeResolver
      */
     public function __construct(
-        ResponseFactory $responseFactory,
-        SocialiteManager $socialiteManager,
-        ServiceAccountUpdateService $serviceAccountUpdateService,
-        ServiceAccountReadService $serviceAccountReadService,
-        AccessTokenCreateService $accessTokenCreateService,
-        AccessTokenUpdateService $accessTokenUpdateService,
-        AccessTokenDeleteService $accessTokenDeleteService,
-        OauthStateFactory $stateFactory,
-        AccessTokenFactory $accessTokenFactory,
-        SessionStorage $sessionStorage,
-        ServiceScopeResolver $serviceScopeResolver
+        private readonly ResponseFactory $responseFactory,
+        private readonly SocialiteManager $socialiteManager,
+        private readonly ServiceAccountUpdateService $serviceAccountUpdateService,
+        private readonly ServiceAccountReadService $serviceAccountReadService,
+        private readonly AccessTokenCreateService $accessTokenCreateService,
+        private readonly AccessTokenUpdateService $accessTokenUpdateService,
+        private readonly AccessTokenDeleteService $accessTokenDeleteService,
+        private readonly OauthStateFactory $stateFactory,
+        private readonly AccessTokenFactory $accessTokenFactory,
+        private readonly SessionStorage $sessionStorage,
+        private readonly ServiceScopeResolver $serviceScopeResolver
     )
     {
-        $this->responseFactory = $responseFactory;
-        $this->socialiteManager = $socialiteManager;
-        $this->serviceAccountReadService = $serviceAccountReadService;
-        $this->serviceAccountUpdateService = $serviceAccountUpdateService;
-        $this->accessTokenCreateService = $accessTokenCreateService;
-        $this->accessTokenUpdateService = $accessTokenUpdateService;
-        $this->accessTokenDeleteService = $accessTokenDeleteService;
-        $this->stateFactory = $stateFactory;
-        $this->accessTokenFactory = $accessTokenFactory;
-        $this->sessionStorage = $sessionStorage;
-        $this->serviceScopeResolver = $serviceScopeResolver;
     }
 
     /**

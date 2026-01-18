@@ -23,11 +23,8 @@ class ServiceAccountListLayout extends Table
      */
     public $target = ServiceAccountScreenTarget::ACCOUNTS_LIST->value;
 
-    private ViewFactory $viewFactory;
-
-    public function __construct(ViewFactory $viewFactory)
+    public function __construct(private readonly ViewFactory $viewFactory)
     {
-        $this->viewFactory = $viewFactory;
     }
 
     /**
@@ -60,24 +57,22 @@ class ServiceAccountListLayout extends Table
             TD::make(__('Actions'))
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(function (ServiceAccount $serviceAccount) {
-                    return DropDown::make()
-                        ->icon('options-vertical')
-                        ->list([
-                            Link::make(__('Edit'))
-                                ->route(ServiceAccountRoute::EDIT->value, [
-                                    'serviceAccount' => $serviceAccount->getId(),
-                                ])
-                                ->icon('pencil'),
+                ->render(fn(ServiceAccount $serviceAccount) => DropDown::make()
+                    ->icon('options-vertical')
+                    ->list([
+                        Link::make(__('Edit'))
+                            ->route(ServiceAccountRoute::EDIT->value, [
+                                'serviceAccount' => $serviceAccount->getId(),
+                            ])
+                            ->icon('pencil'),
 
-                            Button::make(__('Delete'))
-                                ->icon('trash')
-                                ->confirm(__('Are you sure you want to delete this account?'))
-                                ->method('delete', [
-                                    'serviceAccount' => $serviceAccount->getId(),
-                                ]),
-                        ]);
-                }),
+                        Button::make(__('Delete'))
+                            ->icon('trash')
+                            ->confirm(__('Are you sure you want to delete this account?'))
+                            ->method('delete', [
+                                'serviceAccount' => $serviceAccount->getId(),
+                            ]),
+                    ])),
         ];
     }
 
