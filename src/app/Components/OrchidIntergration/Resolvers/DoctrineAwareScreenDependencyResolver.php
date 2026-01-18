@@ -27,16 +27,10 @@ use Throwable;
 class DoctrineAwareScreenDependencyResolver
 {
     /**
-     * @var ManagerRegistry
+     * @param ManagerRegistry $entityManagerRegistry
      */
-    protected ManagerRegistry $entityManagerRegistry;
-
-    /**
-     * @param ManagerRegistry $registry
-     */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(protected ManagerRegistry $entityManagerRegistry)
     {
-        $this->entityManagerRegistry = $registry;
     }
 
     /**
@@ -51,7 +45,7 @@ class DoctrineAwareScreenDependencyResolver
      */
     public function resolveScreen(Screen $screen, string $method, array $httpQueryArguments = []): array
     {
-        $parameters = (new ReflectionClass($screen))->getMethod($method)->getParameters();
+        $parameters = new ReflectionClass($screen)->getMethod($method)->getParameters();
 
         $httpQueryArgumentsCollection = collect($httpQueryArguments);
         $currentRoute = Route::current();
@@ -93,7 +87,7 @@ class DoctrineAwareScreenDependencyResolver
 
             throw_if(
                 $resolvedObject === null && !$parameter->allowsNull(),
-                (new ObjectNotFoundException())->setObjectInfo($parameterClass->getName(), [$parameterValue])
+                new ObjectNotFoundException()->setObjectInfo($parameterClass->getName(), [$parameterValue])
             );
         } else {
             // possible is a Laravel model
@@ -112,7 +106,7 @@ class DoctrineAwareScreenDependencyResolver
             $resolvedObject = $resolvedObject->resolveRouteBinding($parameterValue);
             throw_if(
                 $resolvedObject === null && !$parameter->isDefaultValueAvailable(),
-                (new ModelNotFoundException())->setModel($parameterClass, [$parameterValue])
+                new ModelNotFoundException()->setModel($parameterClass, [$parameterValue])
             );
         }
 

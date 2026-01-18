@@ -10,18 +10,15 @@ use App\Components\OrchidIntergration\Interface\FieldOptionsFactoryInterface;
 use Illuminate\Validation\ValidationException;
 use JsonException;
 
-final class ToggleFieldOptionsFactory implements FieldOptionsFactoryInterface
+final readonly class ToggleFieldOptionsFactory implements FieldOptionsFactoryInterface
 {
-    private const SCHEMA_PATH =  __DIR__.'/../schema/optionsSchema.json';
-
-    private SchemaBasedDataParser $dataParser;
+    private const string SCHEMA_PATH =  __DIR__.'/../schema/optionsSchema.json';
 
     /**
      * @param SchemaBasedDataParser $dataParser
      */
-    public function __construct(SchemaBasedDataParser $dataParser)
+    public function __construct(private SchemaBasedDataParser $dataParser)
     {
-        $this->dataParser = $dataParser;
     }
 
     /**

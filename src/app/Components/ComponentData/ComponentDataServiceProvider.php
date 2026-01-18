@@ -27,6 +27,7 @@ class ComponentDataServiceProvider extends ServiceProvider implements Deferrable
     /**
      * @return void
      */
+    #[\Override]
     public function register()
     {
         $this->app->singleton(ComponentDataRepositoryInterface::class, function (Application $app) {
@@ -42,6 +43,7 @@ class ComponentDataServiceProvider extends ServiceProvider implements Deferrable
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

@@ -19,7 +19,7 @@ class ComponentData extends AbstractDomainObject implements TimestampableInterfa
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $component;

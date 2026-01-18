@@ -10,11 +10,8 @@ use App\Components\ComponentData\Repository\ComponentDataRepositoryInterface;
 
 class ComponentDataAccessService
 {
-    private ComponentDataRepositoryInterface $repository;
-
-    public function __construct(ComponentDataRepositoryInterface $repository)
+    public function __construct(private readonly ComponentDataRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function getValue(string $component, string $field)

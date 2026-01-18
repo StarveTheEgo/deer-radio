@@ -95,6 +95,7 @@ class OrchidIntegrationServiceProvider extends ServiceProvider implements Deferr
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [
