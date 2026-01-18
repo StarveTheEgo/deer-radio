@@ -115,11 +115,11 @@ class DeerImageUpdateService
         }
 
         // we will store the local image data
-        $localImageData = (new ImageData($newImagePath, false))
+        $localImageData = new ImageData($newImagePath, false)
             ->setPath($newImagePath)
-            ->setImageUrl(strtok($imageData->getImageUrl() ?? '', '?'))
-            ->setProfileUrl(strtok($imageData->getProfileUrl() ?? '', '?'))
-            ->setAuthorName($imageData->getAuthorName() ?? '<unknown>')
+            ->setImageUrl(strtok($imageData->getImageUrl() ?? '', '?') ?: '')
+            ->setProfileUrl(strtok($imageData->getProfileUrl() ?? '', '?') ?: '')
+            ->setAuthorName($imageData->getAuthorName() ?? '')
             ->setDescription(str_replace(["\r", "\n"], ['', ' '], $imageData->getDescription() ?? ''));
 
         $this->componentDataAccessor->setValue(DeerRadioDataKey::CURRENT_IMAGE_DATA->value, $localImageData);
