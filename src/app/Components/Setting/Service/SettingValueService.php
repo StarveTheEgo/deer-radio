@@ -9,11 +9,8 @@ use Illuminate\Encryption\Encrypter;
 
 class SettingValueService
 {
-    private Encrypter $encrypter;
-
-    public function __construct(Encrypter $encrypter)
+    public function __construct(private readonly Encrypter $encrypter)
     {
-        $this->encrypter = $encrypter;
     }
 
     public function setValue(Setting $setting, ?string $value): void

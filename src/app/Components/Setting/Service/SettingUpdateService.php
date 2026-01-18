@@ -9,11 +9,8 @@ use App\Components\Setting\Repository\SettingRepositoryInterface;
 
 class SettingUpdateService
 {
-    private SettingRepositoryInterface $repository;
-
-    public function __construct(SettingRepositoryInterface $repository)
+    public function __construct(private readonly SettingRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function update(Setting $setting): void

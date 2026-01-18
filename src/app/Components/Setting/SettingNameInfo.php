@@ -7,12 +7,9 @@ namespace App\Components\Setting;
 use App\Components\Setting\Entity\Setting;
 use LogicException;
 
-final class SettingNameInfo
+final readonly class SettingNameInfo
 {
-    private const GROUP_DELIMITER = '.';
-
-    private string $group;
-    private string $name;
+    private const string GROUP_DELIMITER = '.';
 
     public static function fromSetting(Setting $setting): SettingNameInfo
     {
@@ -25,10 +22,8 @@ final class SettingNameInfo
         return new self($groupName, $shortName);
     }
 
-    public function __construct(string $group, string $name)
+    public function __construct(private string $group, private string $name)
     {
-        $this->group = $group;
-        $this->name = $name;
     }
 
     public function getName(): string

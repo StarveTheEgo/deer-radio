@@ -13,14 +13,11 @@ use Orchid\Screen\Layouts\Rows;
 
 class SettingEditLayout extends Rows
 {
-    private FieldFactoryRegistry $fieldFactoryRegistry;
-
     /**
      * @param FieldFactoryRegistry $fieldFactoryRegistry
      */
-    public function __construct(FieldFactoryRegistry $fieldFactoryRegistry)
+    public function __construct(private readonly FieldFactoryRegistry $fieldFactoryRegistry)
     {
-        $this->fieldFactoryRegistry = $fieldFactoryRegistry;
     }
 
     protected function fields(): iterable

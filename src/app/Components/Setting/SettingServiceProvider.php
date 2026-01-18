@@ -38,6 +38,7 @@ class SettingServiceProvider extends ServiceProvider implements DeferrableProvid
      *
      * @return void
      */
+    #[\Override]
     public function register()
     {
         $this->app->singleton(SettingRepositoryInterface::class, function (Application $app) {
@@ -64,6 +65,7 @@ class SettingServiceProvider extends ServiceProvider implements DeferrableProvid
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

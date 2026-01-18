@@ -34,18 +34,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SettingScreen extends AbstractScreen implements IconAwareInterface
 {
-    private SettingFiller $settingFiller;
-
-    private FieldFactoryRegistry $fieldFactoryRegistry;
-
-    private const MODAL_CREATE_SETTING = 'createSettingModal';
+    private const string MODAL_CREATE_SETTING = 'createSettingModal';
 
     private ?array $cachedQuery = null;
-    private SettingCreateService $createService;
-    private SettingReadService $readService;
-    private SettingUpdateService $updateService;
-    private SettingDeleteService $deleteService;
-    private SettingValueService $valueService;
 
     public static function getName(): ?string
     {
@@ -62,6 +53,7 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
         return 'platform.app.settings';
     }
 
+    #[\Override]
     public static function getPermissions(): ?array
     {
         return [
@@ -69,24 +61,11 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
         ];
     }
 
-    public function __construct(
-        SettingFiller $settingFiller,
-        FieldFactoryRegistry $fieldFactoryRegistry,
-        SettingValueService $valueService,
-        SettingCreateService $createService,
-        SettingReadService $readService,
-        SettingUpdateService $updateService,
-        SettingDeleteService $deleteService
-    ) {
-        $this->settingFiller = $settingFiller;
-        $this->fieldFactoryRegistry = $fieldFactoryRegistry;
-        $this->valueService = $valueService;
-        $this->createService = $createService;
-        $this->readService = $readService;
-        $this->updateService = $updateService;
-        $this->deleteService = $deleteService;
+    public function __construct(private readonly SettingFiller $settingFiller, private readonly FieldFactoryRegistry $fieldFactoryRegistry, private readonly SettingValueService $valueService, private readonly SettingCreateService $createService, private readonly SettingReadService $readService, private readonly SettingUpdateService $updateService, private readonly SettingDeleteService $deleteService)
+    {
     }
 
+    #[\Override]
     public function description(): ?string
     {
         return __('All the settings for the Deer Radio in one place');
@@ -214,7 +193,7 @@ class SettingScreen extends AbstractScreen implements IconAwareInterface
             ],
         ]);
 
-        $settingData['fieldOptions'] = json_decode($settingData['fieldOptions'], true, flags: JSON_THROW_ON_ERROR);
+        $settingData['fieldOptions'] = json_decode((string) $settingData['fieldOptions'], true, flags: JSON_THROW_ON_ERROR);
 
         $setting = new Setting();
         $setting = $this->settingFiller->fillFromArray($setting, $settingData);
