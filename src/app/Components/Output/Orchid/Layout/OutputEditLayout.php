@@ -18,16 +18,13 @@ use Orchid\Screen\Layouts\Rows;
 class OutputEditLayout extends Rows
 {
     /** @var string Prefix for every field's name of this layout */
-    private const FIELD_PREFIX = OutputEditScreen::QUERY_KEY_OUTPUT;
-
-    private OutputDriverRegistry $driverRegistry;
+    private const string FIELD_PREFIX = OutputEditScreen::QUERY_KEY_OUTPUT;
 
     /**
      * @param OutputDriverRegistry $driverRegistry
      */
-    public function __construct(OutputDriverRegistry $driverRegistry)
+    public function __construct(private readonly OutputDriverRegistry $driverRegistry)
     {
-        $this->driverRegistry = $driverRegistry;
     }
 
     /**

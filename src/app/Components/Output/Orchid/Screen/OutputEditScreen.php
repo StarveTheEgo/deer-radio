@@ -28,16 +28,6 @@ class OutputEditScreen extends AbstractScreen
 {
     public const QUERY_KEY_OUTPUT = 'output';
 
-    private OutputDriverRegistry $driverRegistry;
-
-    private OutputFiller $outputFiller;
-
-    private OutputCreateService $createService;
-
-    private OutputReadService $readService;
-
-    private OutputUpdateService $updateService;
-
     /**
      * @return string|null
      */
@@ -57,6 +47,7 @@ class OutputEditScreen extends AbstractScreen
     /**
      * @return array<string>|null
      */
+    #[\Override]
     public static function getPermissions(): ?array
     {
         return [
@@ -72,22 +63,19 @@ class OutputEditScreen extends AbstractScreen
      * @param OutputUpdateService $updateService
      */
     public function __construct(
-        OutputDriverRegistry $driverRegistry,
-        OutputFiller $outputFiller,
-        OutputCreateService $createService,
-        OutputReadService $readService,
-        OutputUpdateService $updateService
-    ) {
-        $this->driverRegistry = $driverRegistry;
-        $this->outputFiller = $outputFiller;
-        $this->createService = $createService;
-        $this->readService = $readService;
-        $this->updateService = $updateService;
+        private readonly OutputDriverRegistry $driverRegistry,
+        private readonly OutputFiller $outputFiller,
+        private readonly OutputCreateService $createService,
+        private readonly OutputReadService $readService,
+        private readonly OutputUpdateService $updateService
+    )
+    {
     }
 
     /**
      * @return string|null
      */
+    #[\Override]
     public function description(): ?string
     {
 
@@ -172,7 +160,7 @@ class OutputEditScreen extends AbstractScreen
         );
 
         $outputData = $validatedData['output'];
-        $outputData['driverConfig'] = json_decode($outputData['driverConfig'], true, flags: JSON_THROW_ON_ERROR);
+        $outputData['driverConfig'] = json_decode((string) $outputData['driverConfig'], true, flags: JSON_THROW_ON_ERROR);
 
         $isNew = empty($outputData['id']);
 

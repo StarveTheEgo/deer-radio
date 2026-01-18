@@ -22,7 +22,7 @@ class Output extends AbstractDomainObject implements TimestampableInterface, Url
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $outputName;
@@ -37,7 +37,7 @@ class Output extends AbstractDomainObject implements TimestampableInterface, Url
     protected bool $isActive;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    protected ?DateTimeImmutable $preparedAt;
+    protected ?DateTimeImmutable $preparedAt = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $streamState = OutputStreamState::UNKNOWN->value;

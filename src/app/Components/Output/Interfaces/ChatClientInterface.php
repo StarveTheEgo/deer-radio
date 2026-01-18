@@ -8,5 +8,5 @@ use App\Components\Output\Entity\Output;
 
 interface ChatClientInterface
 {
-    public function sendMessage(Output $output, string $messageText, string $channel = null) : void;
+    public function sendMessage(Output $output, string $messageText, ?string $channel = null) : void;
 }

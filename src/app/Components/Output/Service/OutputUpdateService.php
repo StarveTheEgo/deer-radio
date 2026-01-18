@@ -9,14 +9,11 @@ use App\Components\Output\Repository\OutputRepositoryInterface;
 
 class OutputUpdateService
 {
-    private OutputRepositoryInterface $repository;
-
     /**
      * @param OutputRepositoryInterface $repository
      */
-    public function __construct(OutputRepositoryInterface $repository)
+    public function __construct(private readonly OutputRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     /**

@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
      * @param Schedule $schedule
      * @return void
      */
+    #[\Override]
     protected function schedule(Schedule $schedule): void
     {
         // OAuth2 access tokens management
@@ -46,6 +47,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
+    #[\Override]
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');

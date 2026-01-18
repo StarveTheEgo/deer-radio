@@ -9,11 +9,8 @@ use App\Components\Output\Repository\OutputRepositoryInterface;
 
 class OutputCreateService
 {
-    private OutputRepositoryInterface $repository;
-
-    public function __construct(OutputRepositoryInterface $repository)
+    public function __construct(private readonly OutputRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function create(Output $Output): void
