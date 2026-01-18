@@ -52,7 +52,7 @@ class CreateLiquidsoapPersonalToken extends Command
             [
                 DeerRadioUserAbility::MANAGE_LIQUIDSOAP->value,
             ],
-            (new DateTimeImmutable())->modify('+1 hour')
+            new DateTimeImmutable()->modify('+1 hour')
         );
 
         // save plaintext access token to a file

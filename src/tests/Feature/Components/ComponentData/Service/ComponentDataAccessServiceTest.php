@@ -1,6 +1,6 @@
 <?php
 
-namespace Components\ComponentData\Service;
+namespace Tests\Feature\Components\ComponentData\Service;
 
 use App\Components\ComponentData\Entity\ComponentData;
 use App\Components\ComponentData\Repository\ComponentDataRepository;
@@ -53,7 +53,7 @@ class ComponentDataAccessServiceTest extends TestCase
         $this->assertEquals($expectedValue, $service->getValue($component, $field));
     }
 
-    public function getDataProvider()
+    public static function getDataProvider(): array
     {
         return [
             'withoutExistingData' => [

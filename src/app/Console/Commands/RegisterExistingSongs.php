@@ -53,7 +53,7 @@ class RegisterExistingSongs extends Command
 
             $file = new UploadedFile($sourceFilePath, $source->original_name);
 
-            $attachment = (new File($file, StorageName::RADIO_STORAGE->value))
+            $attachment = new File($file, StorageName::RADIO_STORAGE->value)
                 ->path($outputRelativeDir)
                 ->load();
 
