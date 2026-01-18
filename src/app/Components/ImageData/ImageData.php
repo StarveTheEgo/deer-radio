@@ -9,9 +9,6 @@ class ImageData
     /** @var string Path to the image */
     private string $path;
 
-    /** @var bool Is image located on a remote server */
-    private bool $isRemote;
-
     /** @var string|null Url for the image */
     private ?string $imageUrl = null;
 
@@ -27,11 +24,13 @@ class ImageData
     /** @var string|null Url for the author's profile */
     private ?string $profileUrl = null;
 
-    public function __construct(string $path, bool $isRemote)
+    public function __construct(
+        string $path,
+        /** @var bool Is image located on a remote server */
+        private readonly bool $isRemote
+    )
     {
         $this->setPath($path);
-
-        $this->isRemote = $isRemote;
     }
 
     public function setPath(string $path): ImageData

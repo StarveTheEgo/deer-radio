@@ -8,16 +8,13 @@ use App\Components\ImageData\ImageData;
 
 class LocalDriver implements ImageDataListProviderInterface
 {
-    private array $imagePaths;
-
     public static function getName(): string
     {
         return 'local_image_list';
     }
 
-    public function __construct(array $imagePaths = [])
+    public function __construct(private array $imagePaths = [])
     {
-        $this->imagePaths = $imagePaths;
     }
 
     /**
@@ -45,7 +42,7 @@ class LocalDriver implements ImageDataListProviderInterface
     private function buildImageDataFromPath(string $imagePath) : ImageData
     {
         // @todo use more data
-        return (new ImageData($imagePath, false))
+        return new ImageData($imagePath, false)
             ->setImageUrl(null)
             ->setPhotobanUrl(null)
             ->setDescription(null)

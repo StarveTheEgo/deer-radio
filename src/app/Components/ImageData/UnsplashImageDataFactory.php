@@ -22,7 +22,7 @@ class UnsplashImageDataFactory
         $imageUrl = 'https://unsplash.com/photos/'.$unsplashImageInfo['id'];
 //        $photobanUrl = ($imageUrl !== null) ? strtok($imageUrl, '?') : null;
 
-        return (new ImageData($unsplashImageInfo['urls']['raw'], true))
+        return new ImageData($unsplashImageInfo['urls']['raw'], true)
             ->setImageUrl($imageUrl)
             ->setPhotobanUrl($unsplashImageInfo['id'])
             ->setDescription($unsplashImageInfo['description'] ?? null)
