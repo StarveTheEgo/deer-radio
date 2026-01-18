@@ -29,7 +29,7 @@ class AccessToken extends AbstractDomainObject implements TimestampableInterface
     protected string $oauthIdentifier;
 
     #[ORM\Column(type: Types::JSON)]
-    protected ?array $scopes;
+    protected ?array $scopes = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $tokenType;
@@ -38,10 +38,10 @@ class AccessToken extends AbstractDomainObject implements TimestampableInterface
     protected string $authToken;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    protected ?string $refreshToken;
+    protected ?string $refreshToken = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    protected ?DateTimeImmutable $expiresAt;
+    protected ?DateTimeImmutable $expiresAt = null;
 
     /**
      * @return int|null

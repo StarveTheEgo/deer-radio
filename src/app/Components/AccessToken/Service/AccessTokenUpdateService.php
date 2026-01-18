@@ -9,14 +9,11 @@ use App\Components\AccessToken\Repository\AccessTokenRepositoryInterface;
 
 class AccessTokenUpdateService
 {
-    private AccessTokenRepositoryInterface $repository;
-
     /**
      * @param AccessTokenRepositoryInterface $repository
      */
-    public function __construct(AccessTokenRepositoryInterface $repository)
+    public function __construct(private readonly AccessTokenRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     /**

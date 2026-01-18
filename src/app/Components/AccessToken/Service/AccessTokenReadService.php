@@ -9,11 +9,8 @@ use App\Components\AccessToken\Repository\AccessTokenRepositoryInterface;
 
 class AccessTokenReadService
 {
-    private AccessTokenRepositoryInterface $repository;
-
-    public function __construct(AccessTokenRepositoryInterface $repository)
+    public function __construct(private readonly AccessTokenRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function getById(int $id): AccessToken

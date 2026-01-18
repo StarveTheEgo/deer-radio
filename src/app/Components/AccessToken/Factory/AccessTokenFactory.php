@@ -12,16 +12,13 @@ use Laravel\Socialite\Two\User as OauthV2User;
 class AccessTokenFactory
 {
     /** @var string Token type */
-    private const TOKEN_TYPE = 'Bearer';
-
-    private AccessTokenExpirationDateHelper $expirationDateHelper;
+    private const string TOKEN_TYPE = 'Bearer';
 
     /**
      * @param AccessTokenExpirationDateHelper $expirationDateHelper
      */
-    public function __construct(AccessTokenExpirationDateHelper $expirationDateHelper)
+    public function __construct(private readonly AccessTokenExpirationDateHelper $expirationDateHelper)
     {
-        $this->expirationDateHelper = $expirationDateHelper;
     }
 
     /**
@@ -31,7 +28,7 @@ class AccessTokenFactory
      */
     public function createFromOauthV2User(ServiceName $serviceName, OauthV2User $oauthUser) : AccessToken
     {
-        return (new AccessToken())
+        return new AccessToken()
             ->setServiceName($serviceName->value)
             ->setOauthIdentifier((string) $oauthUser->getId())
             ->setTokenType(self::TOKEN_TYPE)

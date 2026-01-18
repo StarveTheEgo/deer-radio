@@ -9,11 +9,8 @@ use App\Components\AccessToken\Repository\AccessTokenRepositoryInterface;
 
 class AccessTokenDeleteService
 {
-    private AccessTokenRepositoryInterface $repository;
-
-    public function __construct(AccessTokenRepositoryInterface $repository)
+    public function __construct(private readonly AccessTokenRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function delete(AccessToken $AccessToken): void
