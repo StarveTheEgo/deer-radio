@@ -20,31 +20,16 @@ use Psr\Log\LoggerInterface;
 
 class LivestreamHealthChecker
 {
-    private LiquidsoapApi $liquidsoapApi;
-
-    private OutputReadService $outputReadService;
-
-    private OutputUpdateService $outputUpdateService;
-
-    private OutputDriverFactory $driverFactory;
-
-    private SettingReadService $settingReadService;
-
     public function __construct(
-        LiquidsoapApi $liquidsoapApi,
-        OutputReadService $outputReadService,
-        OutputUpdateService $outputUpdateService,
-        OutputDriverFactory $driverFactory,
-        SettingReadService $settingReadService,
+        private readonly LiquidsoapApi $liquidsoapApi,
+        private readonly OutputReadService $outputReadService,
+        private readonly OutputUpdateService $outputUpdateService,
+        private readonly OutputDriverFactory $driverFactory,
+        private readonly SettingReadService $settingReadService,
         LoggerInterface $logger
     )
     {
 
-        $this->liquidsoapApi = $liquidsoapApi;
-        $this->outputReadService = $outputReadService;
-        $this->outputUpdateService = $outputUpdateService;
-        $this->driverFactory = $driverFactory;
-        $this->settingReadService = $settingReadService;
         $this->logger = $logger;
     }
 

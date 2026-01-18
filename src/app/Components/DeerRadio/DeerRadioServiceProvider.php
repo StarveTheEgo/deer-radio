@@ -44,6 +44,7 @@ class DeerRadioServiceProvider extends ServiceProvider
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     public function register(): void
     {
         $this->registerDeerImageDeleteService();
@@ -75,6 +76,7 @@ class DeerRadioServiceProvider extends ServiceProvider
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

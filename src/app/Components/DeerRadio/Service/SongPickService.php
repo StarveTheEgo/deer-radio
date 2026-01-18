@@ -15,25 +15,8 @@ use Psr\Log\LoggerInterface;
 
 class SongPickService
 {
-    private SettingReadService $settingReadService;
-
-    private SongReadService $songReadService;
-
-    private DeerRadioSongCriteriaBuilder $songCriteriaBuilder;
-
-    private LoggerInterface $logger;
-
-    public function __construct(
-        SettingReadService $settingReadService,
-        SongReadService $songReadService,
-        DeerRadioSongCriteriaBuilder $songCriteriaBuilder,
-        LoggerInterface $logger
-    )
+    public function __construct(private readonly SettingReadService $settingReadService, private readonly SongReadService $songReadService, private readonly DeerRadioSongCriteriaBuilder $songCriteriaBuilder, private readonly LoggerInterface $logger)
     {
-        $this->settingReadService = $settingReadService;
-        $this->songReadService = $songReadService;
-        $this->songCriteriaBuilder = $songCriteriaBuilder;
-        $this->logger = $logger;
     }
 
     public function pickNextSong() : ?Song

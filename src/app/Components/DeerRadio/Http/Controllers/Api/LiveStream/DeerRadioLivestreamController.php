@@ -22,18 +22,6 @@ use Webmozart\Assert\Assert;
 
 class DeerRadioLivestreamController extends Controller
 {
-    private ResponseFactory $responseFactory;
-
-    private OutputReadService $outputReadService;
-
-    private OutputUpdateService $outputUpdateService;
-
-    private OutputDriverFactory $driverFactory;
-
-    private OutputDriverRegistry $driverRegistry;
-
-    private LoggerInterface $logger;
-
     /**
      * @param ResponseFactory $responseFactory
      * @param OutputReadService $outputReadService
@@ -42,21 +30,8 @@ class DeerRadioLivestreamController extends Controller
      * @param OutputDriverRegistry $driverRegistry
      * @param LoggerInterface $logger
      */
-    public function __construct(
-        ResponseFactory $responseFactory,
-        OutputReadService $outputReadService,
-        OutputUpdateService $outputUpdateService,
-        OutputDriverFactory $driverFactory,
-        OutputDriverRegistry $driverRegistry,
-        LoggerInterface $logger
-    )
+    public function __construct(private readonly ResponseFactory $responseFactory, private readonly OutputReadService $outputReadService, private readonly OutputUpdateService $outputUpdateService, private readonly OutputDriverFactory $driverFactory, private readonly OutputDriverRegistry $driverRegistry, private readonly LoggerInterface $logger)
     {
-        $this->responseFactory = $responseFactory;
-        $this->outputReadService = $outputReadService;
-        $this->outputUpdateService = $outputUpdateService;
-        $this->driverFactory = $driverFactory;
-        $this->driverRegistry = $driverRegistry;
-        $this->logger = $logger;
     }
 
     /**

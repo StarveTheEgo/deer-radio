@@ -20,17 +20,7 @@ use Throwable;
 
 class DeerImageUpdateService
 {
-    public const DEER_IMAGE_PREFIX = 'deer_image_'; // @todo move somewhere
-
-    private ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry;
-
-    private FilesystemManager $filesystemManager;
-
-    private PhotobanReadService $photobanReadService;
-
-    private LoggerInterface $logger;
-
-    private DeerRadioDataAccessor $componentDataAccessor;
+    public const DEER_IMAGE_PREFIX = 'deer_image_';
 
     /**
      * @param ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry
@@ -41,20 +31,15 @@ class DeerImageUpdateService
      * @param LoggerInterface $logger
      */
     public function __construct(
-        ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry,
-        FilesystemManager $filesystemManager,
+        private readonly ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry,
+        private readonly FilesystemManager $filesystemManager,
         ImageManager $imageManager,
-        PhotobanReadService $photobanReadService,
-        DeerRadioDataAccessor $componentDataAccessor,
-        LoggerInterface $logger
+        private readonly PhotobanReadService $photobanReadService,
+        private readonly DeerRadioDataAccessor $componentDataAccessor,
+        private readonly LoggerInterface $logger
     )
     {
-        $this->imageDataListProviderDriverRegistry = $imageDataListProviderDriverRegistry;
-        $this->filesystemManager = $filesystemManager;
         $this->imageManagerLib = $imageManager;
-        $this->photobanReadService = $photobanReadService;
-        $this->componentDataAccessor = $componentDataAccessor;
-        $this->logger = $logger;
     }
 
     /**
