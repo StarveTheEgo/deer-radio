@@ -2,6 +2,7 @@ src/node_modules
 src/public/build
 src/public/hot
 src/public/storage
+src/public/storage/proxies/*
 src/storage/*.key
 src/vendor
 src/.env
