@@ -26,6 +26,7 @@ class PlatformScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function name(): ?string
     {
         return 'Get Started';
@@ -36,6 +37,7 @@ class PlatformScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function description(): ?string
     {
         return 'Welcome to your Orchid application.';

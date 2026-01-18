@@ -22,13 +22,14 @@ class PlatformProvider extends OrchidServiceProvider
     /**
      * @var AbstractScreen[]
      */
-    private const PERMISSION_AWARE_SCREENS = [
+    private const array PERMISSION_AWARE_SCREENS = [
         SettingScreen::class,
         ServiceAccountIndexScreen::class,
         OutputIndexScreen::class,
         OutputEditScreen::class,
     ];
 
+    #[\Override]
     public function boot(Dashboard $dashboard): void
     {
         parent::boot($dashboard);
@@ -39,6 +40,7 @@ class PlatformProvider extends OrchidServiceProvider
     /**
      * @return Menu[]
      */
+    #[\Override]
     public function registerMainMenu(): array
     {
         return [
@@ -46,9 +48,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('monitor')
                 ->route('platform.example')
                 ->title('Navigation')
-                ->badge(function () {
-                    return 6;
-                }),
+                ->badge(fn() => 6),
 
             Menu::make(__('Users'))
                 ->icon('user')
@@ -95,6 +95,7 @@ class PlatformProvider extends OrchidServiceProvider
     /**
      * @return Menu[]
      */
+    #[\Override]
     public function registerProfileMenu(): array
     {
         return [
@@ -107,6 +108,7 @@ class PlatformProvider extends OrchidServiceProvider
     /**
      * @return ItemPermission[]
      */
+    #[\Override]
     public function registerPermissions(): array
     {
         $project_group = ItemPermission::group(__('Project'));

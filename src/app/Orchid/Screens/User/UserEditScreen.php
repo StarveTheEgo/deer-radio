@@ -53,6 +53,7 @@ class UserEditScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function name(): ?string
     {
         return $this->user->exists ? 'Edit User' : 'Create User';
@@ -63,6 +64,7 @@ class UserEditScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function description(): ?string
     {
         return 'Details such as name, email and password';
@@ -71,6 +73,7 @@ class UserEditScreen extends Screen
     /**
      * @return iterable|null
      */
+    #[\Override]
     public function permission(): ?iterable
     {
         return [
@@ -174,9 +177,7 @@ class UserEditScreen extends Screen
         ]);
 
         $permissions = collect($request->get('permissions'))
-            ->map(function ($value, $key) {
-                return [base64_decode($key) => $value];
-            })
+            ->map(fn($value, $key) => [base64_decode((string) $key) => $value])
             ->collapse()
             ->toArray();
 

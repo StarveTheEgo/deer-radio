@@ -15,9 +15,9 @@ use LogicException;
 
 abstract class ResourceOrder
 {
-    private const BASE_SORT_VALUE = 2000;
+    private const int BASE_SORT_VALUE = 2000;
 
-    private const SORT_VALUES_MAP = [
+    private const array SORT_VALUES_MAP = [
         AuthorResource::class,
         AuthorLinkResource::class,
         AlbumResource::class,

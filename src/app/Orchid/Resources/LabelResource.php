@@ -14,6 +14,7 @@ class LabelResource extends AbstractResource
 {
     public static $model = Label::class;
 
+    #[\Override]
     public static function icon(): string
     {
         return 'organization'; // original icon: friends
@@ -64,9 +65,7 @@ class LabelResource extends AbstractResource
             Sight::make('updated_at', __('Update date')),
 
             Sight::make('label_links', __('Links'))
-                ->render(function (Label $label) {
-                    return view('label/label-links', ['label_links' => $label->labelLinks()->get()]);
-                }),
+                ->render(fn(Label $label) => view('label/label-links', ['label_links' => $label->labelLinks()->get()])),
         ];
     }
 
@@ -74,6 +73,7 @@ class LabelResource extends AbstractResource
      * @param Model|Label $model
      * @return array[]
      */
+    #[\Override]
     public function rules(Model $model): array
     {
         return [
@@ -84,6 +84,7 @@ class LabelResource extends AbstractResource
         ];
     }
 
+    #[\Override]
     public function filters(): array
     {
         return [];

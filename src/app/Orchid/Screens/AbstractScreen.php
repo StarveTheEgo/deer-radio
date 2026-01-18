@@ -12,7 +12,7 @@ use ReflectionException;
 
 abstract class AbstractScreen extends Screen
 {
-    private const DEFAULT_PER_PAGE = 25;
+    private const int DEFAULT_PER_PAGE = 25;
 
     abstract public static function getRoute(): string;
 
@@ -31,6 +31,7 @@ abstract class AbstractScreen extends Screen
         return [];
     }
 
+    #[\Override]
     public function name(): ?string
     {
         return static::getName();
@@ -39,6 +40,7 @@ abstract class AbstractScreen extends Screen
     /**
      * @return iterable<string>|null
      */
+    #[\Override]
     public function permission(): ?iterable
     {
         return static::getPermissions();

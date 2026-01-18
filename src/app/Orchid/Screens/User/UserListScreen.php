@@ -41,6 +41,7 @@ class UserListScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function name(): ?string
     {
         return 'User';
@@ -51,6 +52,7 @@ class UserListScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function description(): ?string
     {
         return 'All registered users';
@@ -59,6 +61,7 @@ class UserListScreen extends Screen
     /**
      * @return iterable|null
      */
+    #[\Override]
     public function permission(): ?iterable
     {
         return [

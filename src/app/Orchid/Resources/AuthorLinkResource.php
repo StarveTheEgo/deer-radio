@@ -18,6 +18,7 @@ class AuthorLinkResource extends AbstractResource
 {
     public static $model = AuthorLink::class;
 
+    #[\Override]
     public static function icon(): string
     {
         return 'list';
@@ -28,6 +29,7 @@ class AuthorLinkResource extends AbstractResource
         return 'Author links (social pages, music stores)';
     }
 
+    #[\Override]
     public function with(): array
     {
         return ['author'];
@@ -58,9 +60,7 @@ class AuthorLinkResource extends AbstractResource
             TD::make('id'),
 
             TD::make('author_id', __('Author'))
-                ->render(function (AuthorLink $author_link) {
-                    return $author_link->author->name;
-                }),
+                ->render(fn(AuthorLink $author_link) => $author_link->author->name),
 
             TD::make('url', __('URL'))
                 ->sort(),
@@ -76,9 +76,7 @@ class AuthorLinkResource extends AbstractResource
             Sight::make('id', __('ID')),
 
             Sight::make('author_id', __('Author'))
-                ->render(function (AuthorLink $author_link) {
-                    return $author_link->author->name;
-                }),
+                ->render(fn(AuthorLink $author_link) => $author_link->author->name),
 
             Sight::make('url', __('URL')),
 
@@ -92,6 +90,7 @@ class AuthorLinkResource extends AbstractResource
      * @param Model|AuthorLink $model
      * @return array
      */
+    #[\Override]
     public function rules(Model $model): array
     {
         $model_input = request()->input('model');
@@ -111,6 +110,7 @@ class AuthorLinkResource extends AbstractResource
         ];
     }
 
+    #[\Override]
     public function filters(): array
     {
         return [

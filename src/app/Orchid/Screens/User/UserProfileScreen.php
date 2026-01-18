@@ -41,6 +41,7 @@ class UserProfileScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function name(): ?string
     {
         return 'My account';
@@ -51,6 +52,7 @@ class UserProfileScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function description(): ?string
     {
         return 'Update your account details such as name, email address and password';

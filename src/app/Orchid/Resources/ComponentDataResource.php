@@ -25,6 +25,7 @@ class ComponentDataResource extends Resource
      *
      * @return string
      */
+    #[\Override]
     public static function label(): string
     {
         return 'Components data';
@@ -35,11 +36,13 @@ class ComponentDataResource extends Resource
      *
      * @return string
      */
+    #[\Override]
     public static function singularLabel(): string
     {
         return 'Component data';
     }
 
+    #[\Override]
     public static function icon(): string
     {
         return 'wrench';
@@ -92,14 +95,10 @@ class ComponentDataResource extends Resource
             TD::make('value', __('Value')),
 
             TD::make('created_at', 'Date of creation')
-                ->render(function ($model) {
-                    return $model->created_at->toDateTimeString();
-                }),
+                ->render(fn($model) => $model->created_at->toDateTimeString()),
 
             TD::make('updated_at', 'Update date')
-                ->render(function ($model) {
-                    return $model->updated_at?->toDateTimeString();
-                }),
+                ->render(fn($model) => $model->updated_at?->toDateTimeString()),
         ];
     }
 
@@ -118,6 +117,7 @@ class ComponentDataResource extends Resource
      *
      * @return array
      */
+    #[\Override]
     public function filters(): array
     {
         return [];

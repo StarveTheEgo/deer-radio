@@ -18,6 +18,7 @@ class AlbumResource extends AbstractResource
 {
     public static $model = Album::class;
 
+    #[\Override]
     public static function icon(): string
     {
         return 'playlist';
@@ -28,6 +29,7 @@ class AlbumResource extends AbstractResource
         return 'Music albums';
     }
 
+    #[\Override]
     public function with(): array
     {
         return ['author'];
@@ -63,9 +65,7 @@ class AlbumResource extends AbstractResource
             TD::make('id'),
 
             TD::make('author_id', 'Author')
-                ->render(function (Album $album) {
-                    return $album->author->name;
-                }),
+                ->render(fn(Album $album) => $album->author->name),
 
             TD::make('title', __('Title'))
                 ->sort()
@@ -87,9 +87,7 @@ class AlbumResource extends AbstractResource
             Sight::make('id', __('ID')),
 
             Sight::make('author_id', __('Author'))
-                ->render(function (Album $album) {
-                    return $album->author->name;
-                }),
+                ->render(fn(Album $album) => $album->author->name),
 
             Sight::make('title', __('Title')),
 
@@ -105,6 +103,7 @@ class AlbumResource extends AbstractResource
      * @param Model|Album $model
      * @return array
      */
+    #[\Override]
     public function rules(Model $model): array
     {
         $model_input = request()->input('model');
@@ -130,6 +129,7 @@ class AlbumResource extends AbstractResource
         ];
     }
 
+    #[\Override]
     public function filters(): array
     {
         return [

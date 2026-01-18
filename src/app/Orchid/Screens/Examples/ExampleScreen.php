@@ -80,6 +80,7 @@ class ExampleScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function name(): ?string
     {
         return 'Example screen';
@@ -90,6 +91,7 @@ class ExampleScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function description(): ?string
     {
         return 'Sample Screen Components';
@@ -172,13 +174,12 @@ class ExampleScreen extends Screen
             Layout::table('table', [
                 TD::make('id', 'ID')
                     ->width('150')
-                    ->render(function (Repository $model) {
+                    ->render(
                         // Please use view('path')
-                        return "<img src='https://loremflickr.com/500/300?random={$model->get('id')}'
+                        fn(Repository $model) => "<img src='https://loremflickr.com/500/300?random={$model->get('id')}'
                               alt='sample'
                               class='mw-100 d-block img-fluid rounded-1 w-100'>
-                            <span class='small text-muted mt-1 mb-0'># {$model->get('id')}</span>";
-                    }),
+                            <span class='small text-muted mt-1 mb-0'># {$model->get('id')}</span>"),
 
                 TD::make('name', 'Name')
                     ->width('450')
@@ -215,7 +216,7 @@ class ExampleScreen extends Screen
     {
         return response()->streamDownload(function () {
             $csv = tap(fopen('php://output', 'wb'), function ($csv) {
-                fputcsv($csv, ['header:col1', 'header:col2', 'header:col3']);
+                fputcsv($csv, ['header:col1', 'header:col2', 'header:col3'], escape: '\\');
             });
 
             collect([
@@ -223,7 +224,7 @@ class ExampleScreen extends Screen
                 ['row2:col1', 'row2:col2', 'row2:col3'],
                 ['row3:col1', 'row3:col2', 'row3:col3'],
             ])->each(function (array $row) use ($csv) {
-                fputcsv($csv, $row);
+                fputcsv($csv, $row, escape: '\\');
             });
 
             return tap($csv, function ($csv) {

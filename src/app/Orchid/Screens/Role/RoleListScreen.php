@@ -30,6 +30,7 @@ class RoleListScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function name(): ?string
     {
         return 'Manage roles';
@@ -40,6 +41,7 @@ class RoleListScreen extends Screen
      *
      * @return string|null
      */
+    #[\Override]
     public function description(): ?string
     {
         return 'Access rights';
@@ -48,6 +50,7 @@ class RoleListScreen extends Screen
     /**
      * @return iterable|null
      */
+    #[\Override]
     public function permission(): ?iterable
     {
         return [
