@@ -9,11 +9,8 @@ use App\Components\Author\Repository\AuthorRepositoryInterface;
 
 class AuthorUpdateService
 {
-    private AuthorRepositoryInterface $repository;
-
-    public function __construct(AuthorRepositoryInterface $repository)
+    public function __construct(private readonly AuthorRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function update(Author $author): void
