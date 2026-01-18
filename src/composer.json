@@ -1,26 +1,28 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Deer Radio",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "ext-bcmath": "*",
-        "doctrine/dbal": "^2.13",
+        "doctrine/dbal": "^4.4",
         "google/apiclient": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
-        "illuminated/console-mutex": "^9.2",
+        "illuminated/console-mutex": "^12.0",
         "intervention/image": "^2.5",
         "justinrainbow/json-schema": "^5.2",
-        "laravel-doctrine/orm": "~1.8",
-        "laravel/framework": "^9.19",
-        "laravel/sanctum": "^3.3",
+        "laravel-doctrine/orm": "^3.2",
+        "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.2",
         "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.7",
         "league/flysystem-webdav": "^3.0",
-        "orchid/crud": "^3.8",
-        "orchid/platform": "^13.5",
+        "monolog/monolog": "^3.0",
+        "orchid/crud": "^4.0",
+        "orchid/platform": "^14.0",
+        "pestphp/pest": "^3.0",
         "unsplash/unsplash": "^3.2",
         "webmozart/assert": "^1.11"
     },
@@ -28,14 +30,15 @@
         "barryvdh/laravel-debugbar": "^3.7",
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.11",
-        "larastan/larastan": "^2.3",
+        "larastan/larastan": "^3.8",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
-        "phpstan/phpstan": "^1.10",
-        "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0"
+        "nunomaduro/collision": "^8.0",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.0",
+        "rector/rector": "^2.3",
+        "spatie/laravel-ignition": "^2.9"
     },
     "autoload": {
         "psr-4": {
@@ -75,6 +78,13 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
+        },
+        "process-timeout": 1200,
+        "platform": {
+            "php": "8.4.0"
+        },
+        "audit": {
+            "block-insecure": false
         }
     },
     "minimum-stability": "dev",
