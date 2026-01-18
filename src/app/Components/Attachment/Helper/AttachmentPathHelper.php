@@ -10,14 +10,11 @@ use LogicException;
 
 class AttachmentPathHelper
 {
-    private FilesystemManager $filesystemManager;
-
     /**
      * @param FilesystemManager $filesystemManager
      */
-    public function __construct(FilesystemManager $filesystemManager)
+    public function __construct(private readonly FilesystemManager $filesystemManager)
     {
-        $this->filesystemManager = $filesystemManager;
     }
 
     /**
