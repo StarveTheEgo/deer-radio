@@ -10,6 +10,7 @@ use App\Components\AuthorLink\AuthorLinkServiceProvider;
 use App\Components\ComponentData\ComponentDataServiceProvider;
 use App\Components\DeerRadio\DeerRadioServiceProvider;
 use App\Components\Google\GoogleServiceProvider;
+use App\Components\Icecast\IcecastServiceProvider;
 use App\Components\ImageData\ImageDataServiceProvider;
 use App\Components\Label\LabelServiceProvider;
 use App\Components\LabelLink\LabelLinkServiceProvider;
@@ -240,6 +241,7 @@ return [
         OutputServiceProvider::class,
         GoogleServiceProvider::class,
         LiquidsoapServiceProvider::class,
+        IcecastServiceProvider::class,
     ],
 
     /*
