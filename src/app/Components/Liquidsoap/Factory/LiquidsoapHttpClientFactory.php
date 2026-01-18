@@ -8,15 +8,11 @@ use GuzzleHttp\Client as HttpClient;
 
 class LiquidsoapHttpClientFactory
 {
-    /** @var string */
-    private string $liquidsoapUrl;
-
     /**
-     * @param string $liquidsoapHost
+     * @param string $liquidsoapUrl
      */
-    public function __construct(string $liquidsoapHost)
+    public function __construct(private readonly string $liquidsoapUrl)
     {
-        $this->liquidsoapUrl = $liquidsoapHost;
     }
 
     /**

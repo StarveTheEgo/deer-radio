@@ -25,9 +25,7 @@ abstract class AbstractDoctrineFilter extends Filter
         return $builder;
     }
 
-    /**
-     * @deprecated
-     */
+    #[\Deprecated]
     final public function run(Builder $builder): Builder
     {
         throw new LogicException('This method is not supposed to be called');

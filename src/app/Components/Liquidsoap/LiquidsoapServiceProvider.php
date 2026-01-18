@@ -23,6 +23,7 @@ class LiquidsoapServiceProvider extends ServiceProvider implements DeferrablePro
     /**
      * @return void
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(LiquidsoapHttpClientFactory::class, function () {
@@ -38,6 +39,7 @@ class LiquidsoapServiceProvider extends ServiceProvider implements DeferrablePro
     /**
      * @return array<class-string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

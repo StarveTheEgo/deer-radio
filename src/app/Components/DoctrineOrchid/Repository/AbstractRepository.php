@@ -19,15 +19,10 @@ use LogicException;
 abstract class AbstractRepository implements RepositoryInterface
 {
     use PaginatesFromRequest;
-
-    private EntityManager $entityManager;
-    private ObjectRepository $entityRepository;
     private string $alias;
 
-    public function __construct(EntityManager $entityManager, EntityRepository $entityRepository)
+    public function __construct(private EntityManager $entityManager, private ObjectRepository $entityRepository)
     {
-        $this->entityManager = $entityManager;
-        $this->entityRepository = $entityRepository;
         $this->alias = 'o';
     }
 
