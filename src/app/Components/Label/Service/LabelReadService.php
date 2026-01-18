@@ -8,10 +8,7 @@ use App\Components\Label\Repository\LabelRepositoryInterface;
 
 class LabelReadService
 {
-    private LabelRepositoryInterface $repository;
-
-    public function __construct(LabelRepositoryInterface $repository)
+    public function __construct(private readonly LabelRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 }

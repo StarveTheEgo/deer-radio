@@ -31,6 +31,7 @@ class LabelLinkServiceProvider extends ServiceProvider implements DeferrableProv
      *
      * @return void
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(LabelLinkRepositoryInterface::class, function (Application $app) {
@@ -49,6 +50,7 @@ class LabelLinkServiceProvider extends ServiceProvider implements DeferrableProv
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

@@ -9,11 +9,8 @@ use App\Components\LabelLink\Repository\LabelLinkRepositoryInterface;
 
 class LabelLinkUpdateService
 {
-    private LabelLinkRepositoryInterface $repository;
-
-    public function __construct(LabelLinkRepositoryInterface $repository)
+    public function __construct(private readonly LabelLinkRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function update(LabelLink $labelLink): void

@@ -20,7 +20,7 @@ class User extends AbstractDomainObject implements TimestampableInterface
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $name;
@@ -29,7 +29,7 @@ class User extends AbstractDomainObject implements TimestampableInterface
     protected string $email;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    protected ?DateTimeImmutable $emailVerifiedAt;
+    protected ?DateTimeImmutable $emailVerifiedAt = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $password;

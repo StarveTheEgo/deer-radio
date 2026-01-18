@@ -9,11 +9,8 @@ use App\Components\User\Repository\UserRepositoryInterface;
 
 class UserDeleteService
 {
-    private UserRepositoryInterface $repository;
-
-    public function __construct(UserRepositoryInterface $repository)
+    public function __construct(private readonly UserRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function delete(User $User): void

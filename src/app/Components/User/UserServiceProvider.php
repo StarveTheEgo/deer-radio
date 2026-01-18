@@ -34,6 +34,7 @@ class UserServiceProvider extends ServiceProvider implements DeferrableProvider
      *
      * @return void
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(UserRepositoryInterface::class, function (Application $app) {
@@ -52,6 +53,7 @@ class UserServiceProvider extends ServiceProvider implements DeferrableProvider
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [
