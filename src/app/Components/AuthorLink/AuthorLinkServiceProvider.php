@@ -31,6 +31,7 @@ class AuthorLinkServiceProvider extends ServiceProvider implements DeferrablePro
      *
      * @return void
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(AuthorLinkRepositoryInterface::class, function (Application $app) {
@@ -49,6 +50,7 @@ class AuthorLinkServiceProvider extends ServiceProvider implements DeferrablePro
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [
