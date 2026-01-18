@@ -28,7 +28,7 @@ class YoutubeApi
         'snippet'
     ];
 
-    private YoutubeService $youtubeService;
+    private readonly YoutubeService $youtubeService;
 
     public function __construct(GoogleClient $googleClient)
     {

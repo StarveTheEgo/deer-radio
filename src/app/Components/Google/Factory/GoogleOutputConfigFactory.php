@@ -12,16 +12,13 @@ use JsonException;
 
 class GoogleOutputConfigFactory
 {
-    private const SCHEMA_PATH =  __DIR__.'/../schema/outputConfigSchema.json';
-
-    private SchemaBasedDataParser $dataParser;
+    private const string SCHEMA_PATH =  __DIR__.'/../schema/outputConfigSchema.json';
 
     /**
      * @param SchemaBasedDataParser $dataParser
      */
-    public function __construct(SchemaBasedDataParser $dataParser)
+    public function __construct(private readonly SchemaBasedDataParser $dataParser)
     {
-        $this->dataParser = $dataParser;
     }
 
     /**
@@ -34,7 +31,7 @@ class GoogleOutputConfigFactory
     {
         $parsedData = $this->dataParser->parseData($input, self::SCHEMA_PATH);
 
-        return (new GoogleOutputConfig())
+        return new GoogleOutputConfig()
             ->setServiceAccountId($parsedData['serviceAccountId'])
             ->setChatEnabled($parsedData['chatEnabled'])
             ->setPrivacyStatus(LiveBroadcastPrivacyStatus::from($parsedData['privacyStatus']));

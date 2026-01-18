@@ -12,16 +12,11 @@ use Google\Service\YouTube\LiveStreamSnippet;
 
 class YouTubeLiveStreamFiller
 {
-    private SettingReadService $settingReadService;
-
     /**
      * @param SettingReadService $settingReadService
      */
-    public function __construct(
-        SettingReadService $settingReadService
-    )
+    public function __construct(private readonly SettingReadService $settingReadService)
     {
-        $this->settingReadService = $settingReadService;
     }
 
     /**

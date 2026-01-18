@@ -14,16 +14,11 @@ use Google\Service\YouTube\LiveBroadcastStatus;
 
 class YouTubeLiveBroadcastFiller
 {
-    private SettingReadService $settingReadService;
-
     /**
      * @param SettingReadService $settingReadService
      */
-    public function __construct(
-        SettingReadService $settingReadService
-    )
+    public function __construct(private readonly SettingReadService $settingReadService)
     {
-        $this->settingReadService = $settingReadService;
     }
 
     /**

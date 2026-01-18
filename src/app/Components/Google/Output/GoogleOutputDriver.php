@@ -21,16 +21,6 @@ use Webmozart\Assert\Assert;
 
 class GoogleOutputDriver implements OutputDriverInterface, ChatClientAwareInterface
 {
-    private CreateOrUpdateLiveStreamService $createOrUpdateLiveStreamService;
-
-    private CreateOrUpdateLiveBroadcastService $createOrUpdateLiveBroadcastService;
-
-    private ReadLiveBroadcastService $readLiveBroadcastService;
-
-    private BindLiveBroadcastService $bindLiveBroadcastService;
-
-    private GoogleDataAccessor $dataAccessor;
-
     /**
      * @return string
      */
@@ -63,18 +53,13 @@ class GoogleOutputDriver implements OutputDriverInterface, ChatClientAwareInterf
      * @param GoogleDataAccessor $dataAccessor
      */
     public function __construct(
-        CreateOrUpdateLiveStreamService $createOrUpdateLiveStreamService,
-        CreateOrUpdateLiveBroadcastService $createOrUpdateLiveBroadcastService,
-        ReadLiveBroadcastService $readLiveBroadcastService,
-        BindLiveBroadcastService $bindLiveBroadcastService,
-        GoogleDataAccessor $dataAccessor
+        private readonly CreateOrUpdateLiveStreamService $createOrUpdateLiveStreamService,
+        private readonly CreateOrUpdateLiveBroadcastService $createOrUpdateLiveBroadcastService,
+        private readonly ReadLiveBroadcastService $readLiveBroadcastService,
+        private readonly BindLiveBroadcastService $bindLiveBroadcastService,
+        private readonly GoogleDataAccessor $dataAccessor
     )
     {
-        $this->createOrUpdateLiveStreamService = $createOrUpdateLiveStreamService;
-        $this->createOrUpdateLiveBroadcastService = $createOrUpdateLiveBroadcastService;
-        $this->readLiveBroadcastService = $readLiveBroadcastService;
-        $this->bindLiveBroadcastService = $bindLiveBroadcastService;
-        $this->dataAccessor = $dataAccessor;
     }
 
     /**

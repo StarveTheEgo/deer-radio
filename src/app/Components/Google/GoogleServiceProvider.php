@@ -42,6 +42,7 @@ class GoogleServiceProvider extends ServiceProvider
         GoogleDataAccessor::class,
     ];
 
+    #[\Override]
     public function provides(): array
     {
         return [
