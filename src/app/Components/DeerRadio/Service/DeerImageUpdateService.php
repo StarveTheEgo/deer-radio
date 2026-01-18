@@ -111,7 +111,7 @@ class DeerImageUpdateService
         if ($imageData->getIsRemote()) {
             $this->downloadRemoteImageTo($imageData, $newImagePath);
         } else {
-            $radioStorage->put($newImagePath, file_get_contents($imageData->getPath()));
+            copy($imageData->getPath(), $newImagePath);
         }
 
         // we will store the local image data
