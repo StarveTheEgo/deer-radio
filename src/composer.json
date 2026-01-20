@@ -19,7 +19,7 @@
         "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.7",
         "league/flysystem-webdav": "^3.0",
-        "monolog/monolog": "^3.0",
+        "monolog/monolog": "^3.10",
         "orchid/crud": "^4.0",
         "orchid/platform": "^14.0",
         "pestphp/pest": "^3.0",
