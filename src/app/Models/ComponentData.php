@@ -7,6 +7,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\Where;
 use Orchid\Screen\AsSource;
 
 class ComponentData extends Model
@@ -58,9 +60,9 @@ class ComponentData extends Model
      * @var array<string>
      */
     protected $allowedFilters = [
-        'id',
-        'component',
-        'field' ,
-        'value',
+        'id' => Where::class,
+        'component' => Like::class,
+        'field' => Like::class,
+        'value' => Like::class,
     ];
 }

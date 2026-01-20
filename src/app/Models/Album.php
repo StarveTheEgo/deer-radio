@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\Where;
 use Orchid\Screen\AsSource;
 
 /**
@@ -57,9 +59,9 @@ class Album extends Model
     ];
 
     protected $allowedFilters = [
-        'id',
-        'title',
-        'year',
+        'id' => Where::class,
+        'title' => Like::class,
+        'year' => Where::class,
     ];
 
     /**

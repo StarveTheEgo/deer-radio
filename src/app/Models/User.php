@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Laravel\Sanctum\HasApiTokens;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\Where;
+use Orchid\Filters\Types\WhereIn;
 use Orchid\Platform\Models\User as Authenticatable;
 
 /**
@@ -51,10 +54,10 @@ class User extends Authenticatable
      * @var array<string>
      */
     protected $allowedFilters = [
-        'id',
-        'name',
-        'email',
-        'permissions',
+        'id' => Where::class,
+        'name' => Like::class,
+        'email' => Like::class,
+        'permissions' => WhereIn::class,
     ];
 
     /**

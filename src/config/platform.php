@@ -1,7 +1,6 @@
 <?php
 
 use App\Orchid\PlatformProvider;
-use Orchid\IconPack\Path;
 
 return [
 
@@ -160,7 +159,7 @@ return [
     */
 
     'icons' => [
-        'orc' => Path::getFolder(),
+        'bs'  => \Orchid\Support\BootstrapIconsPath::getFolder(),
     ],
 
     /*

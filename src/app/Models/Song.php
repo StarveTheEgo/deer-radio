@@ -6,6 +6,9 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\Where;
+use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Screen\AsSource;
 
 /**
@@ -119,19 +122,19 @@ class Song extends Model
      * @var array<string>
      */
     protected $allowedFilters = [
-        'id',
-        'title',
-        'year',
-        'source',
-        'tempo',
-        'played_at',
-        'finished_at',
-        'played_count',
-        'is_active',
-        'volume',
-        'unsplash_search_query',
-        'created_at',
-        'updated_at',
+        'id' => Where::class,
+        'title' => Like::class,
+        'year' => Where::class,
+        'source' => Like::class,
+        'tempo' => Where::class,
+        'played_at' => WhereDateStartEnd::class,
+        'finished_at' => WhereDateStartEnd::class,
+        'played_count' => Where::class,
+        'is_active' => Where::class,
+        'volume' => Where::class,
+        'unsplash_search_query' => Like::class,
+        'created_at' => WhereDateStartEnd::class,
+        'updated_at' => WhereDateStartEnd::class,
     ];
 
     /**
