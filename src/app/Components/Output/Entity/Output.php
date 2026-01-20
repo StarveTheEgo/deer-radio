@@ -45,7 +45,7 @@ class Output extends AbstractDomainObject implements TimestampableInterface, Url
     /**
      * @return string
      */
-    public static function getRouteKeyName(): string
+    public static function getRouteKeyNameStatic(): string
     {
         return 'id';
     }

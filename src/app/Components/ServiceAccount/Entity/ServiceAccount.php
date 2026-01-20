@@ -43,7 +43,7 @@ class ServiceAccount extends AbstractDomainObject implements TimestampableInterf
     /**
      * @return string
      */
-    public static function getRouteKeyName(): string
+    public static function getRouteKeyNameStatic(): string
     {
         return 'id';
     }
