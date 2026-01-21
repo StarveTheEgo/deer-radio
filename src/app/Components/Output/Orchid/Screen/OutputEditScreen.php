@@ -26,7 +26,7 @@ use Orchid\Support\Facades\Toast;
 
 class OutputEditScreen extends AbstractScreen
 {
-    public const QUERY_KEY_OUTPUT = 'output';
+    public const string QUERY_KEY_OUTPUT = 'output';
 
     /**
      * @return string|null

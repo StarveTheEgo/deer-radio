@@ -12,7 +12,6 @@ use App\Components\Song\Service\SongReadService;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQuery;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryType;
-use App\Song;
 
 /**
  * Builds unsplash search query based on app settings

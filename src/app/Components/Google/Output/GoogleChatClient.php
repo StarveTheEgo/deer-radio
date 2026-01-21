@@ -21,7 +21,7 @@ use Webmozart\Assert\Assert;
 class GoogleChatClient implements ChatClientInterface
 {
     /** @var int Limit of characters per single LiveChatMessage */
-    public const MESSAGE_LENGTH_LIMIT = 180;
+    public const int MESSAGE_LENGTH_LIMIT = 180;
 
     /** @var string Delimiter between message parts */
     private const string MESSAGE_PARTS_DELIMITER = ' ... ';

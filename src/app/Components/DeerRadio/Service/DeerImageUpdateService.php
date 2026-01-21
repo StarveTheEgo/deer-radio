@@ -13,19 +13,17 @@ use App\Components\Photoban\Service\PhotobanReadService;
 use App\Components\Storage\Enum\StorageName;
 use Exception;
 use Illuminate\Filesystem\FilesystemManager;
-use Intervention\Image\ImageManager;
 use LogicException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class DeerImageUpdateService
 {
-    public const DEER_IMAGE_PREFIX = 'deer_image_';
+    public const string DEER_IMAGE_PREFIX = 'deer_image_';
 
     /**
      * @param ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry
      * @param FilesystemManager $filesystemManager
-     * @param ImageManager $imageManager
      * @param PhotobanReadService $photobanReadService
      * @param DeerRadioDataAccessor $componentDataAccessor
      * @param LoggerInterface $logger
@@ -33,13 +31,11 @@ class DeerImageUpdateService
     public function __construct(
         private readonly ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry,
         private readonly FilesystemManager $filesystemManager,
-        ImageManager $imageManager,
         private readonly PhotobanReadService $photobanReadService,
         private readonly DeerRadioDataAccessor $componentDataAccessor,
         private readonly LoggerInterface $logger
     )
     {
-        $this->imageManagerLib = $imageManager;
     }
 
     /**

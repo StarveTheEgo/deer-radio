@@ -23,7 +23,7 @@ class ExampleScreen extends Screen
     /**
      * Fish text for the table.
      */
-    public const TEXT_EXAMPLE = 'Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
+    public const string TEXT_EXAMPLE = 'Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
     urna etiam, primis ut lacus habitasse malesuada ut. Lectus aptent malesuada mattis ut etiam fusce nec sed viverra,
     semper mattis viverra malesuada quam metus vulputate torquent magna, lobortis nec nostra nibh sollicitudin
     erat in luctus.';
@@ -216,7 +216,7 @@ class ExampleScreen extends Screen
     {
         return response()->streamDownload(function () {
             $csv = tap(fopen('php://output', 'wb'), function ($csv) {
-                fputcsv($csv, ['header:col1', 'header:col2', 'header:col3'], escape: '\\');
+                fputcsv($csv, ['header:col1', 'header:col2', 'header:col3']);
             });
 
             collect([
@@ -224,7 +224,7 @@ class ExampleScreen extends Screen
                 ['row2:col1', 'row2:col2', 'row2:col3'],
                 ['row3:col1', 'row3:col2', 'row3:col3'],
             ])->each(function (array $row) use ($csv) {
-                fputcsv($csv, $row, escape: '\\');
+                fputcsv($csv, $row);
             });
 
             return tap($csv, function ($csv) {

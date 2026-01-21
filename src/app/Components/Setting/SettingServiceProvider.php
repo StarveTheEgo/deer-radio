@@ -20,7 +20,7 @@ use Illuminate\Support\ServiceProvider;
 
 class SettingServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public const SERVICE_NS = 'setting';
+    public const string SERVICE_NS = 'setting';
 
     /**
      * @var array<class-string>

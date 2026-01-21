@@ -8,9 +8,9 @@ use App\Components\ImageData\ImageData;
 
 class ImageMetadataBuilder
 {
-    public const IMAGE_DURATION = 15;
+    public const int IMAGE_DURATION = 15;
 
-    public const IMAGE_DESCRIPTION_LIMIT = 60;
+    public const int IMAGE_DESCRIPTION_LIMIT = 60;
 
     /**
      * @param ImageData $imageData

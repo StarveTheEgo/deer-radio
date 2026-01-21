@@ -16,7 +16,6 @@ use App\Components\Setting\Service\SettingReadService;
 use DateTimeImmutable;
 use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
-use Psr\Log\LoggerInterface;
 
 class LivestreamHealthChecker
 {
@@ -26,11 +25,8 @@ class LivestreamHealthChecker
         private readonly OutputUpdateService $outputUpdateService,
         private readonly OutputDriverFactory $driverFactory,
         private readonly SettingReadService $settingReadService,
-        LoggerInterface $logger
     )
     {
-
-        $this->logger = $logger;
     }
 
     /**

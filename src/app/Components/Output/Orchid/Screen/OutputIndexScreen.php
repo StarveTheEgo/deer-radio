@@ -17,7 +17,7 @@ use Orchid\Support\Facades\Toast;
 
 class OutputIndexScreen extends AbstractScreen implements IconAwareInterface
 {
-    public const QUERY_KEY_OUTPUTS = 'outputs';
+    public const string QUERY_KEY_OUTPUTS = 'outputs';
 
     public static function getName(): ?string
     {

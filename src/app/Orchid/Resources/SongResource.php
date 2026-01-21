@@ -188,6 +188,10 @@ class SongResource extends AbstractResource
     #[\Override]
     public function rules(Model $model): array
     {
+        if (!($model instanceof Song)) {
+            throw new \InvalidArgumentException();
+        }
+
         $model_input = request()->input('model');
 
         return [

@@ -21,6 +21,10 @@ class SettingRepository extends AbstractRepository implements SettingRepositoryI
     #[\Override]
     protected function getEntityReadableName(AbstractDomainObject $object): string
     {
+        if (!($object instanceof Setting)) {
+            throw new \InvalidArgumentException();
+        }
+
         return "Setting {$object->getKey()}";
     }
 

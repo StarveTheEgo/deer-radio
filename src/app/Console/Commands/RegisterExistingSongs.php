@@ -9,6 +9,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use LogicException;
 use Orchid\Attachment\File;
+use Orchid\Attachment\Models\Attachment;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class RegisterExistingSongs extends Command
 {
@@ -53,6 +55,7 @@ class RegisterExistingSongs extends Command
 
             $file = new UploadedFile($sourceFilePath, $source->original_name);
 
+            /** @var Attachment $attachment */
             $attachment = new File($file, StorageName::RADIO_STORAGE->value)
                 ->path($outputRelativeDir)
                 ->load();
@@ -66,6 +69,6 @@ class RegisterExistingSongs extends Command
         var_dump($wrongCounts);
         echo 'Done', PHP_EOL;
 
-        return Command::SUCCESS;
+        return SymfonyCommand::SUCCESS;
     }
 }

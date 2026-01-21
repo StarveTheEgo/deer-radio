@@ -28,7 +28,7 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class DeerRadioServiceProvider extends ServiceProvider
 {
-    public const COMPONENT_NAME = 'DeerRadio';
+    public const string COMPONENT_NAME = 'DeerRadio';
 
     /**
      * @var array<class-string, class-string>
