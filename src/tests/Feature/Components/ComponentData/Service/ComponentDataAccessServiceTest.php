@@ -5,6 +5,7 @@ namespace Tests\Feature\Components\ComponentData\Service;
 use App\Components\ComponentData\Entity\ComponentData;
 use App\Components\ComponentData\Repository\ComponentDataRepository;
 use App\Components\ComponentData\Service\ComponentDataAccessService;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ComponentDataAccessServiceTest extends TestCase
@@ -24,7 +25,7 @@ class ComponentDataAccessServiceTest extends TestCase
         return $repository;
     }
 
-    private function createComponentData(string $component, string $field): ComponentData
+    private static function createComponentData(string $component, string $field): ComponentData
     {
         $componentData = new ComponentData();
         $componentData->setComponent($component);
@@ -34,8 +35,8 @@ class ComponentDataAccessServiceTest extends TestCase
 
     /**
      * @return void
-     * @dataProvider getDataProvider
      */
+    #[DataProvider('getDataProvider')]
     public function testGetValue(string $component, string $field, $expectedValue, bool $hasExistingData)
     {
         if ($hasExistingData) {
@@ -86,12 +87,12 @@ class ComponentDataAccessServiceTest extends TestCase
     /**
      * @return void
      *
-     * @dataProvider setDataProvider
      */
+    #[DataProvider('setDataProvider')]
     public function testSetValue(string $component, string $field, $value, bool $hasExistingData)
     {
         if ($hasExistingData) {
-            $existingComponentData = $this->createComponentData($component, $field);
+            $existingComponentData = self::createComponentData($component, $field);
         } else {
             $existingComponentData = null;
         }
