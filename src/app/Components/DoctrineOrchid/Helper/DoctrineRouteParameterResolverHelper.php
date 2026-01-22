@@ -36,7 +36,10 @@ class DoctrineRouteParameterResolverHelper
                     continue;
                 }
 
-                $parameterValue = $parameters[$parameter->getName()] ?? throw new \LogicException('Parameter "' . $parameter->getName() . '" of type "' . $parameterClass . '" does not have value.');
+                $parameterValue = $parameters[$parameter->getName()] ?? null;
+                if ($parameterValue === null && !$parameter->allowsNull()) {
+                    throw new \LogicException('Parameter "' . $parameter->getName() . '" of type "' . $parameterClass . '" does not have value.');
+                }
 
                 $repository = $container->get(EntityManagerInterface::class)->getRepository($parameterClass);
                 $resolvedEntity = self::resolveDoctrineEntity($repository, $parameterClass, $parameterValue);
