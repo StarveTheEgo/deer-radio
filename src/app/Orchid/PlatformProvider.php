@@ -96,7 +96,7 @@ class PlatformProvider extends OrchidServiceProvider
      * @return Menu[]
      */
     #[\Override]
-    public function registerProfileMenu(): array
+    public function registerMenu(): array
     {
         return [
             Menu::make('Profile')
