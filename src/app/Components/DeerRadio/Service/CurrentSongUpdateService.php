@@ -14,34 +14,8 @@ use Psr\Log\LoggerInterface;
 
 class CurrentSongUpdateService
 {
-    /** @var DeerRadioDataAccessor */
-    private DeerRadioDataAccessor $dataAccessor;
-
-    /** @var SongUpdateService */
-    private SongUpdateService $songUpdateService;
-
-    /** @var SongReadService */
-    private SongReadService $songReadService;
-
-    /** @var AuthorUpdateService */
-    private AuthorUpdateService $authorUpdateService;
-
-    /** @var LoggerInterface */
-    private LoggerInterface $logger;
-
-    public function __construct(
-        DeerRadioDataAccessor $dataAccessor,
-        SongUpdateService   $songUpdateService,
-        SongReadService   $songReadService,
-        AuthorUpdateService   $authorUpdateService,
-        LoggerInterface       $logger
-    )
+    public function __construct(private readonly DeerRadioDataAccessor $dataAccessor, private readonly SongUpdateService   $songUpdateService, private readonly SongReadService   $songReadService, private readonly AuthorUpdateService   $authorUpdateService, private readonly LoggerInterface       $logger)
     {
-        $this->dataAccessor = $dataAccessor;
-        $this->songUpdateService = $songUpdateService;
-        $this->songReadService = $songReadService;
-        $this->authorUpdateService = $authorUpdateService;
-        $this->logger = $logger;
     }
 
     /**

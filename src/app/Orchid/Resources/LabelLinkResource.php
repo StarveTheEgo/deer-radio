@@ -18,6 +18,7 @@ class LabelLinkResource extends AbstractResource
 {
     public static $model = LabelLink::class;
 
+    #[\Override]
     public static function icon(): string
     {
         return 'list';
@@ -28,6 +29,7 @@ class LabelLinkResource extends AbstractResource
         return 'Label links (social pages, music stores)';
     }
 
+    #[\Override]
     public function with(): array
     {
         return ['label'];
@@ -58,9 +60,7 @@ class LabelLinkResource extends AbstractResource
             TD::make('id'),
 
             TD::make('label_id', __('Label'))
-                ->render(function (LabelLink $label_link) {
-                    return $label_link->label->name;
-                }),
+                ->render(fn(LabelLink $label_link) => $label_link->label->name),
 
             TD::make('url', __('URL'))
                 ->sort(),
@@ -76,9 +76,7 @@ class LabelLinkResource extends AbstractResource
             Sight::make('id', __('ID')),
 
             Sight::make('label_id', __('Label'))
-                ->render(function (LabelLink $label_link) {
-                    return $label_link->label->name;
-                }),
+                ->render(fn(LabelLink $label_link) => $label_link->label->name),
 
             Sight::make('url', __('URL')),
 
@@ -92,6 +90,7 @@ class LabelLinkResource extends AbstractResource
      * @param Model|LabelLink $model
      * @return array
      */
+    #[\Override]
     public function rules(Model $model): array
     {
         $model_input = request()->input('model');
@@ -112,6 +111,7 @@ class LabelLinkResource extends AbstractResource
         ];
     }
 
+    #[\Override]
     public function filters(): array
     {
         return [

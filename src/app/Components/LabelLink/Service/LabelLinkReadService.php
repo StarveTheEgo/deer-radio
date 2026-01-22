@@ -8,10 +8,7 @@ use App\Components\LabelLink\Repository\LabelLinkRepositoryInterface;
 
 class LabelLinkReadService
 {
-    private LabelLinkRepositoryInterface $repository;
-
-    public function __construct(LabelLinkRepositoryInterface $repository)
+    public function __construct(private readonly LabelLinkRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 }

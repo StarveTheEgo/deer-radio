@@ -39,6 +39,7 @@ class AccessTokenServiceProvider extends ServiceProvider
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(AccessTokenRepositoryInterface::class, function (Application $app) {
@@ -57,6 +58,7 @@ class AccessTokenServiceProvider extends ServiceProvider
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

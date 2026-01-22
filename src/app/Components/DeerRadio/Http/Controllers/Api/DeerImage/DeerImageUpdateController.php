@@ -13,26 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DeerImageUpdateController extends Controller
 {
-    private ResponseFactory $responseFactory;
-
-    private DeerImageUpdateService $deerImageUpdateService;
-
-    private DeerImageDeleteService $deerImageDeleteService;
-
     /**
      * @param ResponseFactory $responseFactory
      * @param DeerImageUpdateService $deerImageUpdateService
      * @param DeerImageDeleteService $deerImageDeleteService
      */
-    public function __construct(
-        ResponseFactory $responseFactory,
-        DeerImageUpdateService $deerImageUpdateService,
-        DeerImageDeleteService $deerImageDeleteService
-    )
+    public function __construct(private readonly ResponseFactory $responseFactory, private readonly DeerImageUpdateService $deerImageUpdateService, private readonly DeerImageDeleteService $deerImageDeleteService)
     {
-        $this->responseFactory = $responseFactory;
-        $this->deerImageUpdateService = $deerImageUpdateService;
-        $this->deerImageDeleteService = $deerImageDeleteService;
     }
 
     /**

@@ -31,6 +31,7 @@ class PhotobanServiceProvider extends ServiceProvider implements DeferrableProvi
      *
      * @return void
      */
+    #[\Override]
     public function register()
     {
         $this->app->singleton(PhotobanRepositoryInterface::class, function (Application $app) {
@@ -49,6 +50,7 @@ class PhotobanServiceProvider extends ServiceProvider implements DeferrableProvi
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

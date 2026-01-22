@@ -10,17 +10,12 @@ use App\Components\Setting\Repository\SettingRepositoryInterface;
 
 class SettingReadService
 {
-    private SettingRepositoryInterface $repository;
-    private SettingValueService $valueService;
-
     /**
      * @param SettingRepositoryInterface $repository
      * @param SettingValueService $valueService
      */
-    public function __construct(SettingRepositoryInterface $repository, SettingValueService $valueService)
+    public function __construct(private readonly SettingRepositoryInterface $repository, private readonly SettingValueService $valueService)
     {
-        $this->repository = $repository;
-        $this->valueService = $valueService;
     }
 
     /**
@@ -46,7 +41,7 @@ class SettingReadService
      * @param string|null $defaultValue
      * @return string|null
      */
-    public function getValue(string $key, string $defaultValue = null): ?string
+    public function getValue(string $key, ?string $defaultValue = null): ?string
     {
         $setting = $this->repository->findByKey($key);
         if ($setting === null) {

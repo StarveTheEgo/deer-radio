@@ -19,7 +19,7 @@ class Setting extends AbstractDomainObject implements TimestampableInterface
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\Column(name: '`key`', type: Types::STRING)]
     protected string $key;
@@ -28,7 +28,7 @@ class Setting extends AbstractDomainObject implements TimestampableInterface
     protected string $fieldType;
 
     #[ORM\Column(type: Types::JSON)]
-    protected ?array $fieldOptions;
+    protected ?array $fieldOptions = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $description;

@@ -16,23 +16,15 @@ use LogicException;
 
 class CreateOrUpdateLiveStreamService
 {
-    /** @var YouTubeLiveStreamFiller */
-    private YouTubeLiveStreamFiller $liveStreamFiller;
-
-    /** @var YoutubeApiFactory */
-    private YoutubeApiFactory $apiFactory;
-
     /**
      * @param YouTubeLiveStreamFiller $liveStreamFiller
      * @param YoutubeApiFactory $apiFactory
      */
     public function __construct(
-        YouTubeLiveStreamFiller $liveStreamFiller,
-        YoutubeApiFactory $apiFactory
+        private readonly YouTubeLiveStreamFiller $liveStreamFiller,
+        private readonly YoutubeApiFactory $apiFactory
     )
     {
-        $this->liveStreamFiller = $liveStreamFiller;
-        $this->apiFactory = $apiFactory;
     }
 
     /**

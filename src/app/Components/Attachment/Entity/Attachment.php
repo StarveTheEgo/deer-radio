@@ -18,7 +18,7 @@ class Attachment extends AbstractDomainObject implements TimestampableInterface
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
     protected string $name;
@@ -27,7 +27,7 @@ class Attachment extends AbstractDomainObject implements TimestampableInterface
     protected string $originalName;
 
     #[ORM\Column(type: Types::STRING)]
-    protected ?string $extension;
+    protected ?string $extension = null;
 
     #[ORM\Column(type: Types::BIGINT)]
     protected string $size;

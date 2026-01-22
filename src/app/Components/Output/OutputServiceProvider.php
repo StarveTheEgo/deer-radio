@@ -34,6 +34,7 @@ class OutputServiceProvider extends ServiceProvider implements DeferrableProvide
      *
      * @return void
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(OutputRepositoryInterface::class, function (Application $app) {
@@ -59,6 +60,7 @@ class OutputServiceProvider extends ServiceProvider implements DeferrableProvide
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

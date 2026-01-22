@@ -13,27 +13,18 @@ use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterf
 
 class UnsplashDriver implements ImageDataListProviderInterface
 {
-    private UnsplashClient $unsplashClient;
-    private UnsplashImageDataFactory $unsplashImageDataFactory;
-    private UnsplashSearchQueryBuilderInterface $queryBuilder;
-    private SettingReadService $settingReadService;
-
     public static function getName(): string
     {
         return 'unsplash';
     }
 
     public function __construct(
-        UnsplashClient $unsplashClient,
-        UnsplashSearchQueryBuilderInterface $unsplashQueryBuilder,
-        UnsplashImageDataFactory $unsplashImageDataFactory,
-        SettingReadService $settingReadService,
+        private readonly UnsplashClient $unsplashClient,
+        private readonly UnsplashSearchQueryBuilderInterface $queryBuilder,
+        private readonly UnsplashImageDataFactory $unsplashImageDataFactory,
+        private readonly SettingReadService $settingReadService
     )
     {
-        $this->unsplashClient = $unsplashClient;
-        $this->unsplashImageDataFactory = $unsplashImageDataFactory;
-        $this->queryBuilder = $unsplashQueryBuilder;
-        $this->settingReadService = $settingReadService;
     }
 
     /**

@@ -23,14 +23,11 @@ class OutputListLayout extends Table
      */
     public $target = OutputIndexScreen::QUERY_KEY_OUTPUTS;
 
-    private OutputDriverRegistry $outputDriverRegistry;
-
     /**
      * @param OutputDriverRegistry $outputDriverRegistry
      */
-    public function __construct(OutputDriverRegistry $outputDriverRegistry)
+    public function __construct(private readonly OutputDriverRegistry $outputDriverRegistry)
     {
-        $this->outputDriverRegistry = $outputDriverRegistry;
     }
 
     /**
@@ -59,14 +56,10 @@ class OutputListLayout extends Table
                 }),
 
             TD::make('streamState', __('Stream state'))
-                ->render(function (Output $output) {
-                    return $output->getStreamState();
-                }),
+                ->render(fn(Output $output) => $output->getStreamState()),
 
             TD::make('preparedAt', __('Prepared at'))
-                ->render(function (Output $output) {
-                    return $output->getPreparedAt()?->format('d.m.Y H:i:s');
-                }),
+                ->render(fn(Output $output) => $output->getPreparedAt()?->format('d.m.Y H:i:s')),
 
             TD::make('isActive', __('Is active'))
                 ->sort(),
@@ -74,24 +67,22 @@ class OutputListLayout extends Table
             TD::make(__('Actions'))
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(function (Output $output) {
-                    return DropDown::make()
-                        ->icon('options-vertical')
-                        ->list([
-                            Link::make(__('Edit'))
-                                ->route(OutputRoute::EDIT->value, [
-                                    'output' => $output->getId(),
-                                ])
-                                ->icon('pencil'),
+                ->render(fn(Output $output) => DropDown::make()
+                    ->icon('options-vertical')
+                    ->list([
+                        Link::make(__('Edit'))
+                            ->route(OutputRoute::EDIT->value, [
+                                'output' => $output->getId(),
+                            ])
+                            ->icon('pencil'),
 
-                            Button::make(__('Delete'))
-                                ->icon('trash')
-                                ->confirm(__('Are you sure you want to delete this output?'))
-                                ->method('delete', [
-                                    'output' => $output->getId(),
-                                ]),
-                        ]);
-                }),
+                        Button::make(__('Delete'))
+                            ->icon('trash')
+                            ->confirm(__('Are you sure you want to delete this output?'))
+                            ->method('delete', [
+                                'output' => $output->getId(),
+                            ]),
+                    ])),
         ];
     }
 }

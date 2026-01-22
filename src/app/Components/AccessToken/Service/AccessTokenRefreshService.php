@@ -14,26 +14,13 @@ use Webmozart\Assert\Assert;
 
 class AccessTokenRefreshService
 {
-    private SocialiteManager $socialiteManager;
-
-    private AccessTokenUpdateService $accessTokenUpdateService;
-
-    private AccessTokenExpirationDateHelper $expirationDateHelper;
-
     /**
      * @param SocialiteManager $socialiteManager
      * @param AccessTokenUpdateService $accessTokenUpdateService
      * @param AccessTokenExpirationDateHelper $expirationDateHelper
      */
-    public function __construct(
-        SocialiteManager $socialiteManager,
-        AccessTokenUpdateService $accessTokenUpdateService,
-        AccessTokenExpirationDateHelper $expirationDateHelper
-    )
+    public function __construct(private readonly SocialiteManager $socialiteManager, private readonly AccessTokenUpdateService $accessTokenUpdateService, private readonly AccessTokenExpirationDateHelper $expirationDateHelper)
     {
-        $this->socialiteManager = $socialiteManager;
-        $this->accessTokenUpdateService = $accessTokenUpdateService;
-        $this->expirationDateHelper = $expirationDateHelper;
     }
 
     /**
@@ -50,7 +37,7 @@ class AccessTokenRefreshService
 
         // Socialite's method getRefreshToken is not working when refresh_token is empty in response
         // we will use reflection to call a method that works
-        $response = (new ReflectionClass($provider))
+        $response = new ReflectionClass($provider)
             ->getMethod('getRefreshTokenResponse')
             ->invoke($provider, $refreshToken);
 

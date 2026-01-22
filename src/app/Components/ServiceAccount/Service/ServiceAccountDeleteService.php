@@ -10,21 +10,12 @@ use App\Components\ServiceAccount\Repository\ServiceAccountRepositoryInterface;
 
 class ServiceAccountDeleteService
 {
-    private ServiceAccountRepositoryInterface $repository;
-
-    private AccessTokenDeleteService $tokenDeleteService;
-
     /**
      * @param ServiceAccountRepositoryInterface $repository
      * @param AccessTokenDeleteService $tokenDeleteService
      */
-    public function __construct(
-        ServiceAccountRepositoryInterface $repository,
-        AccessTokenDeleteService $tokenDeleteService
-    )
+    public function __construct(private readonly ServiceAccountRepositoryInterface $repository, private readonly AccessTokenDeleteService $tokenDeleteService)
     {
-        $this->repository = $repository;
-        $this->tokenDeleteService = $tokenDeleteService;
     }
 
     /**

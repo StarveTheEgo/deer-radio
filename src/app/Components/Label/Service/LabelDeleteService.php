@@ -9,11 +9,8 @@ use App\Components\Label\Repository\LabelRepositoryInterface;
 
 class LabelDeleteService
 {
-    private LabelRepositoryInterface $repository;
-
-    public function __construct(LabelRepositoryInterface $repository)
+    public function __construct(private readonly LabelRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function delete(Label $label): void

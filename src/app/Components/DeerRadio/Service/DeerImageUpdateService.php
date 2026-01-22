@@ -13,48 +13,29 @@ use App\Components\Photoban\Service\PhotobanReadService;
 use App\Components\Storage\Enum\StorageName;
 use Exception;
 use Illuminate\Filesystem\FilesystemManager;
-use Intervention\Image\ImageManager;
 use LogicException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class DeerImageUpdateService
 {
-    public const DEER_IMAGE_PREFIX = 'deer_image_'; // @todo move somewhere
-
-    private ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry;
-
-    private FilesystemManager $filesystemManager;
-
-    private PhotobanReadService $photobanReadService;
-
-    private LoggerInterface $logger;
-
-    private DeerRadioDataAccessor $componentDataAccessor;
+    public const string DEER_IMAGE_PREFIX = 'deer_image_';
 
     /**
      * @param ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry
      * @param FilesystemManager $filesystemManager
-     * @param ImageManager $imageManager
      * @param PhotobanReadService $photobanReadService
      * @param DeerRadioDataAccessor $componentDataAccessor
      * @param LoggerInterface $logger
      */
     public function __construct(
-        ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry,
-        FilesystemManager $filesystemManager,
-        ImageManager $imageManager,
-        PhotobanReadService $photobanReadService,
-        DeerRadioDataAccessor $componentDataAccessor,
-        LoggerInterface $logger
+        private readonly ImageDataListProviderDriverRegistry $imageDataListProviderDriverRegistry,
+        private readonly FilesystemManager $filesystemManager,
+        private readonly PhotobanReadService $photobanReadService,
+        private readonly DeerRadioDataAccessor $componentDataAccessor,
+        private readonly LoggerInterface $logger
     )
     {
-        $this->imageDataListProviderDriverRegistry = $imageDataListProviderDriverRegistry;
-        $this->filesystemManager = $filesystemManager;
-        $this->imageManagerLib = $imageManager;
-        $this->photobanReadService = $photobanReadService;
-        $this->componentDataAccessor = $componentDataAccessor;
-        $this->logger = $logger;
     }
 
     /**
@@ -126,15 +107,15 @@ class DeerImageUpdateService
         if ($imageData->getIsRemote()) {
             $this->downloadRemoteImageTo($imageData, $newImagePath);
         } else {
-            $radioStorage->put($newImagePath, file_get_contents($imageData->getPath()));
+            copy($imageData->getPath(), $newImagePath);
         }
 
         // we will store the local image data
-        $localImageData = (new ImageData($newImagePath, false))
+        $localImageData = new ImageData($newImagePath, false)
             ->setPath($newImagePath)
-            ->setImageUrl(strtok($imageData->getImageUrl() ?? '', '?'))
-            ->setProfileUrl(strtok($imageData->getProfileUrl() ?? '', '?'))
-            ->setAuthorName($imageData->getAuthorName() ?? '<unknown>')
+            ->setImageUrl(strtok($imageData->getImageUrl() ?? '', '?') ?: '')
+            ->setProfileUrl(strtok($imageData->getProfileUrl() ?? '', '?') ?: '')
+            ->setAuthorName($imageData->getAuthorName() ?? '')
             ->setDescription(str_replace(["\r", "\n"], ['', ' '], $imageData->getDescription() ?? ''));
 
         $this->componentDataAccessor->setValue(DeerRadioDataKey::CURRENT_IMAGE_DATA->value, $localImageData);

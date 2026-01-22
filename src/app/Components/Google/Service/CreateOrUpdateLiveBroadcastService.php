@@ -17,14 +17,6 @@ use LogicException;
 
 class CreateOrUpdateLiveBroadcastService
 {
-    private GoogleDataAccessor $dataAccessor;
-
-    private GoogleOutputConfigFactory $configFactory;
-
-    private YouTubeLiveBroadcastFiller $liveBroadcastFiller;
-
-    private YoutubeApiFactory $apiFactory;
-
     /**
      * @param GoogleDataAccessor $dataAccessor
      * @param GoogleOutputConfigFactory $configFactory
@@ -32,16 +24,11 @@ class CreateOrUpdateLiveBroadcastService
      * @param YoutubeApiFactory $apiFactory
      */
     public function __construct(
-        GoogleDataAccessor         $dataAccessor,
-        GoogleOutputConfigFactory  $configFactory,
-        YouTubeLiveBroadcastFiller $liveBroadcastFiller,
-        YoutubeApiFactory          $apiFactory
-    )
+        private readonly GoogleDataAccessor         $dataAccessor,
+        private readonly GoogleOutputConfigFactory  $configFactory,
+        private readonly YouTubeLiveBroadcastFiller $liveBroadcastFiller,
+        private readonly YoutubeApiFactory          $apiFactory)
     {
-        $this->dataAccessor = $dataAccessor;
-        $this->configFactory = $configFactory;
-        $this->liveBroadcastFiller = $liveBroadcastFiller;
-        $this->apiFactory = $apiFactory;
     }
 
     /**

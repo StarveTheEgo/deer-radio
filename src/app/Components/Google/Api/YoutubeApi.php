@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
 class YoutubeApi
 {
     /** @var array<string> List of YouTube LiveStream API parts for broadcasts */
-    public const DEFAULT_LIVESTREAM_PARTS = [
+    public const array DEFAULT_LIVESTREAM_PARTS = [
         'snippet',
         'cdn',
         'contentDetails',
@@ -22,13 +22,13 @@ class YoutubeApi
     ];
 
     /** @var array<string> List of YouTube LiveBroadCast API parts for broadcasts */
-    public const DEFAULT_BROADCAST_PARTS = [
+    public const array DEFAULT_BROADCAST_PARTS = [
         'contentDetails',
         'status',
         'snippet'
     ];
 
-    private YoutubeService $youtubeService;
+    private readonly YoutubeService $youtubeService;
 
     public function __construct(GoogleClient $googleClient)
     {

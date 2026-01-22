@@ -33,7 +33,7 @@ class AccessTokenRepository extends AbstractRepository implements AccessTokenRep
     public function iterateExpiredRefreshableAccessTokens(): iterable
     {
         // pick the date when we will consider tokens invalid
-        $expirationStart = (new DateTimeImmutable())
+        $expirationStart = new DateTimeImmutable()
             ->modify(sprintf(
                 '+%d seconds',
                 AccessTokenExpirationDateHelper::REFRESH_TIME_WINDOW_START

@@ -16,9 +16,7 @@ class PrefixHelper
      */
     public static function addPrefixToFields(string $prefix, array $fields): array
     {
-        return array_map(function (Field $field) use ($prefix) {
-            return $field->set('name', $prefix.$field->get('name'));
-        }, $fields);
+        return array_map(fn(Field $field) => $field->set('name', $prefix.$field->get('name')), $fields);
     }
 
     /**

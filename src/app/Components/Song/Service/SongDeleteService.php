@@ -11,17 +11,8 @@ use Illuminate\Filesystem\FilesystemManager;
 
 class SongDeleteService
 {
-    private SongRepositoryInterface $repository;
-
-    private FilesystemManager $filesystemManager;
-
-    public function __construct(
-        SongRepositoryInterface $repository,
-        FilesystemManager $filesystemManager
-    )
+    public function __construct(private readonly SongRepositoryInterface $repository, private readonly FilesystemManager $filesystemManager)
     {
-        $this->repository = $repository;
-        $this->filesystemManager = $filesystemManager;
     }
 
     /**

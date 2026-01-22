@@ -9,11 +9,8 @@ use App\Components\LabelLink\Repository\LabelLinkRepositoryInterface;
 
 class LabelLinkCreateService
 {
-    private LabelLinkRepositoryInterface $repository;
-
-    public function __construct(LabelLinkRepositoryInterface $repository)
+    public function __construct(private readonly LabelLinkRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function create(LabelLink $labelLink): void

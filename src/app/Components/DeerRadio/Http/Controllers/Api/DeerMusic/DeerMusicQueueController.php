@@ -28,26 +28,6 @@ use Symfony\Component\Uid\UuidV4;
 
 class DeerMusicQueueController extends Controller
 {
-    private ResponseFactory $responseFactory;
-
-    private SongQueueService $songQueueService;
-
-    private SongPickService $songPickService;
-
-    private SongReadService $songReadService;
-
-    private AttachmentPathHelper $attachmentPathHelper;
-
-    private CurrentSongUpdateService $currentSongUpdateService;
-
-    private SongMetadataBuilder $songMetadataBuilder;
-
-    private AnnotationBuilder $annotationBuilder;
-
-    private FilesystemManager $filesystemManager;
-
-    private UrlGenerator $urlGenerator;
-
     /**
      * @param ResponseFactory $responseFactory
      * @param SongQueueService $songQueueService
@@ -60,29 +40,8 @@ class DeerMusicQueueController extends Controller
      * @param FilesystemManager $filesystemManager
      * @param UrlGenerator $urlGenerator
      */
-    public function __construct(
-        ResponseFactory $responseFactory,
-        SongQueueService $songQueueService,
-        SongPickService $songPickService,
-        SongReadService $songReadService,
-        CurrentSongUpdateService $currentSongUpdateService,
-        SongMetadataBuilder $songMetadataBuilder,
-        AttachmentPathHelper $attachmentPathHelper,
-        AnnotationBuilder $annotationBuilder,
-        FilesystemManager $filesystemManager,
-        UrlGenerator $urlGenerator
-    )
+    public function __construct(private readonly ResponseFactory $responseFactory, private readonly SongQueueService $songQueueService, private readonly SongPickService $songPickService, private readonly SongReadService $songReadService, private readonly CurrentSongUpdateService $currentSongUpdateService, private readonly SongMetadataBuilder $songMetadataBuilder, private readonly AttachmentPathHelper $attachmentPathHelper, private readonly AnnotationBuilder $annotationBuilder, private readonly FilesystemManager $filesystemManager, private readonly UrlGenerator $urlGenerator)
     {
-        $this->responseFactory = $responseFactory;
-        $this->songQueueService = $songQueueService;
-        $this->songPickService = $songPickService;
-        $this->songReadService = $songReadService;
-        $this->currentSongUpdateService = $currentSongUpdateService;
-        $this->songMetadataBuilder = $songMetadataBuilder;
-        $this->attachmentPathHelper = $attachmentPathHelper;
-        $this->annotationBuilder = $annotationBuilder;
-        $this->filesystemManager = $filesystemManager;
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**

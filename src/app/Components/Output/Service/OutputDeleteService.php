@@ -9,11 +9,8 @@ use App\Components\Output\Repository\OutputRepositoryInterface;
 
 class OutputDeleteService
 {
-    private OutputRepositoryInterface $repository;
-
-    public function __construct(OutputRepositoryInterface $repository)
+    public function __construct(private readonly OutputRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function delete(Output $Output): void

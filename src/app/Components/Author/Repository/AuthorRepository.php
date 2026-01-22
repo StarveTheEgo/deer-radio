@@ -7,6 +7,8 @@ namespace App\Components\Author\Repository;
 use App\Components\DoctrineOrchid\Repository\AbstractRepository;
 use App\Components\Author\Entity\Author;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 
 class AuthorRepository extends AbstractRepository implements AuthorRepositoryInterface
 {
@@ -38,9 +40,9 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
                 $queryBuilder->expr()->lte('author.finishedAt', ':authorFinishedBefore'),
                 $queryBuilder->expr()->isNull('author.finishedAt')
             ))
-            ->setParameters([
-                'authorFinishedBefore' => $maxFinishedAt,
-            ])
+            ->setParameters(new ArrayCollection([
+                new Parameter('authorFinishedBefore', $maxFinishedAt),
+            ]))
             ->getQuery()
             ->getScalarResult();
 

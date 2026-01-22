@@ -14,9 +14,9 @@ use Psr\Http\Message\ResponseInterface;
 class LiquidsoapApi
 {
     /** @var string */
-    private const RESPONSE_STATUS_SUCCESS = 'ok';
+    private const string RESPONSE_STATUS_SUCCESS = 'ok';
 
-    private HttpClient $httpClient;
+    private readonly HttpClient $httpClient;
 
     /**
      * @param LiquidsoapHttpClientFactory $httpClientFactory

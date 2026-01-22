@@ -19,10 +19,6 @@ use Orchid\Support\Facades\Toast;
 
 class ServiceAccountIndexScreen extends AbstractScreen implements IconAwareInterface
 {
-    private ServiceAccountReadService $readService;
-
-    private ServiceAccountDeleteService $deleteService;
-
     public static function getName(): ?string
     {
         return __('Service accounts');
@@ -41,6 +37,7 @@ class ServiceAccountIndexScreen extends AbstractScreen implements IconAwareInter
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function getPermissions(): ?array
     {
         return [
@@ -53,19 +50,18 @@ class ServiceAccountIndexScreen extends AbstractScreen implements IconAwareInter
      * @param ServiceAccountDeleteService $deleteService
      */
     public function __construct(
-        ServiceAccountReadService $readService,
-        ServiceAccountDeleteService $deleteService
+        private readonly ServiceAccountReadService $readService,
+        private readonly ServiceAccountDeleteService $deleteService
     )
     {
-        $this->readService = $readService;
-        $this->deleteService = $deleteService;
     }
 
+    #[\Override]
     public function description(): ?string
     {
         return sprintf(
             __('Accounts with access to 3rd party services. Current time: %s'),
-            (new DateTimeImmutable())->format('d.m.Y H:i:s')
+            new DateTimeImmutable()->format('d.m.Y H:i:s')
         );
     }
 

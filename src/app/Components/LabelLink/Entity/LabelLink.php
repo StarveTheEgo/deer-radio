@@ -20,7 +20,7 @@ class LabelLink extends AbstractDomainObject implements TimestampableInterface
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Label::class, inversedBy: 'links')]
     protected Label $label;

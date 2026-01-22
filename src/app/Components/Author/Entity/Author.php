@@ -24,7 +24,7 @@ class Author extends AbstractDomainObject implements TimestampableInterface
 
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\Column(type: Types::STRING)]
     protected string $name;
@@ -33,16 +33,16 @@ class Author extends AbstractDomainObject implements TimestampableInterface
     protected bool $isActive = true;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    protected ?DateTimeImmutable $playedAt;
+    protected ?DateTimeImmutable $playedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    protected ?DateTimeImmutable $finishedAt;
+    protected ?DateTimeImmutable $finishedAt = null;
 
     #[ORM\Column(type: Types::BIGINT)]
     protected string $playedCount = '0';
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    protected ?string $unsplashSearchQuery;
+    protected ?string $unsplashSearchQuery = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Song::class)]
     protected Collection $songs;

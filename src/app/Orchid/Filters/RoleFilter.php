@@ -15,6 +15,7 @@ class RoleFilter extends Filter
     /**
      * @return string
      */
+    #[\Override]
     public function name(): string
     {
         return __('Roles');
@@ -25,6 +26,7 @@ class RoleFilter extends Filter
      *
      * @return array|null
      */
+    #[\Override]
     public function parameters(): ?array
     {
         return ['role'];
@@ -45,6 +47,7 @@ class RoleFilter extends Filter
     /**
      * @return Field[]
      */
+    #[\Override]
     public function display(): array
     {
         return [
@@ -59,6 +62,7 @@ class RoleFilter extends Filter
     /**
      * @return string
      */
+    #[\Override]
     public function value(): string
     {
         return $this->name() . ': ' . Role::where('slug', $this->request->get('role'))->first()->name;

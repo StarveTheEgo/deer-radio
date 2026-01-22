@@ -10,11 +10,8 @@ use Symfony\Component\Finder\Finder;
 
 class DeerImageDeleteService
 {
-    private Filesystem $radioStorage;
-
-    public function __construct(Filesystem $radioStorage)
+    public function __construct(private readonly Filesystem $radioStorage)
     {
-        $this->radioStorage = $radioStorage;
     }
 
     public function removeOldImages(): void

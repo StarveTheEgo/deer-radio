@@ -13,16 +13,11 @@ use JsonException;
 
 class BindLiveBroadcastService
 {
-    private YoutubeApiFactory $apiFactory;
-
     /**
      * @param YoutubeApiFactory $apiFactory
      */
-    public function __construct(
-        YoutubeApiFactory $apiFactory
-    )
+    public function __construct(private readonly YoutubeApiFactory $apiFactory)
     {
-        $this->apiFactory = $apiFactory;
     }
 
     /**

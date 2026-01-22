@@ -9,14 +9,11 @@ use App\Components\User\Repository\UserRepositoryInterface;
 
 class UserUpdateService
 {
-    private UserRepositoryInterface $repository;
-
     /**
      * @param UserRepositoryInterface $repository
      */
-    public function __construct(UserRepositoryInterface $repository)
+    public function __construct(private readonly UserRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     /**

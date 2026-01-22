@@ -10,6 +10,7 @@ use App\Components\ImageData\UnsplashImageDataFactory;
 use App\Components\Setting\Service\SettingReadService;
 use App\Components\UnsplashClient\UnsplashClient;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -31,8 +32,8 @@ class UnsplashImageDataListProviderDriverTest extends TestCase
      * @param ImageData[] $expectedImageDataList
      * @return void
      *
-     * @dataProvider getImageDataListDataProvider
      */
+    #[DataProvider('getImageDataListDataProvider')]
     public function testGetImageDataList(array $searchQueryResponse, array $expectedImageDataList): void
     {
         $unsplashClientMock = $this->buildUnsplashClientMock();
@@ -76,10 +77,10 @@ class UnsplashImageDataListProviderDriverTest extends TestCase
         ];
     }
 
-    private function getImageDataListDataProvider(): array
+    public static function getImageDataListDataProvider(): array
     {
-        $imageInfo1 = $this->buildUnsplashImageInfo('image1');
-        $imageInfo2 = $this->buildUnsplashImageInfo('image2');
+        $imageInfo1 = self::buildUnsplashImageInfo('image1');
+        $imageInfo2 = self::buildUnsplashImageInfo('image2');
         $unsplashImageDataFactory = new UnsplashImageDataFactory();
 
         return [
@@ -105,7 +106,7 @@ class UnsplashImageDataListProviderDriverTest extends TestCase
      * @param string $imageName
      * @return array<string, mixed>
      */
-    private function buildUnsplashImageInfo(string $imageName) : array {
+    private static function buildUnsplashImageInfo(string $imageName) : array {
         return [
             "description" => "Description $imageName",
             "urls" => [

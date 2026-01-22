@@ -9,13 +9,8 @@ use App\Components\ComponentData\Service\ComponentDataAccessService;
 
 class ComponentDataAccessor
 {
-    private ComponentDataAccessService $service;
-    private string $component;
-
-    public function __construct(ComponentDataAccessService $service, string $component)
+    public function __construct(private readonly ComponentDataAccessService $service, private readonly string $component)
     {
-        $this->service = $service;
-        $this->component = $component;
     }
 
     public function getValue(string $field)

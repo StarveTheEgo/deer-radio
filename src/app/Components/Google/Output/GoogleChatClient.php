@@ -21,34 +21,18 @@ use Webmozart\Assert\Assert;
 class GoogleChatClient implements ChatClientInterface
 {
     /** @var int Limit of characters per single LiveChatMessage */
-    public const MESSAGE_LENGTH_LIMIT = 180;
+    public const int MESSAGE_LENGTH_LIMIT = 180;
 
     /** @var string Delimiter between message parts */
-    private const MESSAGE_PARTS_DELIMITER = ' ... ';
-
-    /** @var GoogleDataAccessor */
-    private GoogleDataAccessor $dataAccessor;
-
-    /** @var GoogleOutputConfigFactory */
-    private GoogleOutputConfigFactory $configFactory;
-
-    /** @var YoutubeApiFactory */
-    private YoutubeApiFactory $youtubeApiFactory;
+    private const string MESSAGE_PARTS_DELIMITER = ' ... ';
 
     /**
      * @param GoogleDataAccessor $dataAccessor
      * @param GoogleOutputConfigFactory $configFactory
      * @param YoutubeApiFactory $youtubeApiFactory
      */
-    public function __construct(
-        GoogleDataAccessor $dataAccessor,
-        GoogleOutputConfigFactory $configFactory,
-        YoutubeApiFactory $youtubeApiFactory
-    )
+    public function __construct(private readonly GoogleDataAccessor $dataAccessor, private readonly GoogleOutputConfigFactory $configFactory, private readonly YoutubeApiFactory $youtubeApiFactory)
     {
-        $this->dataAccessor = $dataAccessor;
-        $this->configFactory = $configFactory;
-        $this->youtubeApiFactory = $youtubeApiFactory;
     }
 
     /**
@@ -59,7 +43,7 @@ class GoogleChatClient implements ChatClientInterface
      * @throws ValidationException
      * @throws JsonException
      */
-    public function sendMessage(Output $output, string $messageText, string $channel = null) : void
+    public function sendMessage(Output $output, string $messageText, ?string $channel = null) : void
     {
         if (empty($messageText)) {
             throw new LogicException('Message is empty');

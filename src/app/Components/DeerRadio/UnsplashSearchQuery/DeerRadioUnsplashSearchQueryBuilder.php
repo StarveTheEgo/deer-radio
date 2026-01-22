@@ -12,36 +12,23 @@ use App\Components\Song\Service\SongReadService;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQuery;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryBuilderInterface;
 use App\Components\UnsplashClient\UnsplashQuery\UnsplashSearchQueryType;
-use App\Song;
 
 /**
  * Builds unsplash search query based on app settings
  */
 class DeerRadioUnsplashSearchQueryBuilder implements UnsplashSearchQueryBuilderInterface
 {
-    /** @var SettingReadService  */
-    private SettingReadService $settingReadService;
-
-    /** @var DeerRadioDataAccessor */
-    private DeerRadioDataAccessor $dataAccessor;
-
-    /** @var SongReadService */
-    private SongReadService $songReadService;
-
     /**
      * @param SettingReadService $settingReadService
      * @param DeerRadioDataAccessor $dataAccessor
      * @param SongReadService $songReadService
      */
     public function __construct(
-        SettingReadService $settingReadService,
-        DeerRadioDataAccessor $dataAccessor,
-        SongReadService $songReadService
+        private readonly SettingReadService $settingReadService,
+        private readonly DeerRadioDataAccessor $dataAccessor,
+        private readonly SongReadService $songReadService
     )
     {
-        $this->settingReadService = $settingReadService;
-        $this->dataAccessor = $dataAccessor;
-        $this->songReadService = $songReadService;
     }
 
     /**

@@ -37,9 +37,7 @@ class UserPresenter extends Presenter implements Searchable, Personable
 
         return (string) Str::of($roles)
             ->limit(20)
-            ->whenEmpty(function () {
-                return __('Regular user');
-            });
+            ->whenEmpty(fn() => __('Regular user'));
     }
 
     /**
@@ -55,7 +53,7 @@ class UserPresenter extends Presenter implements Searchable, Personable
      */
     public function image(): ?string
     {
-        $hash = md5(strtolower(trim($this->entity->email)));
+        $hash = md5(strtolower(trim((string) $this->entity->email)));
 
         return "https://www.gravatar.com/avatar/$hash?d=mp";
     }
@@ -75,7 +73,7 @@ class UserPresenter extends Presenter implements Searchable, Personable
      *
      * @return Builder
      */
-    public function searchQuery(string $query = null): Builder
+    public function searchQuery(?string $query = null): Builder
     {
         return $this->entity->search($query);
     }

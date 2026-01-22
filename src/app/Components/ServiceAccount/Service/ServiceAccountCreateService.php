@@ -9,14 +9,11 @@ use App\Components\ServiceAccount\Repository\ServiceAccountRepositoryInterface;
 
 class ServiceAccountCreateService
 {
-    private ServiceAccountRepositoryInterface $repository;
-
     /**
      * @param ServiceAccountRepositoryInterface $repository
      */
-    public function __construct(ServiceAccountRepositoryInterface $repository)
+    public function __construct(private readonly ServiceAccountRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     /**

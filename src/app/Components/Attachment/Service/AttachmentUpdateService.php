@@ -9,11 +9,8 @@ use App\Components\Attachment\Repository\AttachmentRepositoryInterface;
 
 class AttachmentUpdateService
 {
-    private AttachmentRepositoryInterface $repository;
-
-    public function __construct(AttachmentRepositoryInterface $repository)
+    public function __construct(private readonly AttachmentRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function update(Attachment $attachment): void

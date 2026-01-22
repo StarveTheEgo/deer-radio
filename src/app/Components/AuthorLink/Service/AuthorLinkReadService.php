@@ -8,10 +8,7 @@ use App\Components\AuthorLink\Repository\AuthorLinkRepositoryInterface;
 
 class AuthorLinkReadService
 {
-    private AuthorLinkRepositoryInterface $repository;
-
-    public function __construct(AuthorLinkRepositoryInterface $repository)
+    public function __construct(private readonly AuthorLinkRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 }

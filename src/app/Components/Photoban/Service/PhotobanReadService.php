@@ -9,11 +9,8 @@ use App\Components\Photoban\Repository\PhotobanRepositoryInterface;
 
 class PhotobanReadService
 {
-    private PhotobanRepositoryInterface $repository;
-
-    public function __construct(PhotobanRepositoryInterface $repository)
+    public function __construct(private readonly PhotobanRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function findByUrl(string $imageUrl): ?Photoban

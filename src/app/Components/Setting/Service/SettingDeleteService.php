@@ -9,11 +9,8 @@ use App\Components\Setting\Repository\SettingRepositoryInterface;
 
 class SettingDeleteService
 {
-    private SettingRepositoryInterface $repository;
-
-    public function __construct(SettingRepositoryInterface $repository)
+    public function __construct(private readonly SettingRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function delete(Setting $setting): void

@@ -9,11 +9,8 @@ use App\Components\AuthorLink\Repository\AuthorLinkRepositoryInterface;
 
 class AuthorLinkDeleteService
 {
-    private AuthorLinkRepositoryInterface $repository;
-
-    public function __construct(AuthorLinkRepositoryInterface $repository)
+    public function __construct(private readonly AuthorLinkRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function delete(AuthorLink $authorLink): void

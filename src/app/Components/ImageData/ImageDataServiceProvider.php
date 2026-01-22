@@ -26,6 +26,7 @@ class ImageDataServiceProvider extends ServiceProvider implements DeferrableProv
     /**
      * @return void
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(ImageDataListProviderDriverRegistry::class, function () {
@@ -55,6 +56,7 @@ class ImageDataServiceProvider extends ServiceProvider implements DeferrableProv
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

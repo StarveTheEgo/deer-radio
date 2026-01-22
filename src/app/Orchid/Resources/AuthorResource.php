@@ -15,6 +15,7 @@ class AuthorResource extends AbstractResource
 {
     public static $model = Author::class;
 
+    #[\Override]
     public static function icon(): string
     {
         return 'user';
@@ -97,9 +98,7 @@ class AuthorResource extends AbstractResource
             Sight::make('is_active', __('Is active')),
 
             Sight::make('author_links', __('Links'))
-                ->render(function (Author $author) {
-                    return view('author/author-links', ['author_links' => $author->authorLinks()->get()]);
-                }),
+                ->render(fn(Author $author) => view('author/author-links', ['author_links' => $author->authorLinks()->get()])),
         ];
     }
 
@@ -107,6 +106,7 @@ class AuthorResource extends AbstractResource
      * @param Model|Author $model
      * @return array
      */
+    #[\Override]
     public function rules(Model $model): array
     {
         return [
@@ -121,6 +121,7 @@ class AuthorResource extends AbstractResource
         ];
     }
 
+    #[\Override]
     public function filters(): array
     {
         return [];

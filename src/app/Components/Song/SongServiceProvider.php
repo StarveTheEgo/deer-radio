@@ -35,6 +35,7 @@ class SongServiceProvider extends ServiceProvider implements DeferrableProvider
      *
      * @return void
      */
+    #[\Override]
     public function register()
     {
         $this->app->singleton(SongRepositoryInterface::class, function (Application $app) {
@@ -54,6 +55,7 @@ class SongServiceProvider extends ServiceProvider implements DeferrableProvider
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

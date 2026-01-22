@@ -32,6 +32,7 @@ class SongResource extends AbstractResource
 {
     public static $model = Song::class;
 
+    #[\Override]
     public static function icon(): string
     {
         return 'music-tone-alt';
@@ -45,6 +46,7 @@ class SongResource extends AbstractResource
     /**
      * @return array<string>
      */
+    #[\Override]
     public function with(): array
     {
         return ['author', 'album', 'label'];
@@ -118,19 +120,13 @@ class SongResource extends AbstractResource
                 ->filter(Input::make()),
 
             TD::make('author_id', __('Author'))
-                ->render(function (Song $song) {
-                    return $song->author?->name;
-                }),
+                ->render(fn(Song $song) => $song->author?->name),
 
             TD::make('album_id', __('Album'))
-                ->render(function (Song $song) {
-                    return $song->album?->title;
-                }),
+                ->render(fn(Song $song) => $song->album?->title),
 
             TD::make('label_id', __('Label'))
-                ->render(function (Song $song) {
-                    return $song->label?->name;
-                }),
+                ->render(fn(Song $song) => $song->label?->name),
 
             TD::make('year', __('Year'))
                 ->sort()
@@ -144,14 +140,10 @@ class SongResource extends AbstractResource
             TD::make('volume', __('Volume')),
 
             TD::make('played_at', __('Played at'))
-                ->render(function ($model) {
-                    return $model->played_at?->toDateTimeString();
-                }),
+                ->render(fn($model) => $model->played_at?->toDateTimeString()),
 
             TD::make('finished_at', __('Finished at'))
-                ->render(function ($model) {
-                    return $model->finished_at?->toDateTimeString();
-                }),
+                ->render(fn($model) => $model->finished_at?->toDateTimeString()),
         ];
     }
 
@@ -193,8 +185,13 @@ class SongResource extends AbstractResource
      * @param Model<Song> $model
      * @return array<string, mixed>
      */
+    #[\Override]
     public function rules(Model $model): array
     {
+        if (!($model instanceof Song)) {
+            throw new \InvalidArgumentException();
+        }
+
         $model_input = request()->input('model');
 
         return [
@@ -261,6 +258,7 @@ class SongResource extends AbstractResource
     /**
      * @return array<Filter|class-string<Filter>>
      */
+    #[\Override]
     public function filters(): array
     {
         return [

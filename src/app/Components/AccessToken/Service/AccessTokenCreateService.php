@@ -9,11 +9,8 @@ use App\Components\AccessToken\Repository\AccessTokenRepositoryInterface;
 
 class AccessTokenCreateService
 {
-    private AccessTokenRepositoryInterface $repository;
-
-    public function __construct(AccessTokenRepositoryInterface $repository)
+    public function __construct(private readonly AccessTokenRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function create(AccessToken $AccessToken): void

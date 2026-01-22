@@ -12,19 +12,14 @@ use Webmozart\Assert\Assert;
 
 class YoutubeApiFactory
 {
-    private GoogleClientFactory $googleClientFactory;
-
     /** @var array<int, YoutubeApi> */
     private array $instances = [];
 
     /**
      * @param GoogleClientFactory $googleClientFactory
      */
-    public function __construct(
-        GoogleClientFactory $googleClientFactory
-    )
+    public function __construct(private readonly GoogleClientFactory $googleClientFactory)
     {
-        $this->googleClientFactory = $googleClientFactory;
     }
 
     /**

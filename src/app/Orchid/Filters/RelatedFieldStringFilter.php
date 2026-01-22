@@ -9,23 +9,16 @@ use Orchid\Screen\Fields\Input;
 
 class RelatedFieldStringFilter extends Filter
 {
-    private string $title;
-    private string $relationName;
-    private string $searchField;
-    private ?Field $inputField;
-    private string $fieldName;
+    private readonly string $fieldName;
 
-    public function __construct(string $title, string $relation_name, string $search_field, ?Field $inputField = null)
+    public function __construct(private readonly string $title, private readonly string $relationName, private readonly string $searchField, private readonly ?Field $inputField = null)
     {
         parent::__construct();
-        $this->title = $title;
-        $this->relationName = $relation_name;
-        $this->searchField = $search_field;
-        $this->inputField = $inputField;
-        $this->fieldName = 'filter_'.$relation_name.'_'.$search_field;
+        $this->fieldName = 'filter_'.$this->relationName.'_'.$this->searchField;
         $this->parameters = [$this->fieldName];
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->title;
@@ -42,6 +35,7 @@ class RelatedFieldStringFilter extends Filter
             ->whereRelation($this->relationName, $this->searchField, 'like', '%'.$needle.'%');
     }
 
+    #[\Override]
     public function display(): array
     {
         $field = $this->inputField ?? $this->buildDefaultField();

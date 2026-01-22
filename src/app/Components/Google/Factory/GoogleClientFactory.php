@@ -14,12 +14,6 @@ use Webmozart\Assert\Assert;
 
 class GoogleClientFactory
 {
-    /** @var ServiceAccountReadService */
-    private ServiceAccountReadService $serviceAccountReadService;
-
-    /** @var GoogleOutputConfigFactory */
-    private GoogleOutputConfigFactory $configFactory;
-
     /** @var array<int, GoogleClient> */
     private array $instances = [];
 
@@ -28,12 +22,10 @@ class GoogleClientFactory
      * @param GoogleOutputConfigFactory $configFactory
      */
     public function __construct(
-        ServiceAccountReadService $serviceAccountReadService,
-        GoogleOutputConfigFactory $configFactory
+        private readonly ServiceAccountReadService $serviceAccountReadService,
+        private readonly GoogleOutputConfigFactory $configFactory
     )
     {
-        $this->serviceAccountReadService = $serviceAccountReadService;
-        $this->configFactory = $configFactory;
     }
 
     /**

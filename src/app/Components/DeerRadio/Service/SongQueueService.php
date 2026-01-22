@@ -11,17 +11,8 @@ use App\Components\Song\Service\SongReadService;
 
 class SongQueueService
 {
-    private DeerRadioDataAccessor $dataAccessor;
-
-    private SongReadService $songReadService;
-
-    public function __construct(
-        DeerRadioDataAccessor $dataAccessor,
-        SongReadService $songReadService,
-    )
+    public function __construct(private readonly DeerRadioDataAccessor $dataAccessor, private readonly SongReadService $songReadService)
     {
-        $this->dataAccessor = $dataAccessor;
-        $this->songReadService = $songReadService;
     }
 
     /**

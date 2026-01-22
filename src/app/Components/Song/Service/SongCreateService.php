@@ -9,11 +9,8 @@ use App\Components\Song\Repository\SongRepositoryInterface;
 
 class SongCreateService
 {
-    private SongRepositoryInterface $repository;
-
-    public function __construct(SongRepositoryInterface $repository)
+    public function __construct(private readonly SongRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function create(Song $song): void

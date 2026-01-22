@@ -16,29 +16,14 @@ use Psr\Log\LoggerInterface;
 
 class DeerRadioSongCriteriaBuilder
 {
-    private SettingReadService $settingReadService;
-
-    private SongReadService $songReadService;
-
-    private DeerRadioDataAccessor $dataAccessor;
-
-    private AuthorReadService $authorReadService;
-
-    private LoggerInterface $logger;
-
     public function __construct(
-        SettingReadService $settingReadService,
-        SongReadService $songReadService,
-        AuthorReadService $authorReadService,
-        DeerRadioDataAccessor $dataAccessor,
-        LoggerInterface $logger
+        private readonly SettingReadService $settingReadService,
+        private readonly SongReadService $songReadService,
+        private readonly AuthorReadService $authorReadService,
+        private readonly DeerRadioDataAccessor $dataAccessor,
+        private readonly LoggerInterface $logger
     )
     {
-        $this->settingReadService = $settingReadService;
-        $this->songReadService = $songReadService;
-        $this->authorReadService = $authorReadService;
-        $this->dataAccessor = $dataAccessor;
-        $this->logger = $logger;
     }
 
     /**

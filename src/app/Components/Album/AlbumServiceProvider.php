@@ -31,6 +31,7 @@ class AlbumServiceProvider extends ServiceProvider implements DeferrableProvider
      *
      * @return void
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(AlbumRepositoryInterface::class, function (Application $app) {
@@ -49,6 +50,7 @@ class AlbumServiceProvider extends ServiceProvider implements DeferrableProvider
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

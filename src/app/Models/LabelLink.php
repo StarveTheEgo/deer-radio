@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\Types\Where;
 use Orchid\Screen\AsSource;
 
 /**
@@ -54,7 +55,7 @@ class LabelLink extends Model
      * @var array<string>
      */
     protected $allowedFilters = [
-        'id',
+        'id' => Where::class,
     ];
 
     /**

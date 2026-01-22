@@ -14,6 +14,7 @@ class PhotobanResource extends AbstractResource
 {
     public static $model = Photoban::class;
 
+    #[\Override]
     public static function icon(): string
     {
         return 'direction';
@@ -79,6 +80,7 @@ class PhotobanResource extends AbstractResource
      * @param Model&Photoban $model
      * @return array<string, mixed>
      */
+    #[\Override]
     public function rules(Model $model): array
     {
         return [
@@ -97,6 +99,7 @@ class PhotobanResource extends AbstractResource
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function filters(): array
     {
         return [];

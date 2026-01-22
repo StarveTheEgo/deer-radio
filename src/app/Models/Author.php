@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\Where;
 use Orchid\Screen\AsSource;
 
 /**
@@ -82,9 +84,9 @@ class Author extends Model
      * @var array<string>
      */
     protected $allowedFilters = [
-        'id',
-        'name',
-        'unsplash_search_query',
+        'id' => Where::class,
+        'name' => Like::class,
+        'unsplash_search_query' => Like::class,
     ];
 
     /**

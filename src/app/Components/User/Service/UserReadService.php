@@ -11,11 +11,8 @@ use App\Components\Song\Entity\Song;
 
 class UserReadService
 {
-    private UserRepositoryInterface $repository;
-
-    public function __construct(UserRepositoryInterface $repository)
+    public function __construct(private readonly UserRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 
     public function findById(int $id): ?Song

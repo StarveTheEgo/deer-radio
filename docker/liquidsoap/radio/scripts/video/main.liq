@@ -1,5 +1,5 @@
 deer_image = request.dynamic(id="deer_image", timeout=15.0, get_deer_image)
-deer_image.on_track(apply_deer_image)
+deer_image.on_track(synchronous=false, apply_deer_image)
 
 deer_video = deer_image
 

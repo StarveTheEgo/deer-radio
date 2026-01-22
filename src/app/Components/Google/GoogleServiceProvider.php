@@ -20,7 +20,7 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class GoogleServiceProvider extends ServiceProvider
 {
-    public const COMPONENT_NAME = 'google';
+    public const string COMPONENT_NAME = 'google';
 
     /**
      * @var array<class-string>
@@ -42,6 +42,7 @@ class GoogleServiceProvider extends ServiceProvider
         GoogleDataAccessor::class,
     ];
 
+    #[\Override]
     public function provides(): array
     {
         return [

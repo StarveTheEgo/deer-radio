@@ -12,7 +12,7 @@ use Webmozart\Assert\Assert;
 class OauthStateFactory
 {
     /** @var int Amount of bytes for nonce generation (before converting to hex string) */
-    private const NONCE_BYTES_LENGTH = 8;
+    private const int NONCE_BYTES_LENGTH = 8;
 
     /**
      * @param array<string, scalar> $input
@@ -27,7 +27,7 @@ class OauthStateFactory
         $serviceAccountId = $input['serviceAccountId'] ?? null;
         Assert::integer($serviceAccountId);
 
-        return (new OauthState())
+        return new OauthState()
             ->setNonce($nonce)
             ->setServiceAccountId($serviceAccountId);
     }
@@ -40,7 +40,7 @@ class OauthStateFactory
      */
     public function generateRandomState(ServiceAccount $serviceAccount) : OauthState
     {
-        return (new OauthState())
+        return new OauthState()
             ->setNonce($this->generateNonce())
             ->setServiceAccountId($serviceAccount->getId());
     }

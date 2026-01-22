@@ -17,11 +17,7 @@ use Orchid\Support\Facades\Toast;
 
 class OutputIndexScreen extends AbstractScreen implements IconAwareInterface
 {
-    public const QUERY_KEY_OUTPUTS = 'outputs';
-
-    private OutputReadService $readService;
-
-    private OutputDeleteService $deleteService;
+    public const string QUERY_KEY_OUTPUTS = 'outputs';
 
     public static function getName(): ?string
     {
@@ -41,6 +37,7 @@ class OutputIndexScreen extends AbstractScreen implements IconAwareInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public static function getPermissions(): ?array
     {
         return [
@@ -52,15 +49,11 @@ class OutputIndexScreen extends AbstractScreen implements IconAwareInterface
      * @param OutputReadService $readService
      * @param OutputDeleteService $deleteService
      */
-    public function __construct(
-        OutputReadService $readService,
-        OutputDeleteService $deleteService
-    )
+    public function __construct(private readonly OutputReadService $readService, private readonly OutputDeleteService $deleteService)
     {
-        $this->readService = $readService;
-        $this->deleteService = $deleteService;
     }
 
+    #[\Override]
     public function description(): ?string
     {
         return __('Livestream outputs');

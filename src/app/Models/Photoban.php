@@ -6,6 +6,8 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\Where;
 use Orchid\Screen\AsSource;
 
 /**
@@ -59,9 +61,9 @@ class Photoban extends Model
      * @var array<string>
      */
     protected $allowedFilters = [
-        'id',
-        'image_url',
-        'reason',
+        'id' => Where::class,
+        'image_url' => Like::class,
+        'reason' => Like::class,
     ];
 
 }

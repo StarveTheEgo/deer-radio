@@ -8,6 +8,7 @@ use App\Components\AccessToken\Service\AccessTokenReadService;
 use App\Components\AccessToken\Service\AccessTokenRefreshService;
 use Illuminate\Console\Command;
 use ReflectionException;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class RefreshAccessTokens extends Command
 {
@@ -33,6 +34,6 @@ class RefreshAccessTokens extends Command
             sleep(1);
         }
 
-        return Command::SUCCESS;
+        return SymfonyCommand::SUCCESS;
     }
 }

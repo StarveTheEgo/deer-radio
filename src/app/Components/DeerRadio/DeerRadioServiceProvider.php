@@ -28,7 +28,7 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class DeerRadioServiceProvider extends ServiceProvider
 {
-    public const COMPONENT_NAME = 'DeerRadio';
+    public const string COMPONENT_NAME = 'DeerRadio';
 
     /**
      * @var array<class-string, class-string>
@@ -44,6 +44,7 @@ class DeerRadioServiceProvider extends ServiceProvider
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     public function register(): void
     {
         $this->registerDeerImageDeleteService();
@@ -75,6 +76,7 @@ class DeerRadioServiceProvider extends ServiceProvider
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

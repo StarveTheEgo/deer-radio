@@ -17,31 +17,14 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class DeerImageIndexController extends Controller
 {
-    private ResponseFactory $responseFactory;
-
-    private DeerRadioDataAccessor $dataAccessor;
-
-    private ImageMetadataBuilder $imageMetadataBuilder;
-
-    private AnnotationBuilder $annotationBuilder;
-
     /**
      * @param ResponseFactory $responseFactory
      * @param DeerRadioDataAccessor $dataAccessor
      * @param ImageMetadataBuilder $imageMetadataBuilder
      * @param AnnotationBuilder $annotationBuilder
      */
-    public function __construct(
-        ResponseFactory $responseFactory,
-        DeerRadioDataAccessor $dataAccessor,
-        ImageMetadataBuilder $imageMetadataBuilder,
-        AnnotationBuilder $annotationBuilder
-    )
+    public function __construct(private readonly ResponseFactory $responseFactory, private readonly DeerRadioDataAccessor $dataAccessor, private readonly ImageMetadataBuilder $imageMetadataBuilder, private readonly AnnotationBuilder $annotationBuilder)
     {
-        $this->responseFactory = $responseFactory;
-        $this->dataAccessor = $dataAccessor;
-        $this->imageMetadataBuilder = $imageMetadataBuilder;
-        $this->annotationBuilder = $annotationBuilder;
     }
 
     /**

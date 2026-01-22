@@ -11,19 +11,8 @@ use Webmozart\Assert\Assert;
 
 class OutputDriverFactory
 {
-    /** @var OutputDriverRegistry */
-    private OutputDriverRegistry $driverRegistry;
-
-    /** @var Application */
-    private Application $application;
-
-    public function __construct(
-        OutputDriverRegistry $driverRegistry,
-        Application $application
-    )
+    public function __construct(private readonly OutputDriverRegistry $driverRegistry, private readonly Application $application)
     {
-        $this->driverRegistry = $driverRegistry;
-        $this->application = $application;
     }
 
     /**

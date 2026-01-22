@@ -8,10 +8,7 @@ use App\Components\Album\Repository\AlbumRepositoryInterface;
 
 class AlbumReadService
 {
-    private AlbumRepositoryInterface $repository;
-
-    public function __construct(AlbumRepositoryInterface $repository)
+    public function __construct(private readonly AlbumRepositoryInterface $repository)
     {
-        $this->repository = $repository;
     }
 }
