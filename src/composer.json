@@ -21,6 +21,7 @@
         "league/flysystem-webdav": "^3.0",
         "monolog/monolog": "^3.10",
         "orchid/crud": "^4.0",
+        "orchid/icons": "^2.0",
         "orchid/platform": "^14.0",
         "pestphp/pest": "^3.0",
         "unsplash/unsplash": "^3.2",
