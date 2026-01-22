@@ -24,6 +24,7 @@ use App\Components\Storage\ServiceProvider\StorageServiceProvider;
 use App\Components\UnsplashClient\UnsplashClientServiceProvider;
 use App\Components\User\UserServiceProvider;
 use Illuminate\Support\Facades\Facade;
+use LaravelDoctrine\ORM\Validation\PresenceVerifierProvider;
 
 return [
 
@@ -209,6 +210,8 @@ return [
          * Package Service Providers...
          */
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
+        // refuses to work without this after the upgrade:
+        PresenceVerifierProvider::class, // @todo research, fix the issue and remove this line
 
         /*
          * Application Service Providers...
