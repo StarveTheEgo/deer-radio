@@ -31,6 +31,7 @@ return [
             'dev'           => $devMode,
             'meta'          => env('DOCTRINE_METADATA', 'attributes'),
             'connection'    => env('DB_CONNECTION', 'mysql'),
+            'namespaces' => [],
             'paths'         => [
                 base_path('app/Components/Album/Entity'),
                 base_path('app/Components/Attachment/Entity'),
